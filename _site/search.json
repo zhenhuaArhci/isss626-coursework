@@ -1,0 +1,65 @@
+[
+  {
+    "objectID": "take-home.html",
+    "href": "take-home.html",
+    "title": "Take-home Projects",
+    "section": "",
+    "text": "INDEPENDENT TRACK · 02\n\n\n\nThis space is reserved for longer investigations: framing the problem, preparing evidence, testing spatial relationships, and communicating the result with care."
+  },
+  {
+    "objectID": "take-home.html#project-workspace",
+    "href": "take-home.html#project-workspace",
+    "title": "Take-home Projects",
+    "section": "Project workspace",
+    "text": "Project workspace\nThe first take-home exercise will appear here as a fully reproducible Quarto report, including data provenance, methods, findings, and reflection.\n\n01 Frame 02 Prepare 03 Analyse 04 Communicate"
+  },
+  {
+    "objectID": "hands-on.html",
+    "href": "hands-on.html",
+    "title": "Hands-on Field Notes",
+    "section": "",
+    "text": "PRACTICE TRACK · 01\n\n\nBuild the method. Read the map.\nThese guided notes capture the full analytical path—from importing spatial objects to choosing a visual encoding that makes the pattern legible.\n\n\n\n\n\n01A\n\n\nGeospatial Data Science with R\nWorking with feature geometries, coordinate reference systems, attribute tables, and reproducible spatial data preparation.\n\nsfCRSdata wrangling\n\n\nStructured workspace ready for analysis\n\n\n\n↗\n\n\n\n\n01B\n\n\nThematic Mapping & Geovisualisation\nDesigning choropleth maps, comparing classification methods, and building clear cartographic hierarchy with R.\n\ntmapclassificationcolour\n\n\nStructured workspace ready for analysis\n\n\n\n↗\n\n\n\n\nPublishing pattern\nCompleted notebooks can be added here as individual .qmd pages. Quarto automatically rebuilds navigation, search, and page metadata when the site is rendered."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About the Studio",
+    "section": "",
+    "text": "PROFILE / COURSE / PROCESS\n\n\n\nI am building this portfolio for ISSS626 Geospatial Analytics and Applications. It is both a coursework index and a record of how my spatial reasoning develops through the term.\nThe site deliberately keeps analysis close to presentation: R handles the reproducible work, Quarto turns the notebooks into a coherent website, GitHub records each revision, and Netlify serves the published result.\n\nFOCUS\n\n\n\n\n\n\n\n\nZL\n\n\n\n\n\nCourse\n\n\nISSS626\n\n\nTerm\n\n\nAY2025/26 · T4\n\n\nToolkit\n\n\nR · Quarto · Git\n\n\nFormat\n\n\nReproducible web portfolio"
+  },
+  {
+    "objectID": "about.html#how-an-exercise-becomes-a-page",
+    "href": "about.html#how-an-exercise-becomes-a-page",
+    "title": "About the Studio",
+    "section": "How an exercise becomes a page",
+    "text": "How an exercise becomes a page\n\n\n01Question\n\nDefine the spatial problem and the decision the visual must support.\n\n\n\n02Wrangle\n\nInspect, transform, join, and validate data with reproducible R code.\n\n\n\n03Visualise\n\nChoose encodings and cartographic hierarchy that fit the evidence.\n\n\n\n04Reflect\n\nDocument limitations, learning, and the next analytical move."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "ISSS626 Coursework Studio",
+    "section": "",
+    "text": "AY2025/26 · TERM 4 · COURSEWORK PORTFOLIO\n\n\n\nThis is my working atlas for ISSS626 Geospatial Analytics and Applications—a focused collection of reproducible R workflows, spatial reasoning, and visual stories.\n\nExplore the coursework → How this site works\n\n\nR + Quarto · versioned on GitHub · published on Netlify\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n01\n\n\n02\n\n\n03\n\n\n1.3521° N\n\n\n103.8198° E\n\n\nSTUDIO GRIDSIN / 626"
+  },
+  {
+    "objectID": "index.html#one-studio-two-learning-tracks",
+    "href": "index.html#one-studio-two-learning-tracks",
+    "title": "ISSS626 Coursework Studio",
+    "section": "One studio, two learning tracks",
+    "text": "One studio, two learning tracks\nEach page is designed as a concise field note: question first, method second, evidence always visible.\n\n\n\n01\n\n\nHands-on exercises\nPractical notebooks for spatial data handling, mapping, and analysis with R.\n\nsftmaptidyverse\n\nOpen the field notes\n\n\n\n\n02\n\n\nTake-home exercises\nIndependent analytical work that turns a real question into an explainable visual argument.\n\nanalysisdesignstory\n\nView the project space"
+  },
+  {
+    "objectID": "index.html#a-reproducible-site-not-a-static-scrapbook",
+    "href": "index.html#a-reproducible-site-not-a-static-scrapbook",
+    "title": "ISSS626 Coursework Studio",
+    "section": "A reproducible site, not a static scrapbook",
+    "text": "A reproducible site, not a static scrapbook\nThe project source, rendered pages, and deployment configuration live together so every published update can be traced back to code."
+  },
+  {
+    "objectID": "index.html#what-guides-the-work",
+    "href": "index.html#what-guides-the-work",
+    "title": "ISSS626 Coursework Studio",
+    "section": "What guides the work",
+    "text": "What guides the work\n\n\nQ\n\nQuestion-led\nEvery exercise starts with a concrete spatial question, not a chart type.\n\n\n\nR\n\nReproducible\nTransformations and design decisions remain visible in the analysis workflow.\n\n\n\nV\n\nVisually precise\nMaps are edited for hierarchy, legibility, and honest comparison."
+  }
+]

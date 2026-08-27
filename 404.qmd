@@ -1,0 +1,16 @@
+---
+title: "Page not mapped"
+toc: false
+page-layout: full
+---
+
+::: {.not-found}
+<div class="project-code">404 / OFF GRID</div>
+
+# This coordinate is outside the studio.
+
+The page may have moved or is still being prepared.
+
+[Return to the studio](index.qmd){.button-primary}
+:::
+

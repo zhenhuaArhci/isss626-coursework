@@ -1,0 +1,51 @@
+---
+title: "Hands-on Field Notes"
+subtitle: "Guided exercises in spatial data handling and geovisualisation"
+description: "Hands-on ISSS626 coursework by Zhenhua Liu."
+toc: false
+page-layout: full
+---
+
+::: {.page-intro}
+<p class="eyebrow"><span class="status-dot"></span> PRACTICE TRACK · 01</p>
+
+# Build the method. Read the map.
+
+These guided notes capture the full analytical path—from importing spatial objects to choosing a visual encoding that makes the pattern legible.
+:::
+
+:::: {.exercise-list}
+::: {.exercise-row}
+<div class="exercise-id">01A</div>
+<div class="exercise-copy">
+
+### Geospatial Data Science with R
+
+Working with feature geometries, coordinate reference systems, attribute tables, and reproducible spatial data preparation.
+
+<div class="tag-row"><span>sf</span><span>CRS</span><span>data wrangling</span></div>
+<p class="exercise-status">Structured workspace ready for analysis</p>
+</div>
+<div class="exercise-arrow">↗</div>
+:::
+
+::: {.exercise-row}
+<div class="exercise-id">01B</div>
+<div class="exercise-copy">
+
+### Thematic Mapping & Geovisualisation
+
+Designing choropleth maps, comparing classification methods, and building clear cartographic hierarchy with R.
+
+<div class="tag-row"><span>tmap</span><span>classification</span><span>colour</span></div>
+<p class="exercise-status">Structured workspace ready for analysis</p>
+</div>
+<div class="exercise-arrow">↗</div>
+:::
+::::
+
+::: {.note-panel}
+### Publishing pattern
+
+Completed notebooks can be added here as individual `.qmd` pages. Quarto automatically rebuilds navigation, search, and page metadata when the site is rendered.
+:::

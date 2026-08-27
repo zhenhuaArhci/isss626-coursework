@@ -1,0 +1,132 @@
+---
+title: "ISSS626 Coursework Studio"
+page-layout: full
+toc: false
+title-block-banner: false
+description: "Geospatial analytics coursework, field notes, and reproducible R workflows by Zhenhua Liu."
+---
+
+::::: {.hero-shell}
+:::: {.hero-copy}
+<p class="eyebrow"><span class="status-dot"></span> AY2025/26 · TERM 4 · COURSEWORK PORTFOLIO</p>
+
+# Reading the city through data.
+
+This is my working atlas for **ISSS626 Geospatial Analytics and Applications**—a focused collection of reproducible R workflows, spatial reasoning, and visual stories.
+
+::: {.hero-actions}
+[Explore the coursework →](hands-on.qmd){.button-primary}
+[How this site works](about.qmd){.button-secondary}
+:::
+
+<p class="build-note">R + Quarto · versioned on GitHub · published on Netlify</p>
+::::
+
+::: {.map-panel aria-label="Abstract city coordinate graphic"}
+<div class="map-grid"></div>
+<div class="map-ring ring-one"></div>
+<div class="map-ring ring-two"></div>
+<div class="map-axis axis-x"></div>
+<div class="map-axis axis-y"></div>
+<div class="map-marker marker-a"><span>01</span></div>
+<div class="map-marker marker-b"><span>02</span></div>
+<div class="map-marker marker-c"><span>03</span></div>
+<div class="coordinate-label label-n">1.3521° N</div>
+<div class="coordinate-label label-e">103.8198° E</div>
+<div class="map-caption"><span>STUDIO GRID</span><strong>SIN / 626</strong></div>
+:::
+:::::
+
+::::: {.section-shell}
+<div class="section-kicker">COURSEWORK INDEX</div>
+
+## One studio, two learning tracks
+
+Each page is designed as a concise field note: question first, method second, evidence always visible.
+
+:::: {.track-grid}
+::: {.track-card .track-card-featured}
+<div class="track-number">01</div>
+
+### Hands-on exercises
+
+Practical notebooks for spatial data handling, mapping, and analysis with R.
+
+<div class="tag-row"><span>sf</span><span>tmap</span><span>tidyverse</span></div>
+
+[Open the field notes](hands-on.qmd){.card-link}
+:::
+
+::: {.track-card}
+<div class="track-number">02</div>
+
+### Take-home exercises
+
+Independent analytical work that turns a real question into an explainable visual argument.
+
+<div class="tag-row"><span>analysis</span><span>design</span><span>story</span></div>
+
+[View the project space](take-home.qmd){.card-link}
+:::
+::::
+:::::
+
+:::: {.r-strip}
+::: {.r-strip-copy}
+<span class="r-label">GENERATED WITH R</span>
+
+## A reproducible site, not a static scrapbook
+
+The project source, rendered pages, and deployment configuration live together so every published update can be traced back to code.
+:::
+
+```{r}
+#| echo: false
+#| output: asis
+
+studio <- data.frame(
+  value = c("02", "04", "100%"),
+  label = c("learning tracks", "site sections", "reproducible"),
+  stringsAsFactors = FALSE
+)
+
+cards <- paste0(
+  '<div class="metric"><strong>', studio$value,
+  '</strong><span>', studio$label, '</span></div>',
+  collapse = ""
+)
+cat('<div class="metric-grid">', cards, '</div>')
+```
+::::
+
+::::: {.section-shell .principles-section}
+<div class="section-kicker">WORKING PRINCIPLES</div>
+
+## What guides the work
+
+:::: {.principle-grid}
+::: {.principle}
+<span>Q</span>
+
+### Question-led
+
+Every exercise starts with a concrete spatial question, not a chart type.
+:::
+
+::: {.principle}
+<span>R</span>
+
+### Reproducible
+
+Transformations and design decisions remain visible in the analysis workflow.
+:::
+
+::: {.principle}
+<span>V</span>
+
+### Visually precise
+
+Maps are edited for hierarchy, legibility, and honest comparison.
+:::
+::::
+:::::

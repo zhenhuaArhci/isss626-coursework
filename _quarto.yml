@@ -1,0 +1,50 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "ISSS626 • Zhenhua Liu"
+  description: "A geospatial analytics coursework portfolio built with R and Quarto."
+  navbar:
+    pinned: true
+    left:
+      - text: "Studio"
+        href: index.qmd
+      - text: "Hands-on"
+        href: hands-on.qmd
+      - text: "Take-home"
+        href: take-home.qmd
+      - text: "About"
+        href: about.qmd
+    right:
+      - icon: github
+        aria-label: "GitHub repository"
+        href: "https://github.com/zhuaLiuArchi/isss626-coursework"
+  search:
+    location: navbar
+    type: overlay
+  page-footer:
+    left: "© 2026 Zhenhua Liu"
+    right: "Built with R + Quarto · ISSS626"
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    toc-title: "On this page"
+    smooth-scroll: true
+    code-copy: true
+    code-overflow: wrap
+    link-external-newwindow: true
+    include-in-header:
+      text: |
+        <meta name="theme-color" content="#07111f">
+        <meta property="og:title" content="ISSS626 Coursework Studio | Zhenhua Liu">
+        <meta property="og:description" content="Geospatial analytics coursework, field notes, and reproducible R workflows.">
+
+execute:
+  freeze: auto
+  warning: false
+  message: false
+

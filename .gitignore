@@ -1,0 +1,14 @@
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+.quarto/
+*_cache/
+*_files/
+.netlify/
+.DS_Store
+Thumbs.db
+
+
+/.quarto/
+**/*.quarto_ipynb
