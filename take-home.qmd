@@ -1,38 +1,26 @@
 ---
-title: "Take-home Projects"
-subtitle: "Independent geospatial investigations"
-description: "Take-home ISSS626 coursework by Zhenhua Liu."
-toc: false
-page-layout: full
+title: "Take-home Exercises"
+subtitle: "Independent geospatial analysis projects"
+description: "Take-home exercises for ISSS626."
+toc: true
+page-layout: article
 ---
 
-::: {.page-intro .take-home-intro}
-<p class="eyebrow"><span class="status-dot"></span> INDEPENDENT TRACK · 02</p>
+This section is reserved for the independent assignments completed during the course.
 
-# From spatial question to visual argument.
+## Take-home Exercise 1
 
-This space is reserved for longer investigations: framing the problem, preparing evidence, testing spatial relationships, and communicating the result with care.
+::: {.exercise-card}
+### Project workspace
+
+The completed report will document the research question, data sources, preparation steps, analysis, visual results, findings, and limitations.
+
+**Workflow:** Question → Data → Analysis → Visualisation → Reflection
+
+**Status:** Ready for coursework content.
 :::
 
-::::: {.project-placeholder}
-<div class="project-code">THX / 01</div>
-:::: {.project-copy}
+## Publication standard
 
-## Project workspace
+Each published report will keep the analysis reproducible, explain important decisions, and separate observations from interpretations.
 
-The first take-home exercise will appear here as a fully reproducible Quarto report, including data provenance, methods, findings, and reflection.
-
-::: {.project-phases}
-<span><b>01</b> Frame</span>
-<span><b>02</b> Prepare</span>
-<span><b>03</b> Analyse</span>
-<span><b>04</b> Communicate</span>
-:::
-::::
-:::::
-
-::: {.note-panel}
-### Evidence standard
-
-Every published project will separate observation from interpretation, document important transformations, and keep the source workflow accessible through the GitHub repository.
-:::

@@ -1,50 +1,23 @@
 ---
-title: "About the Studio"
-description: "About Zhenhua Liu's ISSS626 coursework portfolio."
+title: "About"
+subtitle: "ISSS626 coursework website"
+description: "About Zhenhua Liu and this ISSS626 coursework website."
 toc: false
-page-layout: full
+page-layout: article
 ---
 
-::::: {.about-grid}
-:::: {.about-main}
-<p class="eyebrow"><span class="status-dot"></span> PROFILE / COURSE / PROCESS</p>
+::: {.about-panel}
+## Zhenhua Liu
 
-# Zhenhua Liu
+This website is prepared for **ISSS626 Geospatial Analytics and Applications**. It provides one place for my hands-on exercises, take-home assignments, and course reflections.
 
-I am building this portfolio for **ISSS626 Geospatial Analytics and Applications**. It is both a coursework index and a record of how my spatial reasoning develops through the term.
-
-The site deliberately keeps analysis close to presentation: R handles the reproducible work, Quarto turns the notebooks into a coherent website, GitHub records each revision, and Netlify serves the published result.
-
-::: {.about-callout}
-<span>FOCUS</span>
-
-## Turning complex spatial evidence into clear, defensible visual stories.
+The project is developed locally with **RStudio, R, Quarto, and Git**. Source files are stored in GitHub and the rendered website is deployed to Netlify.
 :::
-::::
 
-:::: {.about-aside}
-<div class="profile-mark">ZL</div>
+## Website workflow
 
-### Studio details
+1. Write the coursework in RStudio using Quarto `.qmd` files.
+2. Run the R rendering script to generate the static website.
+3. Commit and push the source and rendered files to GitHub.
+4. Publish the `_site` folder through Netlify.
 
-<dl class="detail-list">
-<dt>Course</dt><dd>ISSS626</dd>
-<dt>Term</dt><dd>AY2025/26 · T4</dd>
-<dt>Toolkit</dt><dd>R · Quarto · Git</dd>
-<dt>Format</dt><dd>Reproducible web portfolio</dd>
-</dl>
-::::
-:::::
-
-::::: {.section-shell .process-section}
-<div class="section-kicker">WORKFLOW</div>
-
-## How an exercise becomes a page
-
-:::: {.process-grid}
-<div><span>01</span><strong>Question</strong><p>Define the spatial problem and the decision the visual must support.</p></div>
-<div><span>02</span><strong>Wrangle</strong><p>Inspect, transform, join, and validate data with reproducible R code.</p></div>
-<div><span>03</span><strong>Visualise</strong><p>Choose encodings and cartographic hierarchy that fit the evidence.</p></div>
-<div><span>04</span><strong>Reflect</strong><p>Document limitations, learning, and the next analytical move.</p></div>
-::::
-:::::

@@ -1,16 +1,10 @@
 ---
-title: "Page not mapped"
+title: "Page not found"
 toc: false
-page-layout: full
+page-layout: article
 ---
 
-::: {.not-found}
-<div class="project-code">404 / OFF GRID</div>
+The requested page could not be found.
 
-# This coordinate is outside the studio.
-
-The page may have moved or is still being prepared.
-
-[Return to the studio](index.qmd){.button-primary}
-:::
+[Return to the homepage](index.qmd){.btn .btn-primary}
 

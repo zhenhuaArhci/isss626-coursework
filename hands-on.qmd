@@ -1,51 +1,38 @@
 ---
-title: "Hands-on Field Notes"
-subtitle: "Guided exercises in spatial data handling and geovisualisation"
-description: "Hands-on ISSS626 coursework by Zhenhua Liu."
-toc: false
-page-layout: full
+title: "Hands-on Exercises"
+subtitle: "Guided practice with geospatial data and R"
+description: "Hands-on exercises for ISSS626."
+toc: true
+page-layout: article
 ---
 
-::: {.page-intro}
-<p class="eyebrow"><span class="status-dot"></span> PRACTICE TRACK · 01</p>
+This section contains the guided exercises completed for ISSS626. Each exercise page can be extended with R code, maps, explanations, and reflections.
 
-# Build the method. Read the map.
+## Hands-on Exercise 1A
 
-These guided notes capture the full analytical path—from importing spatial objects to choosing a visual encoding that makes the pattern legible.
-:::
-
-:::: {.exercise-list}
-::: {.exercise-row}
-<div class="exercise-id">01A</div>
-<div class="exercise-copy">
-
+::: {.exercise-card}
 ### Geospatial Data Science with R
 
-Working with feature geometries, coordinate reference systems, attribute tables, and reproducible spatial data preparation.
+This exercise focuses on importing and inspecting geospatial data, working with simple feature objects, checking coordinate reference systems, and preparing spatial data for analysis.
 
-<div class="tag-row"><span>sf</span><span>CRS</span><span>data wrangling</span></div>
-<p class="exercise-status">Structured workspace ready for analysis</p>
-</div>
-<div class="exercise-arrow">↗</div>
+**Main tools:** `sf`, base R, data wrangling
+
+**Status:** Page structure prepared for coursework.
 :::
 
-::: {.exercise-row}
-<div class="exercise-id">01B</div>
-<div class="exercise-copy">
+## Hands-on Exercise 1B
 
-### Thematic Mapping & Geovisualisation
+::: {.exercise-card}
+### Thematic Mapping and Geovisualisation with R
 
-Designing choropleth maps, comparing classification methods, and building clear cartographic hierarchy with R.
+This exercise focuses on choropleth maps, data classification, colour schemes, map layout, and communicating spatial patterns clearly.
 
-<div class="tag-row"><span>tmap</span><span>classification</span><span>colour</span></div>
-<p class="exercise-status">Structured workspace ready for analysis</p>
-</div>
-<div class="exercise-arrow">↗</div>
+**Main tools:** `tmap`, classification methods, cartographic design
+
+**Status:** Page structure prepared for coursework.
 :::
-::::
 
-::: {.note-panel}
-### Publishing pattern
+## Reproducible workflow
 
-Completed notebooks can be added here as individual `.qmd` pages. Quarto automatically rebuilds navigation, search, and page metadata when the site is rendered.
-:::
+New exercises can be added as individual `.qmd` files. R code is executed during the local Quarto render, and the generated `_site` folder is published through Netlify.
+

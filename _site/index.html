@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Geospatial analytics coursework, field notes, and reproducible R workflows by Zhenhua Liu.">
+<meta name="description" content="Coursework website for ISSS626 Geospatial Analytics and Applications.">
 
-<title>ISSS626 Coursework Studio – ISSS626 • Zhenhua Liu</title>
+<title>ISSS626 Geospatial Analytics and Applications – ISSS626-GAA</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -31,6 +31,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="site_libs/quarto-search/fuse.min.js"></script>
@@ -45,7 +46,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-2f5524832805d734b96ee676820b2dda.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-a01177ad018c6171a128a7482f000971.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -73,9 +74,7 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
-<meta name="theme-color" content="#07111f">
-<meta property="og:title" content="ISSS626 Coursework Studio – ISSS626 • Zhenhua Liu">
-<meta property="og:description" content="Geospatial analytics coursework, field notes, and reproducible R workflows by Zhenhua Liu.">
+<meta name="theme-color" content="#234f4a">
 
 
 <link rel="stylesheet" href="styles.css">
@@ -89,7 +88,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">ISSS626 • Zhenhua Liu</span>
+    <span class="navbar-title">ISSS626-GAA</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -98,24 +97,39 @@ ul.task-list li input[type="checkbox"] {
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
-<span class="menu-text">Studio</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hands-on-exercises" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Hands-on Exercises</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-hands-on-exercises">    
+        <li>
+    <a class="dropdown-item" href="./hands-on.html">
+ <span class="dropdown-text">Overview</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./hands-on.html"> 
-<span class="menu-text">Hands-on</span></a>
+        <li>
+    <a class="dropdown-item" href="./hands-on.html#hands-on-exercise-1a">
+ <span class="dropdown-text">Hands-on Exercise 1A</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./hands-on.html#hands-on-exercise-1b">
+ <span class="dropdown-text">Hands-on Exercise 1B</span></a>
+  </li>  
+    </ul>
+  </li>
   <li class="nav-item">
     <a class="nav-link" href="./take-home.html"> 
-<span class="menu-text">Take-home</span></a>
+<span class="menu-text">Take-home Exercises</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
-</ul>
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/zhuaLiuArchi/isss626-coursework"> <i class="bi bi-github" role="img" aria-label="GitHub repository">
 </i> 
@@ -138,12 +152,13 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">ISSS626 Coursework Studio</h1>
+<h1 class="title">ISSS626 Geospatial Analytics and Applications</h1>
+<p class="subtitle lead">Coursework website by Zhenhua Liu</p>
 </div>
 
 <div>
   <div class="description">
-    Geospatial analytics coursework, field notes, and reproducible R workflows by Zhenhua Liu.
+    Coursework website for ISSS626 Geospatial Analytics and Applications.
   </div>
 </div>
 
@@ -160,146 +175,46 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="hero-shell">
-<div class="hero-copy">
-<p class="eyebrow">
-<span class="status-dot"></span> AY2025/26 · TERM 4 · COURSEWORK PORTFOLIO
+<div class="home-banner">
+<div class="home-banner-inner">
+<p class="course-label">
+AY2025/26 · TERM 4
 </p>
-<section id="reading-the-city-through-data." class="level1">
-<h1>Reading the city through data.</h1>
-<p>This is my working atlas for <strong>ISSS626 Geospatial Analytics and Applications</strong>—a focused collection of reproducible R workflows, spatial reasoning, and visual stories.</p>
-<div class="hero-actions">
-<p><a href="./hands-on.html" class="button-primary">Explore the coursework →</a> <a href="./about.html" class="button-secondary">How this site works</a></p>
+<section id="isss626-gaa" class="level1">
+<h1>ISSS626-GAA</h1>
+<p>Welcome to my coursework website for <strong>ISSS626 Geospatial Analytics and Applications</strong>. This site contains my hands-on exercises, take-home exercises, and learning notes prepared with R and Quarto.</p>
+<p><a href="./hands-on.html" class="btn btn-light home-button">View hands-on exercises</a></p>
+</section>
 </div>
-<p class="build-note">
-R + Quarto · versioned on GitHub · published on Netlify
+</div>
+<section id="coursework" class="level2 home-content">
+<h2 class="anchored" data-anchor-id="coursework">Coursework</h2>
+<p>Use the navigation bar or the sections below to browse the course materials.</p>
+<div class="course-grid">
+<article class="course-card">
+<h3 class="anchored">
+Hands-on Exercises
+</h3>
+<p>
+Guided practice in geospatial data handling, mapping, and visualisation with R.
 </p>
+<a href="hands-on.html">Open section →</a>
+</article>
+<article class="course-card">
+<h3 class="anchored">
+Take-home Exercises
+</h3>
+<p>
+Independent analytical projects developed throughout the course.
+</p>
+<a href="take-home.html">Open section →</a>
+</article>
+</div>
+<section id="about-this-website" class="level3 site-note">
+<h3 class="anchored" data-anchor-id="about-this-website">About this website</h3>
+<p>The source files are maintained in GitHub and the rendered Quarto website is published on Netlify. The content will be updated as new coursework is completed.</p>
 </section>
-</div>
-<div class="map-panel" aria-label="Abstract city coordinate graphic">
-<div class="map-grid">
-
-</div>
-<div class="map-ring ring-one">
-
-</div>
-<div class="map-ring ring-two">
-
-</div>
-<div class="map-axis axis-x">
-
-</div>
-<div class="map-axis axis-y">
-
-</div>
-<div class="map-marker marker-a">
-<span>01</span>
-</div>
-<div class="map-marker marker-b">
-<span>02</span>
-</div>
-<div class="map-marker marker-c">
-<span>03</span>
-</div>
-<div class="coordinate-label label-n">
-1.3521° N
-</div>
-<div class="coordinate-label label-e">
-103.8198° E
-</div>
-<div class="map-caption">
-<span>STUDIO GRID</span><strong>SIN / 626</strong>
-</div>
-</div>
-</div>
-<div class="section-shell">
-<div class="section-kicker">
-COURSEWORK INDEX
-</div>
-<section id="one-studio-two-learning-tracks" class="level2">
-<h2 class="anchored" data-anchor-id="one-studio-two-learning-tracks">One studio, two learning tracks</h2>
-<p>Each page is designed as a concise field note: question first, method second, evidence always visible.</p>
-<div class="track-grid">
-<div class="track-card track-card-featured">
-<div class="track-number">
-01
-</div>
-<section id="hands-on-exercises" class="level3">
-<h3 class="anchored" data-anchor-id="hands-on-exercises">Hands-on exercises</h3>
-<p>Practical notebooks for spatial data handling, mapping, and analysis with R.</p>
-<div class="tag-row">
-<span>sf</span><span>tmap</span><span>tidyverse</span>
-</div>
-<p><a href="./hands-on.html" class="card-link">Open the field notes</a></p>
 </section>
-</div>
-<div class="track-card">
-<div class="track-number">
-02
-</div>
-<section id="take-home-exercises" class="level3">
-<h3 class="anchored" data-anchor-id="take-home-exercises">Take-home exercises</h3>
-<p>Independent analytical work that turns a real question into an explainable visual argument.</p>
-<div class="tag-row">
-<span>analysis</span><span>design</span><span>story</span>
-</div>
-<p><a href="./take-home.html" class="card-link">View the project space</a></p>
-</section>
-</div>
-</div>
-</section>
-</div>
-<div class="r-strip">
-<div class="r-strip-copy">
-<p><span class="r-label">GENERATED WITH R</span></p>
-<section id="a-reproducible-site-not-a-static-scrapbook" class="level2">
-<h2 class="anchored" data-anchor-id="a-reproducible-site-not-a-static-scrapbook">A reproducible site, not a static scrapbook</h2>
-<p>The project source, rendered pages, and deployment configuration live together so every published update can be traced back to code.</p>
-</section>
-</div>
-<div class="metric-grid">
-<div class="metric">
-<strong>02</strong><span>learning tracks</span>
-</div>
-<div class="metric">
-<strong>04</strong><span>site sections</span>
-</div>
-<div class="metric">
-<strong>100%</strong><span>reproducible</span>
-</div>
-</div>
-</div>
-<div class="section-shell principles-section">
-<div class="section-kicker">
-WORKING PRINCIPLES
-</div>
-<section id="what-guides-the-work" class="level2">
-<h2 class="anchored" data-anchor-id="what-guides-the-work">What guides the work</h2>
-<div class="principle-grid">
-<div class="principle">
-<p><span>Q</span></p>
-<section id="question-led" class="level3">
-<h3 class="anchored" data-anchor-id="question-led">Question-led</h3>
-<p>Every exercise starts with a concrete spatial question, not a chart type.</p>
-</section>
-</div>
-<div class="principle">
-<p><span>R</span></p>
-<section id="reproducible" class="level3">
-<h3 class="anchored" data-anchor-id="reproducible">Reproducible</h3>
-<p>Transformations and design decisions remain visible in the analysis workflow.</p>
-</section>
-</div>
-<div class="principle">
-<p><span>V</span></p>
-<section id="visually-precise" class="level3">
-<h3 class="anchored" data-anchor-id="visually-precise">Visually precise</h3>
-<p>Maps are edited for hierarchy, legibility, and honest comparison.</p>
-</section>
-</div>
-</div>
-</section>
-</div>
 
 
 
@@ -719,7 +634,7 @@ WORKING PRINCIPLES
       &nbsp;
     </div>
     <div class="nav-footer-right">
-<p>Built with R + Quarto · ISSS626</p>
+<p>ISSS626 · Built with R and Quarto</p>
 </div>
   </div>
 </footer>

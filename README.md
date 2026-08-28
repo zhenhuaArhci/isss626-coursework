@@ -1,6 +1,6 @@
 # ISSS626 Coursework Studio
 
-Zhenhua Liu's coursework website for **ISSS626 Geospatial Analytics and Applications**.
+Zhenhua Liu's coursework website for **ISSS626 Geospatial Analytics and Applications**. The formal local project is stored at `C:\zhenhuaArhci`.
 
 ## Local workflow
 
@@ -21,5 +21,5 @@ The project-level `.Renviron` selects a Windows-compatible UTF-8 locale so R can
 - `hands-on.qmd` — guided exercise index
 - `take-home.qmd` — independent project index
 - `about.qmd` — profile and workflow
-- `styles.css` — responsive visual system
+- `styles.css` — simple responsive colour and layout rules
 - `netlify.toml` — static publishing configuration

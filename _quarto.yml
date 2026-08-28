@@ -3,20 +3,27 @@ project:
   output-dir: _site
 
 website:
-  title: "ISSS626 • Zhenhua Liu"
-  description: "A geospatial analytics coursework portfolio built with R and Quarto."
+  title: "ISSS626-GAA"
+  description: "Zhenhua Liu's coursework website for ISSS626 Geospatial Analytics and Applications."
   navbar:
-    pinned: true
+    background: "#234f4a"
+    foreground: "#ffffff"
     left:
-      - text: "Studio"
-        href: index.qmd
-      - text: "Hands-on"
-        href: hands-on.qmd
-      - text: "Take-home"
+      - text: "Hands-on Exercises"
+        menu:
+          - text: "Overview"
+            href: hands-on.qmd
+          - text: "Hands-on Exercise 1A"
+            href: hands-on.qmd#hands-on-exercise-1a
+          - text: "Hands-on Exercise 1B"
+            href: hands-on.qmd#hands-on-exercise-1b
+      - text: "Take-home Exercises"
         href: take-home.qmd
+    right:
+      - text: "Home"
+        href: index.qmd
       - text: "About"
         href: about.qmd
-    right:
       - icon: github
         aria-label: "GitHub repository"
         href: "https://github.com/zhuaLiuArchi/isss626-coursework"
@@ -25,7 +32,7 @@ website:
     type: overlay
   page-footer:
     left: "© 2026 Zhenhua Liu"
-    right: "Built with R + Quarto · ISSS626"
+    right: "ISSS626 · Built with R and Quarto"
 
 format:
   html:
@@ -35,13 +42,10 @@ format:
     toc-title: "On this page"
     smooth-scroll: true
     code-copy: true
-    code-overflow: wrap
     link-external-newwindow: true
     include-in-header:
       text: |
-        <meta name="theme-color" content="#07111f">
-        <meta property="og:title" content="ISSS626 Coursework Studio | Zhenhua Liu">
-        <meta property="og:description" content="Geospatial analytics coursework, field notes, and reproducible R workflows.">
+        <meta name="theme-color" content="#234f4a">
 
 execute:
   freeze: auto
