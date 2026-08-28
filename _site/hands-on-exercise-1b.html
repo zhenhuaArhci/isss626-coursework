@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Hands-on exercises for ISSS626.">
 
-<title>Hands-on Exercises – ISSS626-GAA</title>
+<title>Hands-on Exercise 1B – ISSS626-GAA</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -46,7 +45,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-a01177ad018c6171a128a7482f000971.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-d89924325737da961fd3c7ac1ec1be2d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -74,13 +73,12 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
-<meta name="theme-color" content="#234f4a">
 
 
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -98,28 +96,20 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hands-on-exercises" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Hands-on Exercises</span>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hands-on-exercise" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Hands-on Exercise</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-hands-on-exercises">    
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-hands-on-exercise">    
         <li>
-    <a class="dropdown-item" href="./hands-on.html">
- <span class="dropdown-text">Overview</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./hands-on.html#hands-on-exercise-1a">
+    <a class="dropdown-item" href="./hands-on-exercise-1a.html">
  <span class="dropdown-text">Hands-on Exercise 1A</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./hands-on.html#hands-on-exercise-1b">
+    <a class="dropdown-item" href="./hands-on-exercise-1b.html">
  <span class="dropdown-text">Hands-on Exercise 1B</span></a>
   </li>  
     </ul>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" href="./take-home.html"> 
-<span class="menu-text">Take-home Exercises</span></a>
-  </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
@@ -129,11 +119,6 @@ ul.task-list li input[type="checkbox"] {
   <li class="nav-item">
     <a class="nav-link" href="./about.html"> 
 <span class="menu-text">About</span></a>
-  </li>  
-  <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/zhuaLiuArchi/isss626-coursework"> <i class="bi bi-github" role="img" aria-label="GitHub repository">
-</i> 
-<span class="menu-text"></span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -146,37 +131,16 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#hands-on-exercise-1a" id="toc-hands-on-exercise-1a" class="nav-link active" data-scroll-target="#hands-on-exercise-1a">Hands-on Exercise 1A</a>
-  <ul class="collapse">
-  <li><a href="#geospatial-data-science-with-r" id="toc-geospatial-data-science-with-r" class="nav-link" data-scroll-target="#geospatial-data-science-with-r">Geospatial Data Science with R</a></li>
-  </ul></li>
-  <li><a href="#hands-on-exercise-1b" id="toc-hands-on-exercise-1b" class="nav-link" data-scroll-target="#hands-on-exercise-1b">Hands-on Exercise 1B</a>
-  <ul class="collapse">
-  <li><a href="#thematic-mapping-and-geovisualisation-with-r" id="toc-thematic-mapping-and-geovisualisation-with-r" class="nav-link" data-scroll-target="#thematic-mapping-and-geovisualisation-with-r">Thematic Mapping and Geovisualisation with R</a></li>
-  </ul></li>
-  <li><a href="#reproducible-workflow" id="toc-reproducible-workflow" class="nav-link" data-scroll-target="#reproducible-workflow">Reproducible workflow</a></li>
-  </ul>
-</nav>
-    </div>
+    
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Hands-on Exercises</h1>
-<p class="subtitle lead">Guided practice with geospatial data and R</p>
+<h1 class="title">Hands-on Exercise 1B</h1>
+<p class="subtitle lead">Thematic Mapping and GeoVisualisation with R</p>
 </div>
 
-<div>
-  <div class="description">
-    Hands-on exercises for ISSS626.
-  </div>
-</div>
 
 
 <div class="quarto-title-meta">
@@ -191,31 +155,9 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This section contains the guided exercises completed for ISSS626. Each exercise page can be extended with R code, maps, explanations, and reflections.</p>
-<section id="hands-on-exercise-1a" class="level2">
-<h2 class="anchored" data-anchor-id="hands-on-exercise-1a">Hands-on Exercise 1A</h2>
-<section id="geospatial-data-science-with-r" class="level3 exercise-card">
-<h3 class="anchored" data-anchor-id="geospatial-data-science-with-r">Geospatial Data Science with R</h3>
-<p>This exercise focuses on importing and inspecting geospatial data, working with simple feature objects, checking coordinate reference systems, and preparing spatial data for analysis.</p>
-<p><strong>Main tools:</strong> <code>sf</code>, base R, data wrangling</p>
-<p><strong>Status:</strong> Page structure prepared for coursework.</p>
-</section>
-</section>
-<section id="hands-on-exercise-1b" class="level2">
-<h2 class="anchored" data-anchor-id="hands-on-exercise-1b">Hands-on Exercise 1B</h2>
-<section id="thematic-mapping-and-geovisualisation-with-r" class="level3 exercise-card">
-<h3 class="anchored" data-anchor-id="thematic-mapping-and-geovisualisation-with-r">Thematic Mapping and Geovisualisation with R</h3>
-<p>This exercise focuses on choropleth maps, data classification, colour schemes, map layout, and communicating spatial patterns clearly.</p>
-<p><strong>Main tools:</strong> <code>tmap</code>, classification methods, cartographic design</p>
-<p><strong>Status:</strong> Page structure prepared for coursework.</p>
-</section>
-</section>
-<section id="reproducible-workflow" class="level2">
-<h2 class="anchored" data-anchor-id="reproducible-workflow">Reproducible workflow</h2>
-<p>New exercises can be added as individual <code>.qmd</code> files. R code is executed during the local Quarto render, and the generated <code>_site</code> folder is published through Netlify.</p>
+<p>This page is prepared for Hands-on Exercise 1B coursework.</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -305,11 +247,6 @@ ul.task-list li input[type="checkbox"] {
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
-            // target, if specified
-            link.setAttribute("target", "_blank");
-            if (link.getAttribute("rel") === null) {
-              link.setAttribute("rel", "noopener");
-            }
         }
       }
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
@@ -624,19 +561,6 @@ ul.task-list li input[type="checkbox"] {
   });
   </script>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
-    <div class="nav-footer-left">
-<p>© 2026 Zhenhua Liu</p>
-</div>   
-    <div class="nav-footer-center">
-      &nbsp;
-    </div>
-    <div class="nav-footer-right">
-<p>ISSS626 · Built with R and Quarto</p>
-</div>
-  </div>
-</footer>
 
 
 

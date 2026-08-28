@@ -4,48 +4,31 @@ project:
 
 website:
   title: "ISSS626-GAA"
-  description: "Zhenhua Liu's coursework website for ISSS626 Geospatial Analytics and Applications."
   navbar:
-    background: "#234f4a"
-    foreground: "#ffffff"
+    background: "#dce7f3"
+    foreground: "#4c5e7e"
     left:
-      - text: "Hands-on Exercises"
+      - text: "Hands-on Exercise"
         menu:
-          - text: "Overview"
-            href: hands-on.qmd
           - text: "Hands-on Exercise 1A"
-            href: hands-on.qmd#hands-on-exercise-1a
+            href: hands-on-exercise-1a.qmd
           - text: "Hands-on Exercise 1B"
-            href: hands-on.qmd#hands-on-exercise-1b
-      - text: "Take-home Exercises"
-        href: take-home.qmd
+            href: hands-on-exercise-1b.qmd
     right:
       - text: "Home"
         href: index.qmd
       - text: "About"
         href: about.qmd
-      - icon: github
-        aria-label: "GitHub repository"
-        href: "https://github.com/zhuaLiuArchi/isss626-coursework"
   search:
     location: navbar
     type: overlay
-  page-footer:
-    left: "© 2026 Zhenhua Liu"
-    right: "ISSS626 · Built with R and Quarto"
 
 format:
   html:
     theme: cosmo
     css: styles.css
-    toc: true
-    toc-title: "On this page"
+    toc: false
     smooth-scroll: true
-    code-copy: true
-    link-external-newwindow: true
-    include-in-header:
-      text: |
-        <meta name="theme-color" content="#234f4a">
 
 execute:
   freeze: auto

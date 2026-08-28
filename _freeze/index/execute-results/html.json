@@ -1,11 +1,9 @@
 {
-  "hash": "759430372003277d63f7d38d3a98d3d1",
+  "hash": "d48872c3d6861f9bb46af47a07da6c2b",
   "result": {
     "engine": "knitr",
-    "markdown": "---\ntitle: \"ISSS626 Geospatial Analytics and Applications\"\nsubtitle: \"Coursework website by Zhenhua Liu\"\ndescription: \"Coursework website for ISSS626 Geospatial Analytics and Applications.\"\ntoc: false\npage-layout: full\n---\n\n::: {.home-banner}\n::: {.home-banner-inner}\n<p class=\"course-label\">AY2025/26 · TERM 4</p>\n\n# ISSS626-GAA\n\nWelcome to my coursework website for **ISSS626 Geospatial Analytics and Applications**. This site contains my hands-on exercises, take-home exercises, and learning notes prepared with R and Quarto.\n\n[View hands-on exercises](hands-on.qmd){.btn .btn-light .home-button}\n:::\n:::\n\n::: {.home-content}\n## Coursework\n\nUse the navigation bar or the sections below to browse the course materials.\n\n<div class=\"course-grid\"> <article class=\"course-card\"><h3>Hands-on Exercises</h3><p>Guided practice in geospatial data handling, mapping, and visualisation with R.</p><a href=\"hands-on.html\">Open section →</a></article><article class=\"course-card\"><h3>Take-home Exercises</h3><p>Independent analytical projects developed throughout the course.</p><a href=\"take-home.html\">Open section →</a></article> </div>\n\n::: {.site-note}\n### About this website\n\nThe source files are maintained in GitHub and the rendered Quarto website is published on Netlify. The content will be updated as new coursework is completed.\n:::\n:::\n\n",
-    "supporting": [
-      "index_files"
-    ],
+    "markdown": "---\ntitle: \"ISSS626-GAA\"\ndescription: \"Zhenhua Liu's ISSS626 coursework website.\"\n---\n\nWelcome to **ISSS626 Geospatial Analytics and Applications**. In this website, you will find my coursework prepared for this course.\n\n",
+    "supporting": [],
     "filters": [
       "rmarkdown/pagebreak.lua"
     ],

@@ -17,9 +17,9 @@ The project-level `.Renviron` selects a Windows-compatible UTF-8 locale so R can
 ## Project structure
 
 - `_quarto.yml` — site navigation and global settings
-- `index.qmd` — studio homepage
-- `hands-on.qmd` — guided exercise index
-- `take-home.qmd` — independent project index
-- `about.qmd` — profile and workflow
-- `styles.css` — simple responsive colour and layout rules
+- `index.qmd` — simple course homepage
+- `hands-on-exercise-1a.qmd` — Hands-on Exercise 1A page
+- `hands-on-exercise-1b.qmd` — Hands-on Exercise 1B page
+- `about.qmd` — short course and author page
+- `styles.css` — minimal light-blue page styling
 - `netlify.toml` — static publishing configuration

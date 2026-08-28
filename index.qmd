@@ -1,59 +1,12 @@
 ---
-title: "ISSS626 Geospatial Analytics and Applications"
-subtitle: "Coursework website by Zhenhua Liu"
-description: "Coursework website for ISSS626 Geospatial Analytics and Applications."
-toc: false
-page-layout: full
+title: "ISSS626-GAA"
+description: "Zhenhua Liu's ISSS626 coursework website."
 ---
-
-::: {.home-banner}
-::: {.home-banner-inner}
-<p class="course-label">AY2025/26 · TERM 4</p>
-
-# ISSS626-GAA
-
-Welcome to my coursework website for **ISSS626 Geospatial Analytics and Applications**. This site contains my hands-on exercises, take-home exercises, and learning notes prepared with R and Quarto.
-
-[View hands-on exercises](hands-on.qmd){.btn .btn-light .home-button}
-:::
-:::
-
-::: {.home-content}
-## Coursework
-
-Use the navigation bar or the sections below to browse the course materials.
 
 ```{r}
 #| echo: false
 #| output: asis
 
-sections <- data.frame(
-  title = c("Hands-on Exercises", "Take-home Exercises"),
-  description = c(
-    "Guided practice in geospatial data handling, mapping, and visualisation with R.",
-    "Independent analytical projects developed throughout the course."
-  ),
-  link = c("hands-on.html", "take-home.html"),
-  stringsAsFactors = FALSE
-)
-
-cards <- vapply(seq_len(nrow(sections)), function(i) {
-  paste0(
-    '<article class="course-card">',
-    '<h3>', sections$title[i], '</h3>',
-    '<p>', sections$description[i], '</p>',
-    '<a href="', sections$link[i], '">Open section →</a>',
-    '</article>'
-  )
-}, character(1))
-
-cat('<div class="course-grid">', paste(cards, collapse = ""), '</div>')
+cat("Welcome to **ISSS626 Geospatial Analytics and Applications**. In this website, you will find my coursework prepared for this course.")
 ```
-
-::: {.site-note}
-### About this website
-
-The source files are maintained in GitHub and the rendered Quarto website is published on Netlify. The content will be updated as new coursework is completed.
-:::
-:::
 

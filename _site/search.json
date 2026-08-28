@@ -1,86 +1,30 @@
 [
   {
-    "objectID": "take-home.html",
-    "href": "take-home.html",
-    "title": "Take-home Exercises",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "ISSS626-GAA",
     "section": "",
-    "text": "This section is reserved for the independent assignments completed during the course."
+    "text": "Welcome to ISSS626 Geospatial Analytics and Applications. In this website, you will find my coursework prepared for this course."
   },
   {
-    "objectID": "take-home.html#take-home-exercise-1",
-    "href": "take-home.html#take-home-exercise-1",
-    "title": "Take-home Exercises",
-    "section": "Take-home Exercise 1",
-    "text": "Take-home Exercise 1\n\nProject workspace\nThe completed report will document the research question, data sources, preparation steps, analysis, visual results, findings, and limitations.\nWorkflow: Question → Data → Analysis → Visualisation → Reflection\nStatus: Ready for coursework content."
-  },
-  {
-    "objectID": "take-home.html#publication-standard",
-    "href": "take-home.html#publication-standard",
-    "title": "Take-home Exercises",
-    "section": "Publication standard",
-    "text": "Publication standard\nEach published report will keep the analysis reproducible, explain important decisions, and separate observations from interpretations."
-  },
-  {
-    "objectID": "hands-on.html",
-    "href": "hands-on.html",
-    "title": "Hands-on Exercises",
+    "objectID": "hands-on-exercise-1a.html",
+    "href": "hands-on-exercise-1a.html",
+    "title": "Hands-on Exercise 1A",
     "section": "",
-    "text": "This section contains the guided exercises completed for ISSS626. Each exercise page can be extended with R code, maps, explanations, and reflections."
-  },
-  {
-    "objectID": "hands-on.html#hands-on-exercise-1a",
-    "href": "hands-on.html#hands-on-exercise-1a",
-    "title": "Hands-on Exercises",
-    "section": "Hands-on Exercise 1A",
-    "text": "Hands-on Exercise 1A\n\nGeospatial Data Science with R\nThis exercise focuses on importing and inspecting geospatial data, working with simple feature objects, checking coordinate reference systems, and preparing spatial data for analysis.\nMain tools: sf, base R, data wrangling\nStatus: Page structure prepared for coursework."
-  },
-  {
-    "objectID": "hands-on.html#hands-on-exercise-1b",
-    "href": "hands-on.html#hands-on-exercise-1b",
-    "title": "Hands-on Exercises",
-    "section": "Hands-on Exercise 1B",
-    "text": "Hands-on Exercise 1B\n\nThematic Mapping and Geovisualisation with R\nThis exercise focuses on choropleth maps, data classification, colour schemes, map layout, and communicating spatial patterns clearly.\nMain tools: tmap, classification methods, cartographic design\nStatus: Page structure prepared for coursework."
-  },
-  {
-    "objectID": "hands-on.html#reproducible-workflow",
-    "href": "hands-on.html#reproducible-workflow",
-    "title": "Hands-on Exercises",
-    "section": "Reproducible workflow",
-    "text": "Reproducible workflow\nNew exercises can be added as individual .qmd files. R code is executed during the local Quarto render, and the generated _site folder is published through Netlify."
+    "text": "This page is prepared for Hands-on Exercise 1A coursework."
   },
   {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "This website is prepared for ISSS626 Geospatial Analytics and Applications. It provides one place for my hands-on exercises, take-home assignments, and course reflections.\nThe project is developed locally with RStudio, R, Quarto, and Git. Source files are stored in GitHub and the rendered website is deployed to Netlify."
+    "text": "ISSS626 Geospatial Analytics and Applications.\nby Zhenhua Liu"
   },
   {
-    "objectID": "about.html#zhenhua-liu",
-    "href": "about.html#zhenhua-liu",
-    "title": "About",
+    "objectID": "hands-on-exercise-1b.html",
+    "href": "hands-on-exercise-1b.html",
+    "title": "Hands-on Exercise 1B",
     "section": "",
-    "text": "This website is prepared for ISSS626 Geospatial Analytics and Applications. It provides one place for my hands-on exercises, take-home assignments, and course reflections.\nThe project is developed locally with RStudio, R, Quarto, and Git. Source files are stored in GitHub and the rendered website is deployed to Netlify."
-  },
-  {
-    "objectID": "about.html#website-workflow",
-    "href": "about.html#website-workflow",
-    "title": "About",
-    "section": "Website workflow",
-    "text": "Website workflow\n\nWrite the coursework in RStudio using Quarto .qmd files.\nRun the R rendering script to generate the static website.\nCommit and push the source and rendered files to GitHub.\nPublish the _site folder through Netlify."
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "ISSS626 Geospatial Analytics and Applications",
-    "section": "",
-    "text": "AY2025/26 · TERM 4\n\n\n\nWelcome to my coursework website for ISSS626 Geospatial Analytics and Applications. This site contains my hands-on exercises, take-home exercises, and learning notes prepared with R and Quarto.\nView hands-on exercises"
-  },
-  {
-    "objectID": "index.html#coursework",
-    "href": "index.html#coursework",
-    "title": "ISSS626 Geospatial Analytics and Applications",
-    "section": "Coursework",
-    "text": "Coursework\nUse the navigation bar or the sections below to browse the course materials.\n\n\n\nHands-on Exercises\n\n\nGuided practice in geospatial data handling, mapping, and visualisation with R.\n\nOpen section →\n\n\n\nTake-home Exercises\n\n\nIndependent analytical projects developed throughout the course.\n\nOpen section →\n\n\n\nAbout this website\nThe source files are maintained in GitHub and the rendered Quarto website is published on Netlify. The content will be updated as new coursework is completed."
+    "text": "This page is prepared for Hands-on Exercise 1B coursework."
   }
 ]

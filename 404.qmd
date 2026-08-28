@@ -1,10 +1,6 @@
 ---
 title: "Page not found"
-toc: false
-page-layout: article
 ---
 
-The requested page could not be found.
-
-[Return to the homepage](index.qmd){.btn .btn-primary}
+[Return to Home](index.qmd)
 
