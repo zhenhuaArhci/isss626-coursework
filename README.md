@@ -2,6 +2,11 @@
 
 Zhenhua Liu's coursework website for **ISSS626 Geospatial Analytics and Applications**. The formal local project is stored at `C:\zhenhuaArhci`.
 
+## Published links
+
+- Coursework website: <https://isss626-gaa-zhenhua-liu.netlify.app/>
+- GitHub repository: <https://github.com/zhenhuaArhci/isss626-coursework>
+
 ## Local workflow
 
 Open `ISSS626-GAA.Rproj` in RStudio, then render from the Build pane or run:
