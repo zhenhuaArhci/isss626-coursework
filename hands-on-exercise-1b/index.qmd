@@ -1,0 +1,405 @@
+---
+title: "Hands-on Exercise 1B"
+subtitle: "Choropleth mapping with tmap"
+author: "Zhenhua Liu"
+date: "2026-09-11"
+body-classes: exercise-page
+toc: true
+toc-location: right
+code-fold: false
+code-tools: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Overview
+
+This exercise builds a choropleth workflow for Singapore's 2024 resident
+population. I prepare demographic indicators at subzone level, join them to the
+Master Plan 2019 boundaries, and compare mapping choices rather than accepting
+the first default map.
+
+::: {.callout-note title="Data note"}
+The current official boundary download is GeoJSON and already exposes its
+attributes as columns. The original lesson's `rvest` step was needed to unpack
+an HTML description stored inside an older KML file. I checked the new file and
+did not parse HTML that is no longer present. This keeps the workflow faithful
+to the task while avoiding an artificial cleaning step.
+:::
+
+## 1. Setup and import
+
+```{r}
+#| label: setup
+#| include: false
+library(sf)
+library(tidyverse)
+library(tmap)
+
+data_dir <- "hands-on-exercise-1b/data/raw"
+```
+
+The download script saves the official boundary and unpacks the SingStat ZIP.
+I explicitly exclude the separate notes CSV when selecting the data table.
+
+```{r}
+#| label: locate-population-file
+population_files <- list.files(
+  file.path(data_dir, "singstat-population-2024"),
+  pattern = "[.]csv$",
+  recursive = TRUE,
+  full.names = TRUE
+)
+
+population_file <- population_files[
+  !startsWith(basename(population_files), "Notes_")
+][1]
+
+basename(population_file)
+```
+
+```{r}
+#| label: import-data
+mpsz2019 <- st_read(
+  file.path(data_dir, "mp19-subzone.geojson"),
+  quiet = TRUE
+) |>
+  st_make_valid() |>
+  st_transform(3414)
+
+population_raw <- read_csv(population_file, show_col_types = FALSE)
+
+tibble(
+  dataset = c("MP2019 subzones", "Population records"),
+  rows = c(nrow(mpsz2019), nrow(population_raw)),
+  columns = c(ncol(mpsz2019), ncol(population_raw))
+)
+```
+
+```{r}
+#| label: inspect-inputs
+glimpse(population_raw)
+head(st_drop_geometry(mpsz2019)[, 1:7], 3)
+```
+
+Inspecting the files first caught an important detail: population is split by
+age group, sex and dwelling type. A simple sum of the raw rows is valid only
+after grouping by geography and age; otherwise it is easy to lose track of
+what each number represents.
+
+## 2. Preparing demographic variables
+
+I use the lesson's three life-stage groups: 0–19 as young residents, 20–64 as
+economically active, and 65 or older as aged residents. The dependency ratio is
+the combined young and aged population per 100 economically active residents.
+
+```{r}
+#| label: age-groups
+young_groups <- c("0_to_4", "5_to_9", "10_to_14", "15_to_19")
+
+working_groups <- c(
+  "20_to_24", "25_to_29", "30_to_34", "35_to_39", "40_to_44",
+  "45_to_49", "50_to_54", "55_to_59", "60_to_64"
+)
+
+aged_groups <- c(
+  "65_to_69", "70_to_74", "75_to_79", "80_to_84",
+  "85_to_89", "90_and_over"
+)
+```
+
+```{r}
+#| label: prepare-population
+population2024 <- population_raw |>
+  group_by(PA, SZ, AG) |>
+  summarise(Pop = sum(Pop, na.rm = TRUE), .groups = "drop") |>
+  group_by(PA, SZ) |>
+  summarise(
+    YOUNG = sum(Pop[AG %in% young_groups]),
+    ECONOMY_ACTIVE = sum(Pop[AG %in% working_groups]),
+    AGED = sum(Pop[AG %in% aged_groups]),
+    TOTAL = sum(Pop),
+    .groups = "drop"
+  ) |>
+  mutate(
+    DEPENDENCY = if_else(
+      ECONOMY_ACTIVE > 0,
+      100 * (YOUNG + AGED) / ECONOMY_ACTIVE,
+      NA_real_
+    ),
+    PA_KEY = str_to_upper(str_squish(PA)),
+    SZ_KEY = str_to_upper(str_squish(SZ))
+  )
+
+population2024 |>
+  arrange(desc(TOTAL)) |>
+  select(PA, SZ, YOUNG, ECONOMY_ACTIVE, AGED, TOTAL, DEPENDENCY) |>
+  slice_head(n = 8)
+```
+
+The raw counts are rounded to the nearest ten by SingStat. I therefore avoid
+presenting false precision, especially when comparing small subzones.
+
+## 3. Joining attributes to geometry
+
+The two datasets use different capitalization, so I create upper-case,
+trimmed keys for planning area and subzone before joining. Using both keys is
+safer than subzone name alone.
+
+```{r}
+#| label: join-data
+mpsz_pop2024 <- mpsz2019 |>
+  mutate(
+    PA_KEY = str_to_upper(str_squish(PLN_AREA_N)),
+    SZ_KEY = str_to_upper(str_squish(SUBZONE_N))
+  ) |>
+  left_join(population2024, by = c("PA_KEY", "SZ_KEY"))
+
+join_check <- tibble(
+  check = c("Boundary features", "Features with population", "Features without population"),
+  value = c(
+    nrow(mpsz_pop2024),
+    sum(!is.na(mpsz_pop2024$TOTAL)),
+    sum(is.na(mpsz_pop2024$TOTAL))
+  )
+)
+
+join_check
+```
+
+Some planning subzones have no resident record. I keep them as `NA` rather
+than changing them to zero: “no matched record” and “confirmed zero residents”
+are not the same statement.
+
+## 4. A first choropleth
+
+`qtm()` gives me a fast diagnostic map. It is useful for checking the join and
+spatial pattern before spending time on design.
+
+```{r}
+#| label: quick-map
+#| fig-width: 8
+#| fig-height: 6
+#| fig-cap: "Quick choropleth of total resident population in 2024."
+tmap_mode("plot")
+qtm(
+  mpsz_pop2024,
+  fill = "TOTAL",
+  fill.scale = tm_scale_continuous(values = "brewer.blues"),
+  fill.legend = tm_legend(title = "Residents")
+)
+```
+
+The pattern is plausible, but a continuous colour ramp hides the decisions
+behind class boundaries. I next compare two explicit classification methods.
+
+## 5. Comparing classification methods
+
+Quantiles place roughly the same number of subzones in each class. Equal
+intervals preserve equal numeric widths, but a few high-population subzones can
+leave most areas crowded into the lower classes.
+
+```{r}
+#| label: classification-comparison
+#| fig-width: 10
+#| fig-height: 5
+#| fig-cap: "Dependency ratio classified with quantiles and equal intervals."
+map_quantile <- tm_shape(mpsz_pop2024) +
+  tm_polygons(
+    fill = "DEPENDENCY",
+    fill.scale = tm_scale_intervals(
+      style = "quantile", n = 5, values = "brewer.blues"
+    ),
+    fill.legend = tm_legend(title = "Dependants per 100")
+  ) +
+  tm_borders(col = "white", lwd = 0.4) +
+  tm_title("Quantile")
+
+map_equal <- tm_shape(mpsz_pop2024) +
+  tm_polygons(
+    fill = "DEPENDENCY",
+    fill.scale = tm_scale_intervals(
+      style = "equal", n = 5, values = "brewer.blues"
+    ),
+    fill.legend = tm_legend(title = "Dependants per 100")
+  ) +
+  tm_borders(col = "white", lwd = 0.4) +
+  tm_title("Equal interval")
+
+tmap_arrange(map_quantile, map_equal, ncol = 2)
+```
+
+For a national comparison I prefer quantiles because differences across the
+full distribution remain visible. Equal intervals would be preferable if the
+numeric distance between classes were the main message.
+
+## 6. Refined map design
+
+I keep one sequential palette because dependency ratio has a natural low-to-
+high order. A thin white boundary separates adjacent subzones without
+overpowering the fill, and the compass and scale bar make the map usable beyond
+the immediate classroom context.
+
+```{r}
+#| label: refined-map
+#| fig-width: 9
+#| fig-height: 7
+#| fig-cap: "Refined dependency-ratio choropleth for Singapore subzones."
+dependency_breaks <- quantile(
+  mpsz_pop2024$DEPENDENCY,
+  probs = seq(0, 1, length.out = 6),
+  na.rm = TRUE
+) |>
+  as.numeric() |>
+  unique()
+
+refined_map <- tm_shape(mpsz_pop2024) +
+  tm_polygons(
+    fill = "DEPENDENCY",
+    fill.scale = tm_scale_intervals(
+      breaks = dependency_breaks,
+      values = "brewer.blues"
+    ),
+    fill.legend = tm_legend(title = "Dependants per 100\nworking-age residents")
+  ) +
+  tm_borders(col = "white", lwd = 0.35) +
+  tm_title("Resident dependency ratio, 2024") +
+  tm_compass(type = "8star", position = tm_pos_in("left", "top")) +
+  tm_scalebar(position = tm_pos_in("left", "bottom")) +
+  tm_layout(frame = FALSE)
+
+refined_map
+```
+
+## 7. Small multiples
+
+The same colour scale should not be forced onto groups with very different
+totals. I therefore create two maps with their own quantile breaks and arrange
+them side by side.
+
+```{r}
+#| label: small-multiples
+#| fig-width: 10
+#| fig-height: 5
+#| fig-cap: "Young and aged residents shown as coordinated small multiples."
+map_young <- tm_shape(mpsz_pop2024) +
+  tm_polygons(
+    fill = "YOUNG",
+    fill.scale = tm_scale_intervals(style = "quantile", n = 5, values = "brewer.greens"),
+    fill.legend = tm_legend(title = "Age 0–19")
+  ) +
+  tm_borders(col = "white", lwd = 0.3) +
+  tm_title("Young residents")
+
+map_aged <- tm_shape(mpsz_pop2024) +
+  tm_polygons(
+    fill = "AGED",
+    fill.scale = tm_scale_intervals(style = "quantile", n = 5, values = "brewer.purples"),
+    fill.legend = tm_legend(title = "Age 65+")
+  ) +
+  tm_borders(col = "white", lwd = 0.3) +
+  tm_title("Aged residents")
+
+tmap_arrange(map_young, map_aged, ncol = 2)
+```
+
+Reading the maps together shows that “many older residents” is not simply the
+opposite of “many young residents”. Several established housing areas have
+large totals in both groups, so the dependency ratio remains valuable as a
+relative measure.
+
+## 8. Selection and a complementary chart
+
+I define a transparent selection rule: the top 10% of populated subzones by
+dependency ratio. The map locates them, while the bar chart makes the ranking
+and values easier to compare.
+
+```{r}
+#| label: selection
+dependency_cutoff <- quantile(
+  mpsz_pop2024$DEPENDENCY,
+  0.90,
+  na.rm = TRUE
+)
+
+high_dependency <- mpsz_pop2024 |>
+  filter(!is.na(DEPENDENCY), DEPENDENCY >= dependency_cutoff)
+
+tm_shape(mpsz_pop2024) +
+  tm_polygons(fill = "#edf1f5", col = "white", lwd = 0.25) +
+  tm_shape(high_dependency) +
+  tm_polygons(fill = "#6f82aa", col = "#465d91", lwd = 0.7) +
+  tm_title("Top 10% by dependency ratio")
+```
+
+```{r}
+#| label: complementary-chart
+#| fig-width: 8
+#| fig-height: 5
+#| fig-cap: "Highest dependency ratios among Singapore subzones."
+high_dependency |>
+  st_drop_geometry() |>
+  arrange(DEPENDENCY) |>
+  slice_tail(n = 12) |>
+  mutate(SUBZONE_N = fct_reorder(SUBZONE_N, DEPENDENCY)) |>
+  ggplot(aes(DEPENDENCY, SUBZONE_N)) +
+  geom_col(fill = "#6f82aa") +
+  labs(
+    x = "Dependants per 100 working-age residents",
+    y = NULL,
+    title = "Subzones with the highest dependency ratios"
+  ) +
+  theme_minimal()
+```
+
+## 9. Interactive exploration
+
+The static map communicates one main pattern; the interactive version supports
+lookup. Hovering or clicking lets a reader inspect the subzone name, planning
+area and demographic values without printing labels over the whole island.
+
+```{r}
+#| label: interactive-map
+#| fig-height: 6
+tmap_mode("view")
+
+tm_shape(st_transform(mpsz_pop2024, 4326)) +
+  tm_polygons(
+    fill = "DEPENDENCY",
+    fill.scale = tm_scale_intervals(style = "quantile", n = 5, values = "brewer.blues"),
+    fill.legend = tm_legend(title = "Dependency ratio"),
+    popup.vars = c(
+      "Subzone" = "SUBZONE_N",
+      "Planning area" = "PLN_AREA_N",
+      "Total residents" = "TOTAL",
+      "Young residents" = "YOUNG",
+      "Aged residents" = "AGED",
+      "Dependency ratio" = "DEPENDENCY"
+    )
+  )
+
+tmap_mode("plot")
+```
+
+## 10. What I learned
+
+The join deserves as much attention as the map. Normalising both geographic
+keys and retaining unmatched boundaries prevents silent data loss. I also found
+that classification is an analytical decision: quantiles reveal relative
+position, while equal intervals preserve numeric distance. Finally, pairing a
+choropleth with a ranking chart makes the result easier to interpret than either
+view alone.
+
+## Reproducibility
+
+The complete preparation workflow is available in
+[`R/analysis.R`](R/analysis.R), and the source downloads are scripted in
+[`R/download-data.R`](R/download-data.R).
+
+```{r}
+#| label: session-info
+#| echo: false
+sessionInfo()
+```

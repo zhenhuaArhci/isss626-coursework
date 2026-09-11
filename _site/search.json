@@ -1,5 +1,96 @@
 [
   {
+    "objectID": "hands-on-exercise-1b/index.html",
+    "href": "hands-on-exercise-1b/index.html",
+    "title": "Hands-on Exercise 1B",
+    "section": "",
+    "text": "This exercise builds a choropleth workflow for Singapore’s 2024 resident population. I prepare demographic indicators at subzone level, join them to the Master Plan 2019 boundaries, and compare mapping choices rather than accepting the first default map.\n\n\n\n\n\n\nNoteData note\n\n\n\nThe current official boundary download is GeoJSON and already exposes its attributes as columns. The original lesson’s rvest step was needed to unpack an HTML description stored inside an older KML file. I checked the new file and did not parse HTML that is no longer present. This keeps the workflow faithful to the task while avoiding an artificial cleaning step."
+  },
+  {
+    "objectID": "hands-on-exercise-1b/index.html#overview",
+    "href": "hands-on-exercise-1b/index.html#overview",
+    "title": "Hands-on Exercise 1B",
+    "section": "",
+    "text": "This exercise builds a choropleth workflow for Singapore’s 2024 resident population. I prepare demographic indicators at subzone level, join them to the Master Plan 2019 boundaries, and compare mapping choices rather than accepting the first default map.\n\n\n\n\n\n\nNoteData note\n\n\n\nThe current official boundary download is GeoJSON and already exposes its attributes as columns. The original lesson’s rvest step was needed to unpack an HTML description stored inside an older KML file. I checked the new file and did not parse HTML that is no longer present. This keeps the workflow faithful to the task while avoiding an artificial cleaning step."
+  },
+  {
+    "objectID": "hands-on-exercise-1b/index.html#setup-and-import",
+    "href": "hands-on-exercise-1b/index.html#setup-and-import",
+    "title": "Hands-on Exercise 1B",
+    "section": "1. Setup and import",
+    "text": "1. Setup and import\nThe download script saves the official boundary and unpacks the SingStat ZIP. I explicitly exclude the separate notes CSV when selecting the data table.\n\npopulation_files &lt;- list.files(\n  file.path(data_dir, \"singstat-population-2024\"),\n  pattern = \"[.]csv$\",\n  recursive = TRUE,\n  full.names = TRUE\n)\n\npopulation_file &lt;- population_files[\n  !startsWith(basename(population_files), \"Notes_\")\n][1]\n\nbasename(population_file)\n\n[1] \"respopagesextod2024.csv\"\n\n\n\nmpsz2019 &lt;- st_read(\n  file.path(data_dir, \"mp19-subzone.geojson\"),\n  quiet = TRUE\n) |&gt;\n  st_make_valid() |&gt;\n  st_transform(3414)\n\npopulation_raw &lt;- read_csv(population_file, show_col_types = FALSE)\n\ntibble(\n  dataset = c(\"MP2019 subzones\", \"Population records\"),\n  rows = c(nrow(mpsz2019), nrow(population_raw)),\n  columns = c(ncol(mpsz2019), ncol(population_raw))\n)\n\n# A tibble: 2 × 3\n  dataset              rows columns\n  &lt;chr&gt;               &lt;int&gt;   &lt;int&gt;\n1 MP2019 subzones       332      14\n2 Population records 100928       7\n\n\n\nglimpse(population_raw)\n\nRows: 100,928\nColumns: 7\n$ PA   &lt;chr&gt; \"Ang Mo Kio\", \"Ang Mo Kio\", \"Ang Mo Kio\", \"Ang Mo Kio\", \"Ang Mo K…\n$ SZ   &lt;chr&gt; \"Ang Mo Kio Town Centre\", \"Ang Mo Kio Town Centre\", \"Ang Mo Kio T…\n$ AG   &lt;chr&gt; \"0_to_4\", \"0_to_4\", \"0_to_4\", \"0_to_4\", \"0_to_4\", \"0_to_4\", \"0_to…\n$ Sex  &lt;chr&gt; \"Males\", \"Males\", \"Males\", \"Males\", \"Males\", \"Males\", \"Males\", \"M…\n$ TOD  &lt;chr&gt; \"HDB 1- and 2-Room Flats\", \"HDB 3-Room Flats\", \"HDB 4-Room Flats\"…\n$ Pop  &lt;dbl&gt; 0, 0, 10, 20, 0, 40, 0, 0, 0, 0, 10, 20, 0, 30, 0, 0, 0, 10, 10, …\n$ Time &lt;dbl&gt; 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2024,…\n\nhead(st_drop_geometry(mpsz2019)[, 1:7], 3)\n\n  OBJECTID SUBZONE_NO   SUBZONE_N SUBZONE_C CA_IND  PLN_AREA_N PLN_AREA_C\n1      676         12  DEPOT ROAD    BMSZ12      N BUKIT MERAH         BM\n2      677          2 BUKIT MERAH    BMSZ02      N BUKIT MERAH         BM\n3      678          3   CHINATOWN    OTSZ03      Y      OUTRAM         OT\n\n\nInspecting the files first caught an important detail: population is split by age group, sex and dwelling type. A simple sum of the raw rows is valid only after grouping by geography and age; otherwise it is easy to lose track of what each number represents."
+  },
+  {
+    "objectID": "hands-on-exercise-1b/index.html#preparing-demographic-variables",
+    "href": "hands-on-exercise-1b/index.html#preparing-demographic-variables",
+    "title": "Hands-on Exercise 1B",
+    "section": "2. Preparing demographic variables",
+    "text": "2. Preparing demographic variables\nI use the lesson’s three life-stage groups: 0–19 as young residents, 20–64 as economically active, and 65 or older as aged residents. The dependency ratio is the combined young and aged population per 100 economically active residents.\n\nyoung_groups &lt;- c(\"0_to_4\", \"5_to_9\", \"10_to_14\", \"15_to_19\")\n\nworking_groups &lt;- c(\n  \"20_to_24\", \"25_to_29\", \"30_to_34\", \"35_to_39\", \"40_to_44\",\n  \"45_to_49\", \"50_to_54\", \"55_to_59\", \"60_to_64\"\n)\n\naged_groups &lt;- c(\n  \"65_to_69\", \"70_to_74\", \"75_to_79\", \"80_to_84\",\n  \"85_to_89\", \"90_and_over\"\n)\n\n\npopulation2024 &lt;- population_raw |&gt;\n  group_by(PA, SZ, AG) |&gt;\n  summarise(Pop = sum(Pop, na.rm = TRUE), .groups = \"drop\") |&gt;\n  group_by(PA, SZ) |&gt;\n  summarise(\n    YOUNG = sum(Pop[AG %in% young_groups]),\n    ECONOMY_ACTIVE = sum(Pop[AG %in% working_groups]),\n    AGED = sum(Pop[AG %in% aged_groups]),\n    TOTAL = sum(Pop),\n    .groups = \"drop\"\n  ) |&gt;\n  mutate(\n    DEPENDENCY = if_else(\n      ECONOMY_ACTIVE &gt; 0,\n      100 * (YOUNG + AGED) / ECONOMY_ACTIVE,\n      NA_real_\n    ),\n    PA_KEY = str_to_upper(str_squish(PA)),\n    SZ_KEY = str_to_upper(str_squish(SZ))\n  )\n\npopulation2024 |&gt;\n  arrange(desc(TOTAL)) |&gt;\n  select(PA, SZ, YOUNG, ECONOMY_ACTIVE, AGED, TOTAL, DEPENDENCY) |&gt;\n  slice_head(n = 8)\n\n# A tibble: 8 × 7\n  PA          SZ             YOUNG ECONOMY_ACTIVE  AGED  TOTAL DEPENDENCY\n  &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt;          &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;\n1 Tampines    Tampines East  21740          80510 26050 128300       59.4\n2 Woodlands   Woodlands East 21110          67640 11210  99960       47.8\n3 Tampines    Tampines West  15920          52610 14880  83410       58.5\n4 Bedok       Bedok North    12340          49540 19750  81630       64.8\n5 Yishun      Yishun East    16690          46470  8840  72000       54.9\n6 Sengkang    Fernvale       17630          43920  7590  69140       57.4\n7 Jurong West Yunnan         11800          44200 10740  66740       51.0\n8 Sengkang    Rivervale      12240          41020  9490  62750       53.0\n\n\nThe raw counts are rounded to the nearest ten by SingStat. I therefore avoid presenting false precision, especially when comparing small subzones."
+  },
+  {
+    "objectID": "hands-on-exercise-1b/index.html#joining-attributes-to-geometry",
+    "href": "hands-on-exercise-1b/index.html#joining-attributes-to-geometry",
+    "title": "Hands-on Exercise 1B",
+    "section": "3. Joining attributes to geometry",
+    "text": "3. Joining attributes to geometry\nThe two datasets use different capitalization, so I create upper-case, trimmed keys for planning area and subzone before joining. Using both keys is safer than subzone name alone.\n\nmpsz_pop2024 &lt;- mpsz2019 |&gt;\n  mutate(\n    PA_KEY = str_to_upper(str_squish(PLN_AREA_N)),\n    SZ_KEY = str_to_upper(str_squish(SUBZONE_N))\n  ) |&gt;\n  left_join(population2024, by = c(\"PA_KEY\", \"SZ_KEY\"))\n\njoin_check &lt;- tibble(\n  check = c(\"Boundary features\", \"Features with population\", \"Features without population\"),\n  value = c(\n    nrow(mpsz_pop2024),\n    sum(!is.na(mpsz_pop2024$TOTAL)),\n    sum(is.na(mpsz_pop2024$TOTAL))\n  )\n)\n\njoin_check\n\n# A tibble: 3 × 2\n  check                       value\n  &lt;chr&gt;                       &lt;int&gt;\n1 Boundary features             332\n2 Features with population      332\n3 Features without population     0\n\n\nSome planning subzones have no resident record. I keep them as NA rather than changing them to zero: “no matched record” and “confirmed zero residents” are not the same statement."
+  },
+  {
+    "objectID": "hands-on-exercise-1b/index.html#a-first-choropleth",
+    "href": "hands-on-exercise-1b/index.html#a-first-choropleth",
+    "title": "Hands-on Exercise 1B",
+    "section": "4. A first choropleth",
+    "text": "4. A first choropleth\nqtm() gives me a fast diagnostic map. It is useful for checking the join and spatial pattern before spending time on design.\n\ntmap_mode(\"plot\")\nqtm(\n  mpsz_pop2024,\n  fill = \"TOTAL\",\n  fill.scale = tm_scale_continuous(values = \"brewer.blues\"),\n  fill.legend = tm_legend(title = \"Residents\")\n)\n\n\n\n\nQuick choropleth of total resident population in 2024.\n\n\n\n\nThe pattern is plausible, but a continuous colour ramp hides the decisions behind class boundaries. I next compare two explicit classification methods."
+  },
+  {
+    "objectID": "hands-on-exercise-1b/index.html#comparing-classification-methods",
+    "href": "hands-on-exercise-1b/index.html#comparing-classification-methods",
+    "title": "Hands-on Exercise 1B",
+    "section": "5. Comparing classification methods",
+    "text": "5. Comparing classification methods\nQuantiles place roughly the same number of subzones in each class. Equal intervals preserve equal numeric widths, but a few high-population subzones can leave most areas crowded into the lower classes.\n\nmap_quantile &lt;- tm_shape(mpsz_pop2024) +\n  tm_polygons(\n    fill = \"DEPENDENCY\",\n    fill.scale = tm_scale_intervals(\n      style = \"quantile\", n = 5, values = \"brewer.blues\"\n    ),\n    fill.legend = tm_legend(title = \"Dependants per 100\")\n  ) +\n  tm_borders(col = \"white\", lwd = 0.4) +\n  tm_title(\"Quantile\")\n\nmap_equal &lt;- tm_shape(mpsz_pop2024) +\n  tm_polygons(\n    fill = \"DEPENDENCY\",\n    fill.scale = tm_scale_intervals(\n      style = \"equal\", n = 5, values = \"brewer.blues\"\n    ),\n    fill.legend = tm_legend(title = \"Dependants per 100\")\n  ) +\n  tm_borders(col = \"white\", lwd = 0.4) +\n  tm_title(\"Equal interval\")\n\ntmap_arrange(map_quantile, map_equal, ncol = 2)\n\n\n\n\nDependency ratio classified with quantiles and equal intervals.\n\n\n\n\nFor a national comparison I prefer quantiles because differences across the full distribution remain visible. Equal intervals would be preferable if the numeric distance between classes were the main message."
+  },
+  {
+    "objectID": "hands-on-exercise-1b/index.html#refined-map-design",
+    "href": "hands-on-exercise-1b/index.html#refined-map-design",
+    "title": "Hands-on Exercise 1B",
+    "section": "6. Refined map design",
+    "text": "6. Refined map design\nI keep one sequential palette because dependency ratio has a natural low-to- high order. A thin white boundary separates adjacent subzones without overpowering the fill, and the compass and scale bar make the map usable beyond the immediate classroom context.\n\ndependency_breaks &lt;- quantile(\n  mpsz_pop2024$DEPENDENCY,\n  probs = seq(0, 1, length.out = 6),\n  na.rm = TRUE\n) |&gt;\n  as.numeric() |&gt;\n  unique()\n\nrefined_map &lt;- tm_shape(mpsz_pop2024) +\n  tm_polygons(\n    fill = \"DEPENDENCY\",\n    fill.scale = tm_scale_intervals(\n      breaks = dependency_breaks,\n      values = \"brewer.blues\"\n    ),\n    fill.legend = tm_legend(title = \"Dependants per 100\\nworking-age residents\")\n  ) +\n  tm_borders(col = \"white\", lwd = 0.35) +\n  tm_title(\"Resident dependency ratio, 2024\") +\n  tm_compass(type = \"8star\", position = tm_pos_in(\"left\", \"top\")) +\n  tm_scalebar(position = tm_pos_in(\"left\", \"bottom\")) +\n  tm_layout(frame = FALSE)\n\nrefined_map\n\n\n\n\nRefined dependency-ratio choropleth for Singapore subzones."
+  },
+  {
+    "objectID": "hands-on-exercise-1b/index.html#small-multiples",
+    "href": "hands-on-exercise-1b/index.html#small-multiples",
+    "title": "Hands-on Exercise 1B",
+    "section": "7. Small multiples",
+    "text": "7. Small multiples\nThe same colour scale should not be forced onto groups with very different totals. I therefore create two maps with their own quantile breaks and arrange them side by side.\n\nmap_young &lt;- tm_shape(mpsz_pop2024) +\n  tm_polygons(\n    fill = \"YOUNG\",\n    fill.scale = tm_scale_intervals(style = \"quantile\", n = 5, values = \"brewer.greens\"),\n    fill.legend = tm_legend(title = \"Age 0–19\")\n  ) +\n  tm_borders(col = \"white\", lwd = 0.3) +\n  tm_title(\"Young residents\")\n\nmap_aged &lt;- tm_shape(mpsz_pop2024) +\n  tm_polygons(\n    fill = \"AGED\",\n    fill.scale = tm_scale_intervals(style = \"quantile\", n = 5, values = \"brewer.purples\"),\n    fill.legend = tm_legend(title = \"Age 65+\")\n  ) +\n  tm_borders(col = \"white\", lwd = 0.3) +\n  tm_title(\"Aged residents\")\n\ntmap_arrange(map_young, map_aged, ncol = 2)\n\n\n\n\nYoung and aged residents shown as coordinated small multiples.\n\n\n\n\nReading the maps together shows that “many older residents” is not simply the opposite of “many young residents”. Several established housing areas have large totals in both groups, so the dependency ratio remains valuable as a relative measure."
+  },
+  {
+    "objectID": "hands-on-exercise-1b/index.html#selection-and-a-complementary-chart",
+    "href": "hands-on-exercise-1b/index.html#selection-and-a-complementary-chart",
+    "title": "Hands-on Exercise 1B",
+    "section": "8. Selection and a complementary chart",
+    "text": "8. Selection and a complementary chart\nI define a transparent selection rule: the top 10% of populated subzones by dependency ratio. The map locates them, while the bar chart makes the ranking and values easier to compare.\n\ndependency_cutoff &lt;- quantile(\n  mpsz_pop2024$DEPENDENCY,\n  0.90,\n  na.rm = TRUE\n)\n\nhigh_dependency &lt;- mpsz_pop2024 |&gt;\n  filter(!is.na(DEPENDENCY), DEPENDENCY &gt;= dependency_cutoff)\n\ntm_shape(mpsz_pop2024) +\n  tm_polygons(fill = \"#edf1f5\", col = \"white\", lwd = 0.25) +\n  tm_shape(high_dependency) +\n  tm_polygons(fill = \"#6f82aa\", col = \"#465d91\", lwd = 0.7) +\n  tm_title(\"Top 10% by dependency ratio\")\n\n\n\n\n\n\n\n\n\nhigh_dependency |&gt;\n  st_drop_geometry() |&gt;\n  arrange(DEPENDENCY) |&gt;\n  slice_tail(n = 12) |&gt;\n  mutate(SUBZONE_N = fct_reorder(SUBZONE_N, DEPENDENCY)) |&gt;\n  ggplot(aes(DEPENDENCY, SUBZONE_N)) +\n  geom_col(fill = \"#6f82aa\") +\n  labs(\n    x = \"Dependants per 100 working-age residents\",\n    y = NULL,\n    title = \"Subzones with the highest dependency ratios\"\n  ) +\n  theme_minimal()\n\n\n\n\nHighest dependency ratios among Singapore subzones."
+  },
+  {
+    "objectID": "hands-on-exercise-1b/index.html#interactive-exploration",
+    "href": "hands-on-exercise-1b/index.html#interactive-exploration",
+    "title": "Hands-on Exercise 1B",
+    "section": "9. Interactive exploration",
+    "text": "9. Interactive exploration\nThe static map communicates one main pattern; the interactive version supports lookup. Hovering or clicking lets a reader inspect the subzone name, planning area and demographic values without printing labels over the whole island.\n\ntmap_mode(\"view\")\n\ntm_shape(st_transform(mpsz_pop2024, 4326)) +\n  tm_polygons(\n    fill = \"DEPENDENCY\",\n    fill.scale = tm_scale_intervals(style = \"quantile\", n = 5, values = \"brewer.blues\"),\n    fill.legend = tm_legend(title = \"Dependency ratio\"),\n    popup.vars = c(\n      \"Subzone\" = \"SUBZONE_N\",\n      \"Planning area\" = \"PLN_AREA_N\",\n      \"Total residents\" = \"TOTAL\",\n      \"Young residents\" = \"YOUNG\",\n      \"Aged residents\" = \"AGED\",\n      \"Dependency ratio\" = \"DEPENDENCY\"\n    )\n  )\n\n\n\n\n\ntmap_mode(\"plot\")"
+  },
+  {
+    "objectID": "hands-on-exercise-1b/index.html#what-i-learned",
+    "href": "hands-on-exercise-1b/index.html#what-i-learned",
+    "title": "Hands-on Exercise 1B",
+    "section": "10. What I learned",
+    "text": "10. What I learned\nThe join deserves as much attention as the map. Normalising both geographic keys and retaining unmatched boundaries prevents silent data loss. I also found that classification is an analytical decision: quantiles reveal relative position, while equal intervals preserve numeric distance. Finally, pairing a choropleth with a ranking chart makes the result easier to interpret than either view alone."
+  },
+  {
+    "objectID": "hands-on-exercise-1b/index.html#reproducibility",
+    "href": "hands-on-exercise-1b/index.html#reproducibility",
+    "title": "Hands-on Exercise 1B",
+    "section": "Reproducibility",
+    "text": "Reproducibility\nThe complete preparation workflow is available in R/analysis.R, and the source downloads are scripted in R/download-data.R.\n\n\nR version 4.5.3 (2026-03-11 ucrt)\nPlatform: x86_64-w64-mingw32/x64\nRunning under: Windows 11 x64 (build 26200)\n\nMatrix products: default\n  LAPACK version 3.12.1\n\nlocale:\n[1] LC_COLLATE=English_United States.utf8 \n[2] LC_CTYPE=English_United States.utf8   \n[3] LC_MONETARY=English_United States.utf8\n[4] LC_NUMERIC=C                          \n[5] LC_TIME=English_United States.utf8    \n\ntime zone: Asia/Shanghai\ntzcode source: internal\n\nattached base packages:\n[1] stats     graphics  grDevices utils     datasets  methods   base     \n\nother attached packages:\n [1] tmap_4.4-1      lubridate_1.9.5 forcats_1.0.1   stringr_1.6.0  \n [5] dplyr_1.2.1     purrr_1.2.2     readr_2.2.0     tidyr_1.3.2    \n [9] tibble_3.3.1    ggplot2_4.0.3   tidyverse_2.0.0 sf_1.1-3       \n\nloaded via a namespace (and not attached):\n [1] tidyselect_1.2.1        farver_2.1.2            S7_0.2.2               \n [4] fastmap_1.2.0           leaflegend_1.2.8        leaflet_2.2.3          \n [7] XML_3.99-0.24           digest_0.6.39           timechange_0.4.0       \n[10] lifecycle_1.0.5         terra_1.9-50            magrittr_2.0.5         \n[13] compiler_4.5.3          rlang_1.3.0             tools_4.5.3            \n[16] utf8_1.2.6              yaml_2.3.12             data.table_1.18.6.1    \n[19] knitr_1.51              labeling_0.4.3          htmlwidgets_1.6.4      \n[22] bit_4.6.0               sp_2.2-3                classInt_0.4-11        \n[25] RColorBrewer_1.1-3      abind_1.4-8             KernSmooth_2.23-26     \n[28] withr_3.0.3             leafsync_0.1.0          grid_4.5.3             \n[31] cols4all_0.10           e1071_1.7-17            leafem_0.2.5           \n[34] colorspace_2.1-3        spacesXYZ_1.6-0         scales_1.4.0           \n[37] cli_3.6.6               rmarkdown_2.31          crayon_1.5.3           \n[40] generics_0.1.4          otel_0.2.0              tzdb_0.5.0             \n[43] tmaptools_3.3           DBI_1.3.0               proxy_0.4-29           \n[46] stars_0.7-3             parallel_4.5.3          s2_1.1.12              \n[49] base64enc_0.1-6         vctrs_0.7.3             jsonlite_2.0.0         \n[52] hms_1.1.4               bit64_4.8.6             crosstalk_1.2.2        \n[55] jquerylib_0.1.4         units_1.0-1             maptiles_0.12.0        \n[58] glue_1.8.1              lwgeom_0.2-17           codetools_0.2-20       \n[61] leaflet.providers_3.0.0 stringi_1.8.9           gtable_0.3.6           \n[64] raster_3.6-32           logger_0.4.3            pillar_1.11.1          \n[67] htmltools_0.5.9         R6_2.6.1                wk_0.9.5               \n[70] vroom_1.7.1             evaluate_1.0.5          lattice_0.22-9         \n[73] png_0.1-9               class_7.3-23            Rcpp_1.1.2             \n[76] xfun_0.60               pkgconfig_2.0.3"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "ISSS626-GAA",
@@ -7,25 +98,11 @@
     "text": "Welcome to ISSS626 Geospatial Analytics and Applications. In this website, you will find my coursework prepared for this course."
   },
   {
-    "objectID": "hands-on-exercise-1a.html",
-    "href": "hands-on-exercise-1a.html",
-    "title": "Hands-on Exercise 1A",
-    "section": "",
-    "text": "This page is prepared for Hands-on Exercise 1A coursework."
-  },
-  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
     "section": "",
     "text": "ISSS626 Geospatial Analytics and Applications.\nby Zhenhua Liu"
-  },
-  {
-    "objectID": "hands-on-exercise-1b.html",
-    "href": "hands-on-exercise-1b.html",
-    "title": "Hands-on Exercise 1B",
-    "section": "",
-    "text": "This page is prepared for Hands-on Exercise 1B coursework."
   },
   {
     "objectID": "hands-on-exercise-1a/index.html",

@@ -1,7 +1,0 @@
----
-title: "Hands-on Exercise 1B"
-subtitle: "Thematic Mapping and GeoVisualisation with R"
----
-
-This page is prepared for Hands-on Exercise 1B coursework.
-
