@@ -1,6 +1,13 @@
 project:
   type: website
   output-dir: _site
+  execute-dir: project
+  render:
+    - index.qmd
+    - about.qmd
+    - 404.qmd
+    - hands-on-exercise-1a/index.qmd
+    - hands-on-exercise-1b.qmd
 
 website:
   title: "ISSS626-GAA"
@@ -11,7 +18,7 @@ website:
       - text: "Hands-on Exercise"
         menu:
           - text: "Hands-on Exercise 1A"
-            href: hands-on-exercise-1a.qmd
+            href: hands-on-exercise-1a/index.qmd
           - text: "Hands-on Exercise 1B"
             href: hands-on-exercise-1b.qmd
     right:
@@ -34,4 +41,3 @@ execute:
   freeze: auto
   warning: false
   message: false
-

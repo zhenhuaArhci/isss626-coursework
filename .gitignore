@@ -9,6 +9,11 @@
 .DS_Store
 Thumbs.db
 
+# Large local reference workspace and reproducible raw downloads
+/GDSA-workplace/
+/hands-on-exercise-1a/data/raw/
+/hands-on-exercise-1b/data/raw/
+
 
 /.quarto/
 **/*.quarto_ipynb
