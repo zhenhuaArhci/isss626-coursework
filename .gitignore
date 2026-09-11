@@ -5,6 +5,10 @@
 .quarto/
 *_cache/
 *_files/
+
+# The rendered Netlify site must include figures referenced by its HTML pages.
+!/_site/**/*_files/
+!/_site/**/*_files/**
 .netlify/
 .DS_Store
 Thumbs.db
