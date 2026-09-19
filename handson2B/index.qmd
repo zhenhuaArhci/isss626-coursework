@@ -1,0 +1,313 @@
+---
+title: "Hands-on Exercise 2B"
+subtitle: "Second-order point patterns: G, F, K and L functions"
+author: "Zhenhua Liu"
+date: "2026-09-19"
+body-classes: exercise-page
+toc: true
+toc-location: right
+code-fold: false
+code-tools: true
+execute:
+  freeze: false
+  echo: true
+  warning: true
+  message: false
+  error: false
+---
+
+```{r}
+#| label: register-code
+#| include: false
+knitr::read_chunk("handson2A/R/prepare.R")
+knitr::read_chunk("handson2B/R/analysis.R")
+knitr::opts_chunk$set(fig.width = 9, fig.height = 5, dpi = 150)
+```
+
+## Overview
+
+[Exercise 2A](../handson2A/index.qmd) mapped the intensity of childcare service
+records. Here I ask a different question: how does the spacing of childcare
+**locations** in Choa Chu Kang and Tampines compare with a uniform random
+pattern inside the same planning boundaries?
+
+Following [course Chapter 5](https://r4gdsa.netlify.app/chap05.html), I examine
+G, F, K and L functions in that order, then compare observed curves with Monte
+Carlo simulations. G and F describe nearest-neighbour and empty-space
+distributions; K and L summarise cumulative interpoint relationships. These
+descriptions can reveal departures from a reference model, but do not identify
+the causal process that produced the locations.
+
+## 1. Setup and reproducible preparation
+
+```{r}
+#| label: packages
+```
+
+I reuse the [ECDA childcare snapshot](https://data.gov.sg/datasets/d_5d668e3f544335f8028f546827b773b4/view)
+and [MP2019 subzone boundary](https://data.gov.sg/datasets/d_8594ae9ff96d0c708bc2af633048edfb/view)
+from 2A. The childcare layer describes **December 2021**, even though the portal
+was updated in 2026. Reusing the input files makes the comparison temporally
+consistent. It does not make the inventory current.
+
+```{r}
+#| label: import
+```
+
+```{r}
+#| label: prepare-window
+```
+
+The shared preparation transforms both layers to EPSG:3414, checks geometry and
+exclusions, and constructs polygonal observation windows. This page executes
+that preparation itself; it does not depend on objects left in an earlier R session.
+
+```{r}
+#| label: planning-areas
+```
+
+::: {.callout-note title="Which events are being analysed?"}
+Several childcare records share exactly the same coordinate. The principal
+analysis here collapses these to distinct sites because a simple point-process
+model assumes separate event locations. This is an explicit change of unit,
+not a claim that the original records are erroneous. A final sensitivity analysis
+restores every record. The record-based KDE in 2A remains unchanged.
+:::
+
+## 2. Study windows and the random reference model
+
+Under the null model, the observed number of sites is fixed and each location is
+independently uniform within its planning-area polygon. This is **conditional
+complete spatial randomness (CSR)**. The alternative is departure from that
+model in the selected distance range. Keeping the same boundary and count
+avoids confounding location pattern with different totals or observation areas.
+
+I preselect **0–500 m** and 129 equally spaced distances for both areas, before
+examining the curves. This focuses the comparison on neighbourhood-scale
+spacing and avoids searching many distance ranges for a favourable result.
+Distances are straight-line metres, not walking routes. A 500 m separation
+therefore has no automatic interpretation as a service catchment.
+
+```{r}
+#| label: second-order-setup
+```
+
+```{r}
+#| label: area-map
+#| fig-height: 6
+#| fig-cap: "Distinct childcare sites and the actual observation windows. Each panel has its own map scale."
+#| fig-alt: "Maps of distinct childcare sites in Choa Chu Kang and Tampines."
+```
+
+The analysis uses **`r npoints(patterns[['CHOA CHU KANG']])` sites** in Choa Chu
+Kang and **`r npoints(patterns[['TAMPINES']])` sites** in Tampines. Both polygons
+include land that is not equally plausible for childcare facilities. Rejection
+of this homogeneous model could reflect land use or population gradients,
+as well as genuine interaction between providers.
+
+## 3. Simulation envelopes and edge correction
+
+Points near an observation boundary may have unobserved neighbours outside it.
+For G and F, I use Kaplan–Meier correction to handle censored distances. For K
+and L, I use Ripley's isotropic edge correction. I apply the same estimator to
+the observed pattern and every simulation. For G I also display the course's
+border estimator as a sensitivity comparison.
+
+The 199 simulated patterns in each area are reused across all four functions.
+This makes differences between diagnostics easier to interpret because they
+are not caused by unrelated simulation draws.
+
+```{r}
+#| label: envelope-method
+```
+
+::: {.callout-important title="An envelope is not automatically a global test"}
+These plots show **95% pointwise** envelopes: with 199 simulations and
+`nrank = 5`, the two-sided level at one preselected distance is
+2 × 5 / 200 = 0.05. Scanning the whole curve for any crossing changes that
+error rate. I therefore report a separate maximum-deviation Monte Carlo test
+over the full 0–500 m interval and apply Holm adjustment across the eight
+area/function comparisons.
+
+The course's 99-simulation, rank-one pointwise envelope has level 0.02 at a
+single distance, not 0.001. Our 199-simulation Monte Carlo p-value has resolution
+0.005 and cannot support a claim of p &lt; 0.001. I use a stated 5% threshold
+rather than repeating that mismatch.
+:::
+
+```{r}
+#| label: plot-helper
+#| code-fold: true
+```
+
+## 4. G: distance from one site to its nearest neighbour
+
+G(r) is the probability that a typical site has another site within r metres.
+Under homogeneous Poisson CSR its reference curve is
+$G_0(r)=1-\exp(-\lambda\pi r^2)$, where $\lambda$ is sites per square metre.
+An observed curve above the reference indicates more short nearest-neighbour
+distances; below it indicates fewer. This direction describes spacing, not
+proof that operators attract or repel one another.
+
+```{r}
+#| label: g-function
+#| fig-cap: "G-function estimates and 95% pointwise simulation envelopes, using Kaplan–Meier correction."
+#| fig-alt: "Nearest-neighbour distribution curves for Choa Chu Kang and Tampines against CSR envelopes."
+```
+
+The border-versus-Kaplan–Meier table is a reminder that edge treatment changes
+the estimate, especially when many nearest-neighbour distances are censored.
+The simulation plots use Kaplan–Meier consistently in both areas. A steep early
+rise means many sites already have a close neighbour; levelling near one leaves
+little additional information at larger distances.
+
+## 5. F: distance from empty space to a site
+
+F(r) starts at an arbitrary location in the study window and measures the
+distance to the nearest site. A low F relative to CSR means more empty space
+far from a site. Clusters can therefore produce a high G but a low F: sites
+have close neighbours while the gaps between clusters remain large.
+
+```{r}
+#| label: f-function
+#| fig-cap: "Empty-space functions with Kaplan–Meier correction and 95% pointwise envelopes."
+#| fig-alt: "Empty-space distribution curves for the two planning areas."
+```
+
+Unlike G, F gives weight to the whole polygon rather than starting at the
+observed childcare sites. Low-density industrial or open areas can therefore
+strongly affect this diagnostic. The raster approximation used internally by
+`Fest()` and the finite number of sites also limit precision. I do not interpret
+F as the proportion of residents who can access childcare.
+
+## 6. K: cumulative neighbours across distance
+
+K(r) is the expected number of other events within r of a typical event,
+normalised by intensity. Its CSR reference is $\pi r^2$ and its units here are
+square metres. Values above the reference indicate an excess of neighbours
+within that distance. K is cumulative: an excess established at small distances
+can remain visible at larger distances.
+
+```{r}
+#| label: k-function
+#| fig-cap: "Ripley-corrected K curves in m², with the CSR reference πr²."
+#| fig-alt: "Cumulative K-function curves with simulation envelopes in both areas."
+```
+
+I plot K directly rather than subtracting r. Subtracting metres from square
+metres is dimensionally inconsistent and does not centre the CSR expectation
+at zero. The transformed L function below provides the appropriate centred
+view in metre units.
+
+## 7. L: a centred comparison with randomness
+
+The transformation $L(r)=\sqrt{K(r)/\pi}$ has CSR reference r. Consequently,
+**L(r) − r** has a zero reference: positive values indicate excess cumulative
+neighbours and negative values indicate fewer. L repackages K for easier
+reading; it is not an independent source of evidence.
+
+```{r}
+#| label: l-function
+#| fig-cap: "Centred L curves; zero is the homogeneous CSR reference. Shading is pointwise, not a simultaneous band."
+#| fig-alt: "Centred L-function curves for Choa Chu Kang and Tampines."
+```
+
+The height of L(r) − r is an effect-size description in metres, not a p-value.
+I examine its direction alongside the explicit simulation results below,
+rather than declaring significance from a visually prominent peak.
+
+## 8. Global comparison and numerical interpretation
+
+For each observed or simulated curve, I compute a single maximum absolute
+deviation from the same CSR reference across the preselected distance grid.
+The Monte Carlo p-value is $(1+b)/(1+199)$, where b is the number of simulated
+deviations at least as large as the observed one. Counting ties as exceedances
+is conservative. The reference is fixed by the area's count, geometry and
+distance grid, so it is applied identically to all realisations.
+
+```{r}
+#| label: global-tests
+```
+
+After Holm adjustment, **`r sum(test_results$p_holm <= 0.05)` of the eight
+comparisons** reject conditional CSR at 5%. The decision column is the formal
+summary. Failure to reject means the chosen diagnostic and distance range do
+not establish a departure; it does not prove that a pattern is random.
+Because G, F, K and L are correlated, these are not eight independent votes.
+
+To connect the curves to numbers, I also report their values at a preselected
+**250 m** distance. This table describes effect direction; the pointwise bounds
+are not substituted for the global p-values above.
+
+```{r}
+#| label: distance-summary
+```
+
+```{r}
+#| label: computed-interpretation
+#| echo: false
+#| results: asis
+for (nm in names(envelopes)) {
+  e <- envelopes[[nm]]
+  j <- which.min(abs(e$L$r - 250))
+  delta <- e$L$obs[j] - e$L$r[j]
+  cat(sprintf("**%s:** at 250 m, G is %.3f (CSR %.3f), F is %.3f (CSR %.3f), and L(r) − r is %.1f m. The centred L value indicates %s cumulative neighbours relative to the reference at this distance.\n\n",
+    tools::toTitleCase(tolower(nm)), e$G$obs[j], e$G$theo[j], e$F$obs[j],
+    e$F$theo[j], delta, if (delta > 0) "more" else "fewer"))
+}
+```
+
+## 9. Sensitivity to co-located records
+
+I repeat the L diagnostic with every original service record and a matching
+fixed-count CSR simulation. The main site-based result and this record-based
+result answer different questions. Their difference measures how much
+co-location affects apparent clustering.
+
+```{r}
+#| label: duplicate-sensitivity
+```
+
+Co-located records add zero-distance pairs. The table shows the resulting
+change in L(r) − r at 250 m instead of assuming that all apparent aggregation
+comes from this issue. These additional unadjusted sensitivity p-values are
+descriptive checks, separate from the predefined family of eight tests.
+
+## 10. What I learned and limitations
+
+Choosing the event unit came before choosing the function. Distinct childcare
+sites and individual service records produce different nearest-neighbour
+relationships, even though they appear almost identical on a national map.
+G and F also showed why starting at a service location and starting at an
+arbitrary piece of land are different perspectives.
+
+The main limitation is the homogeneous reference. Childcare is unlikely to
+locate uniformly across industrial, residential and open land. Rejecting CSR
+does not separate this first-order heterogeneity from second-order interaction.
+An inhomogeneous model with population or land-use covariates would be a
+logical next step. Capacity, travel networks, historical boundary changes,
+coordinate precision and cross-boundary access are also outside this analysis.
+
+## Reproducibility and references
+
+The executed sections are in [`R/analysis.R`](R/analysis.R); shared input
+preparation is in [`../handson2A/R/prepare.R`](../handson2A/R/prepare.R).
+Data sources and checksums are documented in
+[`../handson2A/data/README.md`](../handson2A/data/README.md).
+Run `source("handson2A/R/download-data.R")` once and then
+`quarto render . --execute` from the repository root. Fixed seeds, 199
+simulations, explicit corrections, and a declared distance grid make the
+Monte Carlo comparisons reproducible within the recorded software environment.
+The page fails if estimates are undefined on the requested grid.
+
+References: [course Chapter 5](https://r4gdsa.netlify.app/chap05.html),
+[spatstat](https://spatstat.org/), and the
+[simulation-envelope documentation](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/envelope.html).
+The latter distinguishes pointwise and simultaneous testing and documents
+`nrank`, `fix.n` and saved simulation functions.
+
+```{r}
+#| label: session-info
+#| echo: false
+sessionInfo()
+```

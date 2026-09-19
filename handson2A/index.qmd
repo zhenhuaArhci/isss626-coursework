@@ -1,0 +1,310 @@
+---
+title: "Hands-on Exercise 2A"
+subtitle: "First-order spatial point patterns and childcare intensity"
+author: "Zhenhua Liu"
+date: "2026-09-19"
+body-classes: exercise-page
+toc: true
+toc-location: right
+code-fold: false
+code-tools: true
+execute:
+  freeze: true
+  echo: true
+  warning: true
+  message: false
+  error: false
+---
+
+```{r}
+#| label: register-code
+#| include: false
+knitr::read_chunk("handson2A/R/prepare.R")
+knitr::read_chunk("handson2A/R/analysis.R")
+knitr::opts_chunk$set(fig.width = 9, fig.height = 6, dpi = 150)
+```
+
+## Overview
+
+Where are childcare services concentrated, and how much does the answer depend
+on the observation window and smoothing method? I use Singapore's childcare
+locations to examine intensity at national and planning-area scales. A nearest-neighbour
+test provides a benchmark against spatial randomness; kernel density estimation
+(KDE) then shows where concentrations occur. These are complementary summaries,
+not a measure of whether local demand is adequately served.
+
+This exercise follows the workflow in [course Chapter 4](https://r4gdsa.netlify.app/chap04.html).
+The next page, [Hands-on Exercise 2B](../handson2B/index.qmd), examines spatial
+relationships over a range of distances.
+
+## 1. Setup and source data
+
+`sf` handles vector geometry, the `spatstat` component packages provide planar
+point-pattern analysis, and `terra` carries the density raster into `tmap`.
+`dplyr` supplies the attribute filtering used to define the study region.
+Packages are installed before rendering, so the page never changes its environment
+halfway through an analysis.
+
+```{r}
+#| label: packages
+```
+
+I use the official [ECDA Child Care Services GeoJSON](https://data.gov.sg/datasets/d_5d668e3f544335f8028f546827b773b4/view)
+and [URA Master Plan 2019 Subzone Boundary (No Sea)](https://data.gov.sg/datasets/d_8594ae9ff96d0c708bc2af633048edfb/view).
+The download routine is provided in [`R/download-data.R`](R/download-data.R).
+`NAME` and `ADDRESSSTREETNAME` describe each service; `PLN_AREA_N` and `SUBZONE_N`
+identify the administrative units.
+
+::: {.callout-note title="The data date is not the download date"}
+The ECDA portal describes this layer as **December 2021 data**, despite its
+2026 portal update. These maps describe that historical service snapshot,
+downloaded in September 2026. They should not be presented as a current inventory.
+Both GeoJSON files already contain separate attributes, so no HTML-description
+parsing is needed.
+:::
+
+```{r}
+#| label: import
+```
+
+## 2. Geometry, CRS and the observation window
+
+I transform both layers to **SVY21 / Singapore TM (EPSG:3414)** so coordinates
+and distances are in metres. `st_transform()` changes coordinate values;
+assigning a CRS label alone would not perform that conversion. I validate the
+polygons and use the course's exclusions for the Southern Group, Western Islands
+and North-Eastern Islands. This is a specified administrative study window,
+not a claim that every remaining square metre is habitable land.
+
+Dissolving subzone boundaries with `st_union()` produces one region for
+`as.owin()`. An `owin` stores the observation boundary; a `ppp` stores events
+inside that boundary. Using the points' bounding rectangle instead would include
+unobserved sea and change both expected density and simulated patterns.
+
+```{r}
+#| label: prepare-window
+```
+
+The audit retains **`r npoints(childcare_ppp)` service records** at
+**`r npoints(childcare_unique)` distinct coordinates**. There are
+`r sum(duplicate_location)` records beyond the first at repeated coordinates and
+`r sum(!inside)` points outside the window. Repeated coordinates are not enough
+evidence to delete a service: several operators or records can share a building.
+I retain records for provision intensity and also test distinct locations as a
+sensitivity check. No random jitter is added to manufacture separation.
+
+```{r}
+#| label: national-map
+#| fig-cap: "Historical childcare service records within the selected MP2019 study window."
+#| fig-alt: "Map of Singapore subzones overlaid with childcare service points."
+```
+
+The overlay checks spatial alignment and reveals uneven concentrations. Large
+low-density areas include land that is not primarily residential, so national
+homogeneous randomness is a deliberately simple reference model.
+
+## 3. Nearest-neighbour analysis
+
+The Clark–Evans ratio compares observed mean nearest-neighbour distance with
+the homogeneous Poisson expectation. Values below one indicate shorter
+separations. I specify a one-sided clustering alternative for this national
+question, with a 5% significance threshold.
+
+I show both the asymptotic approximation and 999 Monte Carlo simulations.
+The latter places the same number of points uniformly inside the actual
+window and applies the same uncorrected statistic to observed and simulated
+patterns. This accounts for window shape in the reference distribution, although
+the uncorrected ratio itself still has edge bias. Nearest-neighbour statistics
+involve interpoint distances; their inclusion here follows the course's sequence,
+while KDE is the main first-order intensity method.
+
+```{r}
+#| label: nearest-neighbour
+```
+
+The record-level ratio is **`r round(unname(ce_mc$statistic), 3)`**, with simulated
+p = **`r format(ce_mc$p.value, scientific = FALSE)`**. After collapsing co-located
+records, R becomes **`r round(unname(ce_unique$statistic), 3)`** and p becomes
+**`r format(ce_unique$p.value, scientific = FALSE)`**. The comparison separates
+the contribution of shared coordinates from the broader geographic pattern.
+With 999 simulations, the smallest attainable one-sided Monte Carlo p-value is
+0.001; it is never zero.
+
+For planning, a departure from uniform randomness means that service locations
+are spatially uneven. It does not establish oversupply, undersupply, or a causal
+attraction between providers. Residential distribution is an obvious omitted factor.
+
+## 4. Bandwidth selection and density units
+
+Bandwidth controls the scale at which a concentration is visible. I compute four
+selectors rather than importing the numerical bandwidth printed in the lesson.
+Scott's rule returns separate x and y smoothing scales, so its two values should
+not be mistaken for two competing scalar solutions.
+
+```{r}
+#| label: bandwidths
+```
+
+The Diggle result is **`r round(as.numeric(bw_diggle) * 1000)` m**; likelihood
+cross-validation gives **`r round(as.numeric(bw_ppl) * 1000)` m**. The table
+documents how far alternative selectors move the scale of the question.
+
+```{r}
+#| label: kde-units
+```
+
+The two computations describe the same surface. Rescaling coordinates from
+metres to kilometres multiplies density values by one million. I verify that
+identity numerically, using matched 100 m cells. The raster integral is a useful
+diagnostic against the input count; pixel discretisation and boundary correction
+mean it need not reproduce the count exactly. Small negative values close to
+machine precision are numerical convolution artefacts, not negative services.
+
+```{r}
+#| label: bandwidth-comparison
+#| fig-cap: "Diggle and likelihood bandwidths, with a shared intensity scale in records per km². Map coordinates are kilometres."
+#| fig-alt: "Two comparable childcare kernel density maps using different bandwidth selectors."
+```
+
+A narrower bandwidth preserves more local peaks; a wider bandwidth merges nearby
+peaks into broader concentrations. I use the same colour limits so differences
+are not created by separately stretched legends.
+
+## 5. Kernel shape, fixed and adaptive smoothing
+
+First I hold bandwidth constant and change the kernel. This isolates kernel
+shape from bandwidth selection, with the same spatial resolution and intensity
+scale throughout.
+
+```{r}
+#| label: kernel-comparison
+#| fig-height: 8
+#| fig-cap: "Gaussian, Epanechnikov, quartic and disc kernels at the same Diggle bandwidth; records per km²."
+#| fig-alt: "Four childcare density surfaces comparing kernel shapes."
+```
+
+The compact-support kernels assign no contribution beyond their support, whereas
+a Gaussian kernel decays gradually. Broad concentrations should be read across
+the panels; an isolated bright pixel is not evidence of a statistically significant hotspot.
+
+Next I compare the lesson's **600 m fixed bandwidth** with an adaptive kernel
+estimate. The adaptive method allows local smoothing scales to vary with the
+pilot intensity, which can retain detail where records are dense.
+
+```{r}
+#| label: adaptive-kde
+#| fig-cap: "Fixed 600 m and adaptive kernel estimates on a shared records-per-km² scale."
+#| fig-alt: "Side-by-side fixed and adaptive childcare density estimates."
+```
+
+Adaptive smoothing changes the estimator, so differences cannot be attributed
+only to a single bandwidth value. Neither surface adjusts for population or
+centre capacity. A high value describes many records per land area.
+
+## 6. A geographically correct KDE map
+
+::: {.callout-important title="Raster values and map coordinates use different units"}
+EPSG:3414 requires metre coordinates. Assigning it to an image whose coordinates
+were divided by 1,000 would put the raster in the wrong place. I convert the
+**metre-coordinate image** to `SpatRaster`, multiply only its **density values**
+by one million, and then attach EPSG:3414. The subzone overlay and scale bar are
+therefore geographically consistent.
+:::
+
+```{r}
+#| label: cartographic-kde
+#| fig-height: 7
+#| fig-cap: "Childcare service intensity, with correctly aligned MP2019 boundaries and a continuous sequential legend."
+#| fig-alt: "Cartographic childcare kernel density map with boundaries, compass and scale bar."
+```
+
+I retain a continuous sequential palette because KDE is a continuous estimate.
+Discretising it into quantiles would change the visual message to relative
+ranks and hide the numeric gap between intensities.
+
+## 7. Planning-area comparison
+
+The four local windows are Punggol, Tampines, Choa Chu Kang and Jurong West.
+Although the source boundary contains subzones, the comparisons below are at
+**planning-area** level after dissolving the relevant subzones.
+
+```{r}
+#| label: planning-areas
+```
+
+```{r}
+#| label: area-pattern-map
+#| fig-height: 8
+#| fig-cap: "Service records in the four planning-area windows; coordinates are kilometres."
+#| fig-alt: "Childcare point patterns in Punggol, Tampines, Choa Chu Kang and Jurong West."
+```
+
+Choa Chu Kang has `r round(area_summary$records_per_km2[area_summary$planning_area == 'CHOA CHU KANG'], 1)`
+records/km² compared with `r round(area_summary$records_per_km2[area_summary$planning_area == 'TAMPINES'], 1)`
+in Tampines. This is an area-normalised comparison, not a ranking of service
+adequacy. The actual distribution inside each polygon is still important.
+
+```{r}
+#| label: area-tests
+```
+
+Here the alternative is two-sided: either unusually short or unusually long
+nearest-neighbour distances would be relevant. I explicitly select
+`method = "MonteCarlo"`; supplying `nsim` alone does not change the default
+asymptotic method. These two comparisons are exploratory.
+
+```{r}
+#| label: area-kde
+#| fig-height: 8
+#| fig-cap: "Planning-area KDE with area-specific Diggle bandwidths and common intensity limits; records per km²."
+#| fig-alt: "Four planning-area childcare kernel density maps."
+```
+
+Each bandwidth is fitted within its own window, so fine detail is not equally
+resolved in all panels. The common legend supports intensity comparison; a
+common fixed bandwidth would be preferable for a strictly matched smoothing
+comparison. Local boundary correction cannot represent cross-boundary access
+to a nearby centre in another planning area.
+
+## 8. Interactive lookup
+
+The map supports centre-name and address lookup. External background tiles
+require an internet connection; the analytical figures above are locally
+rendered assets and remain available independently of the tile provider.
+
+```{r}
+#| label: interactive-points
+```
+
+## 9. What I learned
+
+The observation window is part of the statistical model, not just a cartographic
+frame. Counting service records and counting distinct locations are different
+questions, especially when several records share a coordinate. I also found that
+density units and coordinate units must be checked separately: a convincing
+colour surface can still be geographically wrong if its extent is mislabelled.
+
+The most useful next extension would relate service capacity to the residential
+population of young children and realistic travel distances. This exercise alone
+cannot identify unmet demand or explain why providers locate together.
+
+## Reproducibility and references
+
+All executed code is supplied in [`R/prepare.R`](R/prepare.R) and
+[`R/analysis.R`](R/analysis.R). The page reads those labelled sections directly,
+so the displayed code and executed code have one source. Run the download script
+once, then `quarto render . --execute` from the repository root to rebuild the
+whole site. The shared preparation also allows 2B to render independently.
+Raw and derived data stay in ignored folders. [`data/README.md`](data/README.md)
+records the sources, checksums and assumptions.
+
+Method references: [course Chapter 4](https://r4gdsa.netlify.app/chap04.html),
+[spatstat documentation](https://spatstat.org/),
+[adaptive density reference](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/adaptive.density.html),
+and [sf coordinate transformations](https://r-spatial.github.io/sf/reference/st_transform.html).
+
+```{r}
+#| label: session-info
+#| echo: false
+sessionInfo()
+```
