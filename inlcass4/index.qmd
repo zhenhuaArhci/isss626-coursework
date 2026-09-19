@@ -1,0 +1,250 @@
+---
+title: "In-class Exercise 4"
+subtitle: "Geographically weighted summary statistics of Hunan GDPPC"
+author: "Zhenhua Liu"
+date: "2026-09-19"
+body-classes: exercise-page
+toc: true
+toc-location: right
+code-tools: true
+execute:
+  freeze: auto
+  error: false
+---
+
+## 1. Learning objective
+
+A single provincial average conceals differences between local areas. This exercise follows the classroom script and lecture screenshots to calculate geographically weighted summary statistics (GWSS) for Hunan's GDP per capita in 2012. It compares cross-validation and AICc bandwidth selection, maps local summaries, and examines sensitivity to the kernel function.
+
+The shared course reference is [Chapter 8: Spatial Weights and Applications](https://r4gdsa.netlify.app/chap08.html). The corresponding [Hands-on Exercise 4](../handson4/index.qmd) covers spatial neighbour lists and spatial lags; this classroom page applies the supplied GWmodel workflow.
+
+## 2. Packages and data preparation
+
+```{r}
+#| label: setup
+library(sf)
+library(dplyr)
+library(readr)
+library(tmap)
+library(knitr)
+library(GWmodel)
+tmap_mode("plot")
+```
+
+### Import the shapefile and CSV
+
+The course data are stored once under `handson4/data` and shared by both pages. `st_read()` produces an `sf` polygon object, and `read_csv()` produces a tibble. The shapefile uses WGS 84 longitude and latitude.
+
+```{r}
+#| label: import
+hunan_sf <- st_read(dsn = "handson4/data/geospatial",
+                    layer = "Hunan", quiet = TRUE)
+hunan2012 <- read_csv("handson4/data/aspatial/Hunan_2012.csv",
+                      show_col_types = FALSE)
+kable(tibble(Input = c("Hunan polygons", "Hunan 2012 table"),
+             Rows = c(nrow(hunan_sf), nrow(hunan2012)),
+             Class = c(class(hunan_sf)[1], class(hunan2012)[1])))
+st_crs(hunan_sf)
+```
+
+### Join and retain the required fields
+
+I explicitly match `County` and select columns by name. This retains the classroom's eight attributes without relying on their column positions. The checks detect duplicate keys, missing matches and incorrect feature counts before analysis.
+
+```{r}
+#| label: join
+stopifnot(!anyDuplicated(hunan_sf$County), !anyDuplicated(hunan2012$County))
+hunan_sf <- left_join(hunan_sf, hunan2012, by = "County") |>
+  select(NAME_2, ID_3, NAME_3, County, GDPPC, GIO, Agri, Service)
+stopifnot(nrow(hunan_sf) == 88L, !anyNA(hunan_sf$GDPPC),
+          all(is.finite(hunan_sf$GDPPC)), all(st_is_valid(hunan_sf)))
+kable(head(st_drop_geometry(hunan_sf)), caption = "Prepared county attributes")
+```
+
+## 3. Mapping GDPPC
+
+```{r}
+#| label: baseline-maps
+#| fig-width: 11
+#| fig-height: 6
+#| fig-cap: "County names and the observed GDPPC distribution."
+basemap <- tm_shape(hunan_sf) + tm_polygons(fill = "grey95") +
+  tm_text("NAME_3", size = 0.5)
+gdppc <- tm_shape(hunan_sf) +
+  tm_polygons(fill = "GDPPC",
+    fill.scale = tm_scale_intervals(style = "quantile", n = 5,
+                                    values = "brewer.blues"),
+    fill.legend = tm_legend(title = "GDP per capita"))
+tmap_arrange(basemap, gdppc, ncol = 2)
+```
+
+```{r}
+#| label: global-summary
+kable(tibble(Mean = mean(hunan_sf$GDPPC), Median = median(hunan_sf$GDPPC),
+             SD = sd(hunan_sf$GDPPC), Minimum = min(hunan_sf$GDPPC),
+             Maximum = max(hunan_sf$GDPPC)), digits = 2,
+      caption = "Unweighted summary across the 88 counties")
+```
+
+These are summaries of county GDPPC values, not population-weighted provincial GDPPC. The global mean (`r round(mean(hunan_sf$GDPPC), 2)`) and median (`r median(hunan_sf$GDPPC)`) provide a reference for the local estimates below.
+
+## 4. Convert to a spatial data frame
+
+GWmodel's functions in this workflow accept `sp` objects. Conversion preserves polygon order and attributes. With `longlat = TRUE`, the following calculations use great-circle distances between the polygon representative coordinates used by GWmodel.
+
+```{r}
+#| label: convert
+hunan_sp <- as_Spatial(hunan_sf)
+stopifnot(isTRUE(st_is_longlat(hunan_sf)),
+          identical(hunan_sp$County, hunan_sf$County))
+class(hunan_sp)
+```
+
+## 5. Select an adaptive bandwidth
+
+An adaptive bandwidth is a neighbour count; its physical radius varies by location. The intercept-only model `GDPPC ~ 1` selects a scale for a local mean. CV minimises leave-one-out prediction error. The `"AIC"` option in `bw.gwr()` uses the corrected Akaike information criterion (AICc). Both searches use the bisquare kernel, as in class.
+
+```{r}
+#| label: bandwidth
+bw_CV <- bw.gwr(GDPPC ~ 1, data = hunan_sp,
+               approach = "CV", adaptive = TRUE,
+               kernel = "bisquare", longlat = TRUE)
+bw_AIC <- bw.gwr(GDPPC ~ 1, data = hunan_sp,
+                approach = "AIC", adaptive = TRUE,
+                kernel = "bisquare", longlat = TRUE)
+kable(tibble(Criterion = c("Cross-validation", "AICc"),
+             Adaptive_bandwidth = c(bw_CV, bw_AIC)),
+      caption = "Selected bandwidths, expressed as neighbour counts")
+```
+
+CV selects `r bw_CV` and AICc selects `r bw_AIC`. I use the AICc bandwidth for the main classroom analysis. A bandwidth chosen for the local mean need not be optimal for every other statistic. Small neighbourhoods retain more local variation; larger ones smooth over a broader area.
+
+## 6. Calculate geographically weighted summaries
+
+The bisquare weight decreases with distance and is zero at and beyond the bandwidth boundary. `quantile = TRUE` adds weighted distribution summaries. Each county receives a local estimate informed by nearby county values, including its own value.
+
+```{r}
+#| label: gwss
+gwstat <- gwss(data = hunan_sp, vars = "GDPPC", bw = bw_AIC,
+               kernel = "bisquare", quantile = TRUE,
+               adaptive = TRUE, longlat = TRUE)
+gwstat_df <- st_drop_geometry(st_as_sf(gwstat$SDF))
+stopifnot(nrow(gwstat_df) == nrow(hunan_sf),
+          isTRUE(all.equal(unname(sp::coordinates(gwstat$SDF)),
+                           unname(sp::coordinates(hunan_sp)),
+                           check.attributes = FALSE)))
+hunan_gstat <- cbind(hunan_sf, gwstat_df)
+kable(head(gwstat_df), digits = 2,
+      caption = "Local statistics returned by GWmodel, in unchanged county order")
+```
+
+The output includes local mean, standard deviation, variance, skewness and coefficient of variation, plus median, interquartile range and quantile imbalance. I extract only the attributes before attaching them to the original polygons, avoiding an extra geometry column.
+
+## 7. Visualise local statistics
+
+### Local mean
+
+```{r}
+#| label: local-mean
+#| fig-width: 8
+#| fig-height: 7
+#| fig-cap: "Geographically weighted mean GDPPC: adaptive bisquare kernel and AICc bandwidth."
+tm_shape(hunan_gstat) +
+  tm_polygons(fill = "GDPPC_LM",
+    fill.scale = tm_scale_intervals(style = "quantile", n = 5,
+                                    values = "brewer.blues"),
+    fill.legend = tm_legend(title = "Local mean GDPPC")) +
+  tm_borders(col = "grey45", lwd = 0.5) +
+  tm_layout(frame = TRUE)
+```
+
+```{r}
+#| label: local-ranking
+kable(st_drop_geometry(hunan_gstat) |>
+  select(County, GDPPC, GDPPC_LM, GDPPC_LSD, GDPPC_LCV) |>
+  arrange(desc(GDPPC_LM)) |> head(5), digits = 2,
+  caption = "Five highest local mean estimates")
+```
+
+The largest local mean is at `r hunan_gstat$County[which.max(hunan_gstat$GDPPC_LM)]` (`r round(max(hunan_gstat$GDPPC_LM), 2)`), while the smallest is at `r hunan_gstat$County[which.min(hunan_gstat$GDPPC_LM)]` (`r round(min(hunan_gstat$GDPPC_LM), 2)`). These describe the surrounding economic context and should not be read as replacement observations for each county.
+
+### Local dispersion
+
+```{r}
+#| label: dispersion-maps
+#| fig-width: 10
+#| fig-height: 6
+#| fig-cap: "Absolute and relative local dispersion. Each panel has its own quantile scale."
+local_map <- function(field, title) {
+  tm_shape(hunan_gstat) + tm_polygons(fill = field,
+    fill.scale = tm_scale_intervals(style = "quantile", n = 5,
+                                    values = "brewer.blues"),
+    fill.legend = tm_legend(title = title))
+}
+tmap_arrange(local_map("GDPPC_LSD", "Local standard deviation"),
+             local_map("GDPPC_LCV", "Local coefficient of variation"), ncol = 2)
+```
+
+Local standard deviation describes dispersion in GDPPC units. The local coefficient of variation divides it by the local mean, indicating relative heterogeneity. Darker colours indicate higher values **within each panel**; the two legends have different units. High dispersion can occur where high- and low-GDPPC counties are close together, even when the local mean is moderate.
+
+## 8. Compare kernel functions
+
+The classroom extension asks for five kernels. I hold the selected neighbour count constant to examine kernel sensitivity. Gaussian and exponential kernels have non-zero tails; bisquare, tricube and boxcar have finite support. Thus, equal adaptive bandwidth counts do not imply identical effective neighbourhoods. These are sensitivity runs, not separately optimised models.
+
+```{r}
+#| label: kernels
+kernels <- c("gaussian", "exponential", "bisquare", "tricube", "boxcar")
+kernel_means <- lapply(kernels, function(k) {
+  if (k == "bisquare") return(gwstat_df$GDPPC_LM)
+  fit <- gwss(data = hunan_sp, vars = "GDPPC", bw = bw_AIC,
+              kernel = k, quantile = FALSE, adaptive = TRUE, longlat = TRUE)
+  fit$SDF$GDPPC_LM
+})
+names(kernel_means) <- kernels
+kernel_summary <- bind_rows(lapply(kernels, function(k) {
+  tibble(Kernel = k, Minimum = min(kernel_means[[k]]),
+         Maximum = max(kernel_means[[k]]),
+         Mean_absolute_change_from_bisquare =
+           mean(abs(kernel_means[[k]] - kernel_means$bisquare)))
+}))
+kable(kernel_summary, digits = 2)
+```
+
+```{r}
+#| label: kernel-maps
+#| fig-width: 12
+#| fig-height: 9
+#| fig-cap: "Local mean GDPPC under five kernels, using a shared scale and the same bandwidth count."
+kernel_breaks <- pretty(range(unlist(kernel_means)), n = 5)
+kernel_maps <- lapply(kernels, function(k) {
+  mapped <- hunan_sf
+  mapped$Local_mean <- kernel_means[[k]]
+  tm_shape(mapped) + tm_polygons(fill = "Local_mean",
+    fill.scale = tm_scale_intervals(style = "fixed", breaks = kernel_breaks,
+                                    values = "brewer.blues"),
+    fill.legend = tm_legend(title = paste(k, "local mean")))
+})
+do.call(tmap_arrange, c(kernel_maps, list(ncol = 3)))
+```
+
+Relative to bisquare, `r kernel_summary$Kernel[which.max(kernel_summary$Mean_absolute_change_from_bisquare)]` produces the largest mean absolute change (`r round(max(kernel_summary$Mean_absolute_change_from_bisquare), 2)`). The common breaks make the smoothing differences visible without changes in classification disguising the comparison. A different kernel or bandwidth can change individual county rankings.
+
+## 9. What I learned
+
+GWSS provides a local description of both the level and variability of GDPPC. Interpreting the mean together with the standard deviation and coefficient of variation is more informative than treating a high local mean as evidence of uniformly high county values. The kernel comparison also shows why bandwidth and weighting choices should be reported with every local map.
+
+This is an exploratory analysis of 2012 observations. It does not test the significance of clusters, explain causal drivers, or establish current economic conditions. Polygon representative coordinates approximate county locations, and estimates near the provincial boundary lack information from counties outside the dataset.
+
+## 10. References and reproducibility
+
+- Kam Tin Seong, [R for Geospatial Data Science and Analytics, Chapter 8](https://r4gdsa.netlify.app/chap08.html).
+- Classroom Exercise 4 script and lecture screenshots supplied for this assignment.
+- [Instructor's Hunan data files](https://github.com/tskam/ISSS626-AY2026-27Aug/tree/master/lesson/Lesson04/data).
+
+All tables and maps on this page are generated by the displayed R code.
+
+```{r}
+#| label: versions
+#| code-fold: true
+sessionInfo()
+```

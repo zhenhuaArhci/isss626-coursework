@@ -66,3 +66,19 @@ compare checksums and feature counts before interpreting a changed result.
 Netlify publishes the committed `_site/` directory from the existing `main`
 branch without a remote R build. After a full local render, commit the source
 and rendered assets together; pushing to `main` triggers the connected site.
+
+## Exercise 4 pages
+
+- `handson4/`: Chapter 8 spatial weights, distance neighbours, inverse-distance
+  weights and four spatial-lag applications.
+- `inlcass4/`: classroom GWmodel workflow, CV/AICc adaptive bandwidths, local
+  statistics and a five-kernel sensitivity comparison. The route spelling
+  follows the requested navigation label.
+
+The small original Hunan shapefile and 2012 CSV are bundled in
+`handson4/data/` and shared by both pages. Their source is the instructor's
+`tskam/ISSS626-AY2026-27Aug` repository, `lesson/Lesson04/data`.
+The pages require `sf`, `dplyr`, `readr`, `tmap` (version 4), `knitr`, `spdep`
+and `GWmodel`. Use `quarto render . --use-freezer` to reuse unchanged results
+from earlier exercises. To recalculate an Exercise 4 page, render its
+`index.qmd` explicitly. Both pages include their executed `sessionInfo()`.

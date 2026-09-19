@@ -10,6 +10,8 @@ project:
     - hands-on-exercise-1b/index.qmd
     - handson2A/index.qmd
     - handson2B/index.qmd
+    - handson4/index.qmd
+    - inlcass4/index.qmd
 
 website:
   title: "ISSS626-GAA"
@@ -27,6 +29,12 @@ website:
             href: handson2A/index.qmd
           - text: "Hands-on Exercise 2B"
             href: handson2B/index.qmd
+          - text: "Hands-on Exercise 4"
+            href: handson4/index.qmd
+      - text: "In-class Exercise"
+        menu:
+          - text: "inlcass4"
+            href: inlcass4/index.qmd
     right:
       - text: "Home"
         href: index.qmd
