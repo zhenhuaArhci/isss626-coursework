@@ -1,75 +1,38 @@
 ---
 title: "Take-home Exercise 1"
-subtitle: "Road traffic accidents · Greater Bangkok · 2022"
-description: "Draft workspace for a student-authored geospatial investigation."
+subtitle: "Thailand road accidents · Greater Bangkok · 2022"
+description: "An R and Quarto analysis of recorded accident concentration and fatal-event proximity in Greater Bangkok."
 toc: false
 ---
 
-[Draft workspace · analysis pending]{.th-status}
+## Where accidents concentrate—and what the pattern means
 
-## Start here
-
-This workspace supports the Thailand option of Take-home Exercise 1. The report
-and presentation are structured templates. **No accident analysis, findings,
-or planning recommendations have been completed. These pages are not ready
-for submission.**
+This study examines **3,599 recorded accidents** across Bangkok and five surrounding provinces in 2022. It combines a documented data-quality audit, spatial density estimation, temporal summaries and simulation-based second-order analysis.
 
 ::: {.th-links}
-[Technical report](technical-report.qmd)
-[Executive summary](executive-summary.qmd)
-[Learning guide](learning-guide.qmd)
-[GitHub exercise folder](https://github.com/zhenhuaArhci/isss626-coursework/tree/codex/take-home-exercise1/take%20home%20exercise1)
+[Read the technical report](technical-report.qmd)
+[View the executive summary](executive-summary.qmd)
+[Explore the R source on GitHub](https://github.com/zhenhuaArhci/isss626-coursework/tree/main/take%20home%20exercise1)
 :::
 
-## Study brief
+![](figures/study-area.png){fig-alt="Recorded accidents in the six-province Greater Bangkok study window, highlighting fatal events."}
 
-| Item | Working scope |
+## Main findings
+
+- **Accident records form metropolitan corridors.** Broad density concentrations persist across 1–3 km smoothing scales, while local hotspot boundaries change.
+- **Recorded frequency varies during the year.** October has 12.71 events per day; February has 7.57. These figures do not adjust for traffic exposure.
+- **Fatal-event geography needs separate attention.** There are 159 fatal accidents and 177 recorded deaths. A conditional permutation test finds no excess fatal-event proximity at the investigated distances.
+- **Coverage limits comparison.** All 189 records without coordinates belong to Bangkok's expressway reporting agency. They cannot be represented on the maps without recovering their locations.
+
+The maps support regional screening and case review. They do not measure accident risk per journey or establish the causes of accidents.
+
+## Study materials
+
+| Material | Contents |
 |---|---|
-| Dataset | Thailand Road Accident [2019–2022], published by thaweewatboy on Kaggle |
-| Required year | 2022, using the incident date; timestamp interpretation needs checking |
-| Proposed extent | Bangkok, Nonthaburi, Pathum Thani, Samut Prakan, Samut Sakhon, Nakhon Pathom |
-| Boundary source | geoBoundaries Thailand ADM1; downloaded source represents 2017 |
-| Submission | Quarto HTML technical report and revealjs executive summary |
+| [Technical report](technical-report.qmd) | Study design, source audit, executable R code, five figures, statistical tests, sensitivity analysis and planning implications |
+| [Executive summary](executive-summary.qmd) | Ten content slides, plus cover and contents |
+| [Reproduction guide](learning-guide.qmd) | RStudio setup, acquisition, execution order, file structure and output checks |
+| [GitHub exercise folder](https://github.com/zhenhuaArhci/isss626-coursework/tree/main/take%20home%20exercise1) | Quarto sources, R scripts, figures and input metadata |
 
-The six-area extent follows Thailand's National Statistical Office grouping of
-[Bangkok and Vicinities](https://www.nso.go.th/public/e-book/Indicators-Environment/Environment-Indicators-2567/47/).
-The student still needs to document the actual boundary selection and assess
-the suitability of the boundary vintage for the 2022 study.
-
-## Progress
-
-| Stage | Current state | Next contribution |
-|---|---|---|
-| Source acquisition | Original accident and boundary files downloaded locally; metadata and checksums recorded | Review documentation and reporting coverage |
-| Study design | Year and proposed region identified | Write the research question and event definition |
-| Data preparation | Not started | Write and run the preparation code; document exclusions |
-| First-order analysis | Not started | Choose and justify the method; produce results |
-| Second-order analysis | Not started | Define a null model and complete the analysis |
-| Interpretation | Not started | Write the findings, limitations, and implications |
-| Report and slides | Draft structure ready | Insert and review student-authored content |
-| Final publication | Pending completed analysis | Validate, publish, and submit the verified links |
-
-## How to work
-
-Open `ISSS626-GAA.Rproj` in RStudio, then follow the
-[learning guide](learning-guide.qmd). Begin with its short study-design worksheet.
-Keep original data unchanged and store your scripts and figures in this exercise
-folder. The [data notes](data/README.md) explain where the downloads came from.
-
-For each major visual, write an interpretation of at most **150 words**. Keep the
-public-safety discussion within **500 words**. The presentation has ten content
-slide slots plus a cover and contents slide.
-
-## Assignment and references
-
-- [Assignment brief and AI-use requirements](https://isss626-ay2026-27aug.netlify.app/take-home_ex01)
-- [Selected accident dataset](https://www.kaggle.com/datasets/thaweewatboy/thailand-road-accident-2019-2022)
-- [Chapter 7: Network-constrained point-pattern analysis](https://r4gdsa.netlify.app/chap07)
-- [spNetwork function documentation](https://jeremygelb.github.io/spNetwork/reference/index.html)
-
-## Assistance disclosure
-
-Generative AI helped prepare the website navigation, document and presentation
-templates, learning notes, and source-acquisition records. It has not produced
-analytical code, results, interpretations, or conclusions for this exercise.
-Update this disclosure to reflect the assistance actually used in the final work.
+**Sources:** [Kaggle accident records](https://www.kaggle.com/datasets/thaweewatboy/thailand-road-accident-2019-2022), [geoBoundaries administrative polygons](https://www.geoboundaries.org/api/current/gbOpen/THA/ADM1/), and the [NSO Bangkok and Vicinities grouping](https://www.nso.go.th/public/e-book/Indicators-Environment/Environment-Indicators-2567/47/). The report follows the Thailand option of the [assignment brief](https://isss626-ay2026-27aug.netlify.app/take-home_ex01).

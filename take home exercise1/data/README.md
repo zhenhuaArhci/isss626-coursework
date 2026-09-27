@@ -1,72 +1,33 @@
 # Source data and acquisition
 
-Status: original inputs downloaded; student preparation and analysis pending.
-
-## Acquire with R
-
-Open the website RStudio project and run:
-
-```r
-source("take home exercise1/R/download-data.R")
-```
-
-This R script verifies existing files or downloads missing inputs. It checks
-SHA-256 hashes against `metadata/downloads.json` and stops on mismatches.
-It does not filter or analyse records. Inputs remain in the Git-ignored `raw/`
-folder; do not commit raw or derived datasets without reviewing their licenses.
-The original files were retrieved on 27 September 2026. Download timestamps do
-not represent observation dates.
+Run `source("take home exercise1/R/download-data.R")` from the website project root. The R helper downloads or verifies the original inputs using the SHA-256 manifest in `metadata/downloads.json`. It stops on a changed file. Acquisition date: 27 September 2026.
 
 ## Accident records
 
-- Publisher: thaweewatboy, Kaggle.
-- Dataset: [Thailand Road Accident 2019–2022](https://www.kaggle.com/datasets/thaweewatboy/thailand-road-accident-2019-2022).
-- Portal metadata: [kaggle.json](metadata/kaggle.json).
-- License listed by Kaggle at acquisition: **CC0: Public Domain**.
-- Last update listed by Kaggle: 19 August 2023.
-- Original files: `thai_road_accident_2019_2022.csv` and `.parquet`.
-- Scope: nationwide source; the assignment requires a **2022** and Greater Bangkok
-  restriction in the student's own preparation.
-- Coverage, completeness, event semantics, and coordinate accuracy still need
-  independent examination. Preserve the publisher's provenance and attribution.
+- Source: thaweewatboy, [Thailand Road Accident 2019–2022](https://www.kaggle.com/datasets/thaweewatboy/thailand-road-accident-2019-2022), Kaggle.
+- License: **CC0: Public Domain**, as listed in `metadata/kaggle.json`.
+- Last update listed: 19 August 2023.
+- Files: original CSV and Parquet plus their download archive. Analysis uses the CSV.
+- Nationwide source: 81,735 records. Preparation retains incident year 2022 and spatially intersects valid points with the study polygon.
+- Incident dates are interpreted as written without an unverified timezone conversion.
+- All 189 ungeolocated 2022 records have a Bangkok province label and the expressway reporting agency. The analysis records this limitation rather than imputing point locations.
 
-Observed CSV columns:
-
-`acc_code`, `incident_datetime`, `report_datetime`, `province_th`, `province_en`,
-`agency`, `route`, `vehicle_type`, `presumed_cause`, `accident_type`,
-`number_of_vehicles_involved`, `number_of_fatalities`, `number_of_injuries`,
-`weather_condition`, `latitude`, `longitude`, `road_description`, `slope_description`.
-
-If the public download endpoint becomes unavailable, download the original
-archive through Kaggle, put it in `raw/`, and rerun the R acquisition script.
-Do not overwrite the reference hashes to bypass a failed check.
+If the public endpoint is unavailable, obtain the original archive from Kaggle and place it in `raw/` using the manifest filename. Rerun the downloader to verify it. Do not replace a reference hash to conceal a version mismatch.
 
 ## Administrative boundaries
 
-- Provider: [geoBoundaries](https://www.geoboundaries.org/), gbOpen, THA ADM1.
-- Boundary ID: `THA-ADM1-36821470`.
-- Metadata vintage: **2017**.
-- Upstream sources listed: OpenStreetMap and Wambacher.
-- License listed: **Open Data Commons Open Database License 1.0**.
-- [Original metadata](metadata/geoboundaries-adm1.json).
-- [Version-pinned full-resolution GeoJSON](https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/THA/ADM1/geoBoundaries-THA-ADM1.geojson).
+- Provider: geoBoundaries gbOpen THA ADM1.
+- Boundary ID: THA-ADM1-36821470; metadata vintage: **2017**.
+- Upstream sources: OpenStreetMap contributors and Wambacher.
+- License: [Open Data Commons Open Database License 1.0](https://opendatacommons.org/licenses/odbl/1-0/).
+- [Pinned GeoJSON revision](https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/THA/ADM1/geoBoundaries-THA-ADM1.geojson).
+- Original metadata: `metadata/geoboundaries-adm1.json`.
+- Selected ISO codes: TH-10, TH-12, TH-13, TH-11, TH-74, TH-73.
 
-The R downloader uses the version-pinned URL from the saved metadata. The student
-must document the six-area selection, names, geometry checks, and suitability for
-2022. Do not assume that the administrative layer also supplies a road network.
-Follow the provider's attribution and license requirements for derived products.
+The six polygons are validated and transformed to EPSG:32647. Their union defines the window. Maps attribute the boundary sources; no edited boundary database is redistributed. This layer is not a road network.
 
-## Road network
+## Storage and outputs
 
-No road dataset has been selected or downloaded. If needed for the chosen method,
-document source URL, extraction date, represented date, extent, included road
-classes, topology treatment, attribution, and license. Consider the historical
-fit to 2022 before using a current OpenStreetMap extract.
+Raw inputs and regenerated intermediate tables are ignored by Git and excluded from the website. The committed scripts, metadata, tables printed in the report and PNG figures allow the published analysis to be inspected and regenerated. `data/derived/summary.json` records numerical results after each run; the report supplies the full computational context.
 
-## Reproducibility
-
-[downloads.json](metadata/downloads.json) records filenames, byte counts,
-SHA-256 hashes, and original download timestamps. Input versions are fixed by
-these records. Any intentional input update requires an explicit new provenance
-record and a fresh analytical run. Keep original inputs unchanged; store student
-intermediates in `data/derived/` and final R graphics in `figures/`.
+No road dataset is used. The analysis and its distance thresholds are planar; Chapter 7 and spNetwork are cited to explain the support and validation needed for a network-based extension.

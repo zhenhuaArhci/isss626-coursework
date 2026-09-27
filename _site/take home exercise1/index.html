@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Zhenhua Liu">
-<meta name="description" content="Draft workspace for a student-authored geospatial investigation.">
+<meta name="description" content="An R and Quarto analysis of recorded accident concentration and fatal-event proximity in Greater Bangkok.">
 
 <title>Take-home Exercise 1 – ISSS626-GAA</title>
 <style>
@@ -75,7 +75,6 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
-<meta name="robots" content="noindex, nofollow">
 
 
 <link rel="stylesheet" href="../styles.css">
@@ -148,11 +147,11 @@ ul.task-list li input[type="checkbox"] {
   </li>  
         <li>
     <a class="dropdown-item" href="../take home exercise1/technical-report.html">
- <span class="dropdown-text">Technical Report · draft</span></a>
+ <span class="dropdown-text">Technical Report</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../take home exercise1/executive-summary.html">
- <span class="dropdown-text">Executive Summary · draft</span></a>
+ <span class="dropdown-text">Executive Summary</span></a>
   </li>  
     </ul>
   </li>
@@ -184,12 +183,12 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Take-home Exercise 1</h1>
-<p class="subtitle lead">Road traffic accidents · Greater Bangkok · 2022</p>
+<p class="subtitle lead">Thailand road accidents · Greater Bangkok · 2022</p>
 </div>
 
 <div>
   <div class="description">
-    Draft workspace for a student-authored geospatial investigation.
+    An R and Quarto analysis of recorded accident concentration and fatal-event proximity in Greater Bangkok.
   </div>
 </div>
 
@@ -212,128 +211,53 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p><span class="th-status">Draft workspace · analysis pending</span></p>
-<section id="start-here" class="level2">
-<h2 class="anchored" data-anchor-id="start-here">Start here</h2>
-<p>This workspace supports the Thailand option of Take-home Exercise 1. The report and presentation are structured templates. <strong>No accident analysis, findings, or planning recommendations have been completed. These pages are not ready for submission.</strong></p>
+<section id="where-accidents-concentrateand-what-the-pattern-means" class="level2">
+<h2 class="anchored" data-anchor-id="where-accidents-concentrateand-what-the-pattern-means">Where accidents concentrate—and what the pattern means</h2>
+<p>This study examines <strong>3,599 recorded accidents</strong> across Bangkok and five surrounding provinces in 2022. It combines a documented data-quality audit, spatial density estimation, temporal summaries and simulation-based second-order analysis.</p>
 <div class="th-links">
-<p><a href="../take home exercise1/technical-report.html">Technical report</a> <a href="../take home exercise1/executive-summary.html">Executive summary</a> <a href="../take home exercise1/learning-guide.html">Learning guide</a> <a href="https://github.com/zhenhuaArhci/isss626-coursework/tree/codex/take-home-exercise1/take%20home%20exercise1">GitHub exercise folder</a></p>
+<p><a href="../take home exercise1/technical-report.html">Read the technical report</a> <a href="../take home exercise1/executive-summary.html">View the executive summary</a> <a href="https://github.com/zhenhuaArhci/isss626-coursework/tree/main/take%20home%20exercise1">Explore the R source on GitHub</a></p>
 </div>
+<p><img src="figures/study-area.png" class="img-fluid" alt="Recorded accidents in the six-province Greater Bangkok study window, highlighting fatal events."></p>
 </section>
-<section id="study-brief" class="level2">
-<h2 class="anchored" data-anchor-id="study-brief">Study brief</h2>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Item</th>
-<th>Working scope</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Dataset</td>
-<td>Thailand Road Accident [2019–2022], published by thaweewatboy on Kaggle</td>
-</tr>
-<tr class="even">
-<td>Required year</td>
-<td>2022, using the incident date; timestamp interpretation needs checking</td>
-</tr>
-<tr class="odd">
-<td>Proposed extent</td>
-<td>Bangkok, Nonthaburi, Pathum Thani, Samut Prakan, Samut Sakhon, Nakhon Pathom</td>
-</tr>
-<tr class="even">
-<td>Boundary source</td>
-<td>geoBoundaries Thailand ADM1; downloaded source represents 2017</td>
-</tr>
-<tr class="odd">
-<td>Submission</td>
-<td>Quarto HTML technical report and revealjs executive summary</td>
-</tr>
-</tbody>
-</table>
-<p>The six-area extent follows Thailand’s National Statistical Office grouping of <a href="https://www.nso.go.th/public/e-book/Indicators-Environment/Environment-Indicators-2567/47/">Bangkok and Vicinities</a>. The student still needs to document the actual boundary selection and assess the suitability of the boundary vintage for the 2022 study.</p>
-</section>
-<section id="progress" class="level2">
-<h2 class="anchored" data-anchor-id="progress">Progress</h2>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Stage</th>
-<th>Current state</th>
-<th>Next contribution</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Source acquisition</td>
-<td>Original accident and boundary files downloaded locally; metadata and checksums recorded</td>
-<td>Review documentation and reporting coverage</td>
-</tr>
-<tr class="even">
-<td>Study design</td>
-<td>Year and proposed region identified</td>
-<td>Write the research question and event definition</td>
-</tr>
-<tr class="odd">
-<td>Data preparation</td>
-<td>Not started</td>
-<td>Write and run the preparation code; document exclusions</td>
-</tr>
-<tr class="even">
-<td>First-order analysis</td>
-<td>Not started</td>
-<td>Choose and justify the method; produce results</td>
-</tr>
-<tr class="odd">
-<td>Second-order analysis</td>
-<td>Not started</td>
-<td>Define a null model and complete the analysis</td>
-</tr>
-<tr class="even">
-<td>Interpretation</td>
-<td>Not started</td>
-<td>Write the findings, limitations, and implications</td>
-</tr>
-<tr class="odd">
-<td>Report and slides</td>
-<td>Draft structure ready</td>
-<td>Insert and review student-authored content</td>
-</tr>
-<tr class="even">
-<td>Final publication</td>
-<td>Pending completed analysis</td>
-<td>Validate, publish, and submit the verified links</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="how-to-work" class="level2">
-<h2 class="anchored" data-anchor-id="how-to-work">How to work</h2>
-<p>Open <code>ISSS626-GAA.Rproj</code> in RStudio, then follow the <a href="../take home exercise1/learning-guide.html">learning guide</a>. Begin with its short study-design worksheet. Keep original data unchanged and store your scripts and figures in this exercise folder. The <a href="data/README.md">data notes</a> explain where the downloads came from.</p>
-<p>For each major visual, write an interpretation of at most <strong>150 words</strong>. Keep the public-safety discussion within <strong>500 words</strong>. The presentation has ten content slide slots plus a cover and contents slide.</p>
-</section>
-<section id="assignment-and-references" class="level2">
-<h2 class="anchored" data-anchor-id="assignment-and-references">Assignment and references</h2>
+<section id="main-findings" class="level2">
+<h2 class="anchored" data-anchor-id="main-findings">Main findings</h2>
 <ul>
-<li><a href="https://isss626-ay2026-27aug.netlify.app/take-home_ex01">Assignment brief and AI-use requirements</a></li>
-<li><a href="https://www.kaggle.com/datasets/thaweewatboy/thailand-road-accident-2019-2022">Selected accident dataset</a></li>
-<li><a href="https://r4gdsa.netlify.app/chap07">Chapter 7: Network-constrained point-pattern analysis</a></li>
-<li><a href="https://jeremygelb.github.io/spNetwork/reference/index.html">spNetwork function documentation</a></li>
+<li><strong>Accident records form metropolitan corridors.</strong> Broad density concentrations persist across 1–3 km smoothing scales, while local hotspot boundaries change.</li>
+<li><strong>Recorded frequency varies during the year.</strong> October has 12.71 events per day; February has 7.57. These figures do not adjust for traffic exposure.</li>
+<li><strong>Fatal-event geography needs separate attention.</strong> There are 159 fatal accidents and 177 recorded deaths. A conditional permutation test finds no excess fatal-event proximity at the investigated distances.</li>
+<li><strong>Coverage limits comparison.</strong> All 189 records without coordinates belong to Bangkok’s expressway reporting agency. They cannot be represented on the maps without recovering their locations.</li>
 </ul>
+<p>The maps support regional screening and case review. They do not measure accident risk per journey or establish the causes of accidents.</p>
 </section>
-<section id="assistance-disclosure" class="level2">
-<h2 class="anchored" data-anchor-id="assistance-disclosure">Assistance disclosure</h2>
-<p>Generative AI helped prepare the website navigation, document and presentation templates, learning notes, and source-acquisition records. It has not produced analytical code, results, interpretations, or conclusions for this exercise. Update this disclosure to reflect the assistance actually used in the final work.</p>
+<section id="study-materials" class="level2">
+<h2 class="anchored" data-anchor-id="study-materials">Study materials</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Material</th>
+<th>Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="../take home exercise1/technical-report.html">Technical report</a></td>
+<td>Study design, source audit, executable R code, five figures, statistical tests, sensitivity analysis and planning implications</td>
+</tr>
+<tr class="even">
+<td><a href="../take home exercise1/executive-summary.html">Executive summary</a></td>
+<td>Ten content slides, plus cover and contents</td>
+</tr>
+<tr class="odd">
+<td><a href="../take home exercise1/learning-guide.html">Reproduction guide</a></td>
+<td>RStudio setup, acquisition, execution order, file structure and output checks</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/zhenhuaArhci/isss626-coursework/tree/main/take%20home%20exercise1">GitHub exercise folder</a></td>
+<td>Quarto sources, R scripts, figures and input metadata</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sources:</strong> <a href="https://www.kaggle.com/datasets/thaweewatboy/thailand-road-accident-2019-2022">Kaggle accident records</a>, <a href="https://www.geoboundaries.org/api/current/gbOpen/THA/ADM1/">geoBoundaries administrative polygons</a>, and the <a href="https://www.nso.go.th/public/e-book/Indicators-Environment/Environment-Indicators-2567/47/">NSO Bangkok and Vicinities grouping</a>. The report follows the Thailand option of the <a href="https://isss626-ay2026-27aug.netlify.app/take-home_ex01">assignment brief</a>.</p>
 
 
 </section>

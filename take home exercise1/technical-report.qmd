@@ -1,9 +1,10 @@
 ---
 title: "Road Traffic Accidents in Greater Bangkok, 2022"
-subtitle: "Technical report template · analysis pending"
-description: "Uncompleted technical report structure for Take-home Exercise 1."
+subtitle: "Spatial concentration, fatal-event proximity and implications for road safety"
+description: "An R-based point-pattern study of 3,599 recorded accidents across Bangkok and five surrounding provinces."
 number-sections: true
 code-tools: true
+code-fold: true
 ---
 
 ```{r}
@@ -11,234 +12,285 @@ code-tools: true
 #| include: false
 knitr::read_chunk("take home exercise1/R/prepare.R")
 knitr::read_chunk("take home exercise1/R/analysis.R")
-knitr::opts_chunk$set(fig.width = 9, fig.height = 6, dpi = 150)
+knitr::opts_chunk$set(fig.width=9, fig.height=6, dpi=180)
+options(knitr.kable.NA="—")
+fmt <- function(x) format(x,big.mark=",",scientific=FALSE,trim=TRUE)
 ```
 
-::: {.callout-warning title="Draft — not ready for submission"}
-The student has not yet supplied analytical code, maps, results, or interpretations.
-The prompts below identify the work needed. Replace each prompt with your own
-completed work before final publication.
+[Exercise home](index.qmd) · [Executive summary](executive-summary.qmd) · [Reproduce this study](learning-guide.qmd) · [GitHub source](https://github.com/zhenhuaArhci/isss626-coursework/tree/main/take%20home%20exercise1)
+
+::: {.callout-note title="Study in brief"}
+The analysis covers **3,599 geolocated accident records**, including **159 fatal accidents**, within Bangkok and five neighbouring provinces in 2022. Recorded accidents concentrate along metropolitan corridors. Their spatial pattern differs strongly from uniform placement, but fatal accidents do **not** show excess close-pair clustering relative to the observed accident locations after accounting for province and reporting agency. These findings support corridor screening and improvements to reporting coverage; they do not estimate the probability of a crash per journey.
 :::
 
-[Exercise home](index.qmd) · [Executive summary](executive-summary.qmd) ·
-[Learning guide](learning-guide.qmd)
+## Research question and scope
 
-## Introduction and study context
+**Where do recorded accidents concentrate in Greater Bangkok, how does their frequency vary during 2022, and are fatal accidents unusually close to one another after accounting for the geography of reported accidents?**
 
-::: {.th-prompt}
-**Your contribution:** Explain the public-safety problem and the audience for
-your report. Cite the evidence you use to establish context. Define the population
-represented by this dataset without assuming that it captures every crash.
-:::
+The intended audience is metropolitan transport planners and road-safety teams. Three distinctions guide the study:
 
-## Research question and objectives
+1. **Intensity:** the number of recorded events per unit area or calendar day.
+2. **Second-order structure:** how event pairs are distributed over distance, relative to a stated random model.
+3. **Risk:** the probability of an accident for a given amount of travel. Traffic volumes, vehicle-kilometres and consistent reporting denominators are unavailable, so risk is not estimated.
 
-::: {.th-prompt}
-**Your contribution:** State your main question, its spatial and temporal scope,
-and what evidence would answer it. Distinguish the question about event intensity
-from the question about interaction among events.
-:::
+The unit of analysis is an **accident record identified by `acc_code`**, rather than a casualty or vehicle. A fatal accident has `number_of_fatalities > 0`; one such accident can contain several deaths. All accident types are included. Presumed causes are not treated as established causal explanations.
 
-## Data and study design
+## Data preparation
 
-### Source inventory
+### Sources, coverage and provenance
 
-| Input | Source and coverage | Acquisition record |
+| Input | Coverage and version | Use and license |
 |---|---|---|
-| Accident records | [Kaggle, Thailand Road Accident 2019–2022](https://www.kaggle.com/datasets/thaweewatboy/thailand-road-accident-2019-2022); nationwide source, 2022 study restriction | Downloaded 27 September 2026; original CSV and Parquet retained locally |
-| Administrative boundaries | [geoBoundaries THA ADM1](https://www.geoboundaries.org/api/current/gbOpen/THA/ADM1/); 2017 vintage in source metadata | Boundary ID THA-ADM1-36821470; full-resolution GeoJSON retained locally |
-| Road network, if used | Not acquired or selected | Document provider, extract date, historical suitability, license, and road coverage |
+| [Thailand Road Accident 2019–2022](https://www.kaggle.com/datasets/thaweewatboy/thailand-road-accident-2019-2022), published by thaweewatboy | Nationwide, 2019–2022; portal last updated 19 August 2023; accessed 27 September 2026 | Incident records; **CC0**, as stated in the saved Kaggle metadata |
+| [geoBoundaries gbOpen THA ADM1](https://www.geoboundaries.org/api/current/gbOpen/THA/ADM1/) | 77 administrative areas; metadata vintage **2017**; boundary ID `THA-ADM1-36821470`; accessed 27 September 2026 | Study boundary; **ODbL 1.0**, upstream OpenStreetMap contributors and Wambacher |
+| [Thailand NSO: Bangkok and Vicinities](https://www.nso.go.th/public/e-book/Indicators-Environment/Environment-Indicators-2567/47/) | Official regional grouping | Geographic definition, not an accident denominator |
 
-Checksums and original metadata are recorded in the [data notes](data/README.md).
-Acquisition is complete; analytical validation of these inputs is still pending.
+The original CSV contains 18 columns covering identifiers, dates, province, reporting agency, accident attributes, casualties and coordinates. The source has no traffic exposure or coordinate-accuracy measure. Its records come from three road agencies, so it cannot be assumed to enumerate every accident on every local street.
 
-The RStudio workflow follows Exercise 2A. The report loads labelled sections of
-[`R/prepare.R`](R/prepare.R) and [`R/analysis.R`](R/analysis.R) with
-`knitr::read_chunk()`. Replace the corresponding script section with your own code,
-then remove `eval: false` from its report chunk to execute it during rendering.
-Do this in order so later sections can use objects created earlier.
+The [download manifest](data/metadata/downloads.json), [Kaggle metadata](data/metadata/kaggle.json) and [boundary metadata](data/metadata/geoboundaries-adm1.json) preserve acquisition dates, versions and SHA-256 checksums. The boundary downloader uses a fixed repository revision. Raw files remain separate from analytical outputs.
 
 ```{r}
 #| label: thx-packages
-#| eval: false
+#| results: hide
 ```
 
 ```{r}
 #| label: thx-import
-#| eval: false
+#| results: hide
 ```
 
-### Event definition
+### Study extent, dates and coordinates
 
-::: {.th-prompt}
-**Your contribution:** Define one event. Explain how accident IDs, casualties,
-repeated coordinates, and possible duplicate reports relate to that definition.
-Record the evidence supporting your treatment of each.
-:::
+The study area comprises **Bangkok, Nonthaburi, Pathum Thani, Samut Prakan, Samut Sakhon and Nakhon Pathom**. These are selected by administrative ISO codes `TH-10`, `TH-12`, `TH-13`, `TH-11`, `TH-74` and `TH-73`. Their dissolved union forms the observation window; it is not the rectangular map extent. Province labels in the CSV serve as a quality check, while polygon intersection determines spatial inclusion.
 
-### Spatial and temporal windows
+The analysis uses **incident dates from 1 January to 31 December 2022**, inclusive. Dates are read as written, without converting an unspecified source timezone. The reporting date is not substituted for the incident date. Monthly counts are divided by each month's number of calendar days; a single year supports description, not a claim of recurring seasonality.
 
-::: {.th-prompt}
-**Your contribution:** Operationalise the proposed six-area extent with the
-boundary dataset. Document the actual selected features and any boundary/name
-mismatches. Explain the boundary vintage, incident-date interpretation, the 2022
-filter, and any temporal grouping. Include your study-area map and caption.
-:::
-
-## Data preparation and quality assessment
-
-::: {.th-prompt}
-**Your contribution:** Insert your executed preparation code and explain each
-major step. Document coordinate validation, CRS transformation, geometry checks,
-temporal and spatial filters, and handling of missing or repeated records.
-:::
-
-| Check or transformation | Rule you applied | Removed or changed | Retained | Reason and consequence |
-|---|---|---|---|---|
-| Original import | Pending | — | — | Pending |
-| Incident dates and 2022 filter | Pending | — | — | Pending |
-| Duplicate reports | Pending | — | — | Pending |
-| Missing or invalid coordinates | Pending | — | — | Pending |
-| Study-area membership | Pending | — | — | Pending |
-| Road matching, if applicable | Pending | — | — | Pending |
+Longitude and latitude are interpreted as WGS 84 because they are supplied as geographic coordinates. This source-CRS assumption is a limitation. They are transformed to **WGS 84 / UTM zone 47N (EPSG:32647)**, appropriate for the region's longitude and metre-based analysis. Province geometries are validated before union. The older boundary vintage is disclosed; this study does not establish that every local boundary was unchanged between 2017 and 2022.
 
 ```{r}
 #| label: thx-quality
-#| eval: false
+#| results: hide
 ```
-
-### Spatial preparation and study-area map
 
 ```{r}
 #| label: thx-window
-#| eval: false
+#| results: hide
 ```
+
+The resulting window covers **`r fmt(round(quality$area_km2))` km²**, measured from these polygons. All `r fmt(quality$n)` retained points intersect this window; no point falls on a shared province boundary in this dataset.
+
+### Cleaning audit
+
+```{r}
+#| label: tbl-cleaning
+#| echo: false
+knitr::kable(audit,col.names=c("Processing stage","Records retained","Removed at this step"),
+  format.args=list(big.mark=","),caption="Sequential record audit. Year and study-area restrictions are scope exclusions.")
+```
+
+No identical rows or duplicate accident IDs were found among the 2022 records. The script stops if conflicting duplicate IDs appear in a future input. Missing or non-finite coordinates are excluded from spatial analysis; valid geographic ranges are checked before projection. A broad Thailand bounding check removes no additional records. Points outside the six-province union are then excluded.
+
+**Missingness is geographically and institutionally concentrated.** All **189** 2022 records without coordinates are labelled Bangkok and reported by the Expressway Authority of Thailand. They account for **9.5% of the 1,990 Bangkok-labelled records**. They are not imputed at a province centroid, because this would create an artificial hotspot. Consequently, mapped Bangkok expressway intensity may be understated.
+
+```{r}
+#| label: tbl-labels
+#| echo: false
+knitr::kable(label_audit,col.names=c("Province-label check","Events"),
+  caption="Agreement between province labels and polygon locations.")
+```
+
+Four geolocated records labelled within the six provinces fall outside the polygon union; ten labelled outside fall inside. Among the retained points, **`r quality$province_mismatch`** have different text and spatial province labels. Spatial assignment is used consistently, without claiming either source is error-free.
+
+There are **`r fmt(quality$unique_locations)` distinct recorded coordinate pairs**. **`r quality$repeated_sites` sites** contain more than one accident, with **`r quality$repeated_extra` additional records** beyond one per site and a maximum of **`r quality$max_at_site`** records at one location. Different accident IDs at the same coordinates remain separate events: repeat accidents and geocoding to common reference points are both possible. Sensitivity checks address their influence. Coordinates are not randomly jittered to make the pattern appear more precise.
+
+```{r}
+#| label: tbl-agencies
+#| echo: false
+knitr::kable(agency_summary,col.names=c("Reporting agency","Retained events"),
+  format.args=list(big.mark=","),caption="Reporting-agency composition of the retained sample.")
+```
+
+### Study-area map
 
 ```{r}
 #| label: thx-study-map
-#| eval: false
+#| results: hide
 ```
 
-### Network preparation, if applicable
+![Recorded accidents and fatal accidents in the six-province observation window. North is at the top; graticule coordinates locate the study area.](figures/study-area.png){#fig-study-area fig-alt="Map of Bangkok and five surrounding provinces, showing corridor-shaped concentrations of recorded accidents and more scattered fatal accidents."}
 
-::: {.th-prompt}
-**Your contribution:** Document road selection, topology, disconnected components,
-grade-separated crossings, and how events were matched to roads. Report snapping
-distances and exclusions. Explain how a network extract from a different year
-might affect the study.
+::: {.visual-interpretation}
+**Interpretation.** Bangkok contains 1,802 retained records, about half the study total. Dense alignments extend into Samut Prakan, Pathum Thani and Samut Sakhon, whereas western Nakhon Pathom has fewer observations. Fatal events occur beyond the densest Bangkok alignments. The map therefore suggests that accident frequency and fatal-event geography warrant separate attention. These are recorded locations: overlapping symbols obscure repeated coordinates, and sparse areas may reflect road-agency coverage as well as fewer accidents. The missing Bangkok expressway coordinates further limit direct comparisons.
 :::
 
-```{r}
-#| label: thx-network
-#| eval: false
-```
+## First-order analysis: intensity across space and time
 
-## Analytical assumptions and methodological decisions
+### Methods and parameter choices
 
-| Decision | Your setting | Your justification | Assumption or sensitivity check |
-|---|---|---|---|
-| CRS and distance units | Pending | Pending | Pending |
-| Event weights | Pending | Pending | Pending |
-| Temporal aggregation | Pending | Pending | Pending |
-| Kernel and bandwidth | Pending | Pending | Pending |
-| Sampling spacing, if applicable | Pending | Pending | Pending |
-| Distance range and step | Pending | Pending | Pending |
-| Edge treatment | Pending | Pending | Pending |
-| Reference/null model | Pending | Pending | Pending |
-| Simulations, seed, and envelope type | Pending | Pending | Pending |
+Monthly events per day provide a transparent temporal description. Spatial intensity is estimated with a **Gaussian planar kernel density estimator (KDE)**, using each event with weight one. The primary smoothing scale is **2 km**, with **1 km and 3 km** alternatives. These are declared regional screening scales, not a statistically optimal junction-level bandwidth. A common **250 m grid** provides four cells per smallest bandwidth and eight per primary bandwidth.
 
-::: {.th-prompt}
-Explain which assumptions are reasonable for your data and what departures would
-mean. Cite methods you actually use. Parameters shown in a teaching example are
-not a justification for your own settings.
-:::
+The `spatstat.explore::density.ppp()` edge correction compensates for kernel mass outside the observation window. Densities calculated per square metre are multiplied by one million to give **recorded events per km² for 2022**. Small negative floating-point values from convolution are checked and set to zero. The [package documentation](https://rdrr.io/cran/spatstat.explore/man/density.ppp.html) explains this estimator and its edge correction.
 
-## First-order point-pattern analysis
-
-::: {.th-prompt}
-**Your contribution:** State the question, justify the method, show the executed
-code and resulting maps or graphics, and explain their units. Discuss time where
-it helps answer your question.
-
-For each major visual, write your own interpretation of **no more than 150 words**:
-what it shows, the supporting evidence, and its main limitation.
-:::
+**Why planar analysis?** The objective is metropolitan screening with an explicitly available polygon window. Chapter 7's [network workflow](https://r4gdsa.netlify.app/chap07) and the [spNetwork documentation](https://jeremygelb.github.io/spNetwork/reference/index.html) highlight a different support: distance along a connected road graph and density per unit road length. A verified historical road graph is not available in this study, so NKDE and network K-functions are not claimed. Planar smoothing can spread intensity across rivers, parallel roads and land between roads. Accordingly, local road-segment priorities require a subsequent network-based assessment with topology, snapping distances, historical coverage and traffic exposure validated. The conditional mark test below preserves the observed accident locations, avoiding uniform redistribution of accidents onto unobserved land for that inference.
 
 ```{r}
 #| label: thx-first-order
-#| eval: false
+#| results: hide
 ```
 
-## Second-order point-pattern analysis
+### Monthly distribution
 
-::: {.th-prompt}
-**Your contribution:** State the question and null model before presenting the
-result. Document assumptions, distance settings, edge treatment, simulation
-settings, and the type of envelope or statistical test. Explain the result
-relative to that model. Keep each major visual's interpretation within 150 words.
+![Recorded accidents per calendar day by month, with monthly event totals above each bar.](figures/monthly.png){#fig-monthly fig-alt="Monthly accident counts divided by days in the month; October has the highest daily frequency and February the lowest."}
+
+::: {.visual-interpretation}
+**Interpretation.** October has the highest observed daily frequency, **12.71 events per day**, compared with **7.57 in February**, a ratio of approximately **1.68**. October–December contain **1,133 records**, or **31.5%** of the annual total. Dividing by calendar days removes unequal month length, but does not account for traffic exposure, weather or changes in reporting. These observations support checking late-year workload and exposure data. One annual cycle cannot establish a seasonal mechanism, and the chart does not show that any month is intrinsically more dangerous per journey.
 :::
+
+### Planar density and bandwidth sensitivity
+
+![Edge-corrected planar KDE at 1, 2 and 3 km Gaussian bandwidths, on the same grid and colour scale.](figures/planar-kde.png){#fig-kde fig-alt="Three density maps with identical colour scale; narrow corridor detail at one kilometre merges into broader concentrations at two and three kilometres."}
+
+::: {.visual-interpretation}
+**Interpretation.** High recorded intensity persists around eastern and southern Bangkok and adjoining Samut Prakan, with a northern alignment toward Pathum Thani. At 1 km, separate corridors are visible; at 3 km, nearby alignments merge. The shared colour scale shows that broader smoothing lowers local peaks. Rank correlations exceed 0.90 between adjacent bandwidths, but top-decile overlap is imperfect, so a specific boundary around a hotspot is sensitive to smoothing. These surfaces describe regional concentration, not accident probabilities or density along a road. Their visual detail should not be interpreted as precise junction-level evidence.
+:::
+
+```{r}
+#| label: tbl-bandwidth
+#| echo: false
+knitr::kable(planar_sensitivity,digits=3,
+  col.names=c("Bandwidth comparison","Spearman rank correlation","Top-decile Jaccard overlap"),
+  caption="Stability of planar density surfaces across smoothing scales.")
+```
+
+All comparisons use the same non-missing grid cells. The top-decile Jaccard statistic is the number of cells shared by the two highest-density deciles divided by the number in either decile. It evaluates map stability, not statistical significance.
+
+### Province-level context
+
+```{r}
+#| label: tbl-provinces
+#| echo: false
+prov_display <- province_summary |> transmute(Province=spatial_province,Accidents=events,
+  `Fatal accidents`=fatal_events,Deaths=fatalities,Injuries=injuries,
+  `Events per km²`=round(events_per_km2,3))
+knitr::kable(prov_display,format.args=list(big.mark=","),
+  caption="Recorded accidents and casualties, assigned by polygon location.")
+```
+
+The `r quality$fatal_events` fatal accidents contain **`r quality$fatalities` recorded deaths**; all retained accidents contain **`r fmt(quality$injuries)` recorded injuries**. Bangkok has the largest event count, while Pathum Thani has the largest fatal-event count (41). Fatal proportions differ substantially across provinces, which motivates preserving province and reporting-agency totals in the second-order mark test. Province area is a spatial denominator only; it does not control road length, traffic or case ascertainment.
+
+## Second-order analysis: two different null models
+
+### Uniform-placement benchmark
+
+The first question is whether the complete pattern resembles **independent, uniform placement within the study polygon conditional on its observed event count**. This conditional complete spatial randomness (CSR) benchmark is intentionally simple. It does not model roads or spatially varying reporting.
+
+The analysis uses Besag's transformation of Ripley's K-function,
+
+$$L(r)=\sqrt{K(r)/\pi},$$
+
+and examines $L(r)-r$ at **250 m steps from 250 m to 5 km**. Distances are Euclidean. The **border correction** uses eligible focal points away from the boundary at each distance, reducing boundary truncation at the cost of losing focal observations. The 5 km upper limit keeps inference at a metropolitan subregional scale. See the [L-function documentation](https://rdrr.io/cran/spatstat.explore/man/Lest.html).
+
+There are **199 simulations**, each containing exactly `r fmt(quality$n)` uniformly placed points in the same polygon. With seed **6262022**, the global statistic is $T=\max_r|L(r)-r|$. The Monte Carlo p-value is $(1+\#\{T_b\geq T_{obs}\})/200$. This tests the whole declared distance grid, rather than selecting an attractive pointwise exceedance. The simultaneous band uses the 190th ordered simulated maximum; the p-value resolution is 0.005.
+
+### Fatal-event proximity conditional on accident locations
+
+The more targeted question is whether **fatal accidents form more close pairs than expected among recorded accident locations**, conditional on both province and reporting agency.
+
+- Locations and the observation window remain fixed.
+- Fatal/non-fatal labels are permuted **within each province × agency group**, preserving every group's number of fatal accidents.
+- The statistic counts **unordered fatal–fatal pairs** within **250, 500, 1,000 and 2,000 m**. Coincident events are retained in the main calculation.
+- **999 permutations** use seed **6262023**. Pair counts are standardised at each distance using all 1,000 exchangeable configurations, and their maximum forms a **one-sided global test for excess proximity**. The p-value resolution is 0.001.
+
+The four thresholds span local to corridor-neighbourhood distances while avoiding claims below the uncertain coordinate precision. The test uses Euclidean proximity, not network travel distance or travel time. It is a conditional mark-interaction assessment, not a model of how the road network generates accident locations.
+
+Because every permutation uses exactly the same locations and boundary, the set of potentially observed pairs and its edge truncation remain fixed; no additional point relocation or edge weights are needed for this conditional comparison. The substantive assumption is exchangeability of fatal labels within province–agency groups. Unobserved differences in road type, speed, vehicle mix and reporting can violate it. Groups with no variation in fatal labels contribute no randomisation.
 
 ```{r}
 #| label: thx-second-order
-#| eval: false
+#| results: hide
 ```
 
-## Integrated findings and discussion
+### Results: all accidents against CSR
 
-::: {.th-prompt}
-**Your contribution:** Bring the first- and second-order findings together.
-Explain agreements, differences, alternative explanations, and how reporting
-coverage or exposure could affect conclusions. Insert your sensitivity results
-and discuss whether the substantive conclusions change.
+![Observed border-corrected L minus r against a simultaneous 95 percent uniform-placement simulation band.](figures/csr-envelope.png){#fig-csr fig-alt="The observed L minus r curve lies well above the narrow simulated uniform-placement band throughout the tested distance range."}
+
+::: {.visual-interpretation}
+**Interpretation.** The observed pattern departs from conditional CSR (**global p = `r format.pval(csr_p,digits=3,eps=.001)`**); the largest absolute deviation in $L(r)-r$ is approximately **`r round(t_obs/1000,2)` km** over the tested grid. The positive curve is consistent with the corridor concentrations visible in the maps. However, the null places points uniformly on the entire polygon, including land without represented roads. Its rejection demonstrates spatial non-uniformity, not crash contagion or interaction independent of first-order intensity. The result therefore motivates the conditional fatal-label comparison rather than proving that nearby accidents cause one another.
+:::
+
+### Results: fatal accidents against conditional random labels
+
+![Observed fatal–fatal close-pair counts compared with province-and-agency-stratified random-label permutations.](figures/fatal-pairs.png){#fig-fatal-pairs fig-alt="Observed fatal-fatal pair counts are below the permutation mean at all four distances, with no evidence of excess proximity."}
+
+::: {.visual-interpretation}
+**Interpretation.** At 1 km there are **`r mark_table$observed_pairs[3]` fatal–fatal pairs**, compared with a permutation mean of **`r round(mark_table$expected_pairs[3],1)`**. All four observed counts are below their random-label means. The one-sided global p-value is **`r mark_test$p`**, giving no evidence of **excess** fatal-event proximity after conditioning on province, agency and accident locations. This does not confirm random labelling, prove spatial inhibition or show that dense corridors are safe. Shaded intervals are pointwise descriptions; the stated global test is the inferential result. Different fatality processes or reporting patterns may explain the lower counts.
 :::
 
 ```{r}
-#| label: thx-sensitivity
-#| eval: false
+#| label: tbl-pairs
+#| echo: false
+knitr::kable(mark_table,digits=2,col.names=c("Distance (m)","Observed pairs","Permutation mean",
+  "Pointwise 2.5%","Pointwise 97.5%","Observed / expected"),
+  caption="Fatal-event pairs against the province-and-agency conditional null.")
 ```
+
+## Robustness and integrated findings
+
+```{r}
+#| label: thx-sensitivity
+#| results: hide
+```
+
+```{r}
+#| label: tbl-robustness
+#| echo: false
+robustness <- data.frame(Analysis=c("CSR: all accident records","CSR: one point per recorded location",
+  "Fatal labels: province + agency strata","Fatal labels: strata, excluding coincident pairs",
+  "Fatal labels: no strata"),
+  `Global p`=c(csr_p,unique_csr_p,mark_test$p,nozero_test$p,unstrat_test$p),check.names=FALSE)
+knitr::kable(robustness,digits=3,caption="Global tests under alternative treatments of repeated locations and labels.")
+```
+
+**Repeated coordinates do not explain the broad departure from uniformity.** Reducing the pattern from `r fmt(quality$n)` accidents to `r fmt(quality$unique_locations)` unique recorded locations still gives a CSR p-value of `r unique_csr_p`. This sensitivity changes the unit to a recorded location, so it is not the primary event-level result.
+
+**The absence of excess fatal-event proximity is stable under the checks used.** Removing all zero-distance pairs gives p = `r nozero_test$p`; removing the province–agency stratification gives p = `r unstrat_test$p`. The latter comparison is deliberately less adjusted and does not replace the primary conditional model. Both tests remain one-sided for clustering, so a large p-value is not evidence for uniformity or absence of all spatial structure.
+
+**First- and second-order results answer different questions.** The KDE locates high recorded accident intensity, and the CSR result confirms the pattern's non-uniformity against a simple benchmark. The fatal-label result addresses whether severe outcomes are especially concentrated relative to those already observed locations. It supplies no evidence of extra clustering at the declared scales. High-volume corridors and fatal-event locations therefore deserve complementary scrutiny, rather than being treated as interchangeable maps.
+
+The bandwidth comparisons retain a stable broad concentration while shifting the boundaries of high-density zones. None of the sensitivity checks removes the core limitations: incomplete agency coverage, selective missing coordinates, uncertain positional accuracy, absent exposure and the use of planar distances. The tests are exploratory assessments of this dataset and window, not causal or predictive models.
 
 ## Public-safety planning and management
 
-::: {.th-prompt}
-**Your contribution — maximum 500 words:** Link each proposed action to your
-analytical evidence. Distinguish actions supported by the results from proposals
-requiring traffic volumes, field assessment, or other information. Avoid causal
-claims that your study cannot support.
+::: {.planning-discussion}
+Use the density maps as an initial screen for coordinated corridor reviews in Bangkok and adjoining provinces. The persistence of broad concentrations across 1–3 km bandwidths supports regional prioritisation, while their changing fine detail argues for inspecting original records and road geometry before naming a junction or road segment for intervention.
+
+Maintain a separate review of fatal accidents. Pathum Thani and Samut Prakan contain more fatal events than Bangkok in the retained sample, despite lower total event counts. The conditional test does not support extra fatal-event clustering at the investigated distances. Consequently, a programme focused solely on the highest-density zones could overlook dispersed severe outcomes. Review fatal cases individually alongside corridor-level workload.
+
+Repair the reporting gap before comparing expressway performance. The 189 ungeolocated records all belong to Bangkok's expressway reporting agency. Recovering their original location references and matching them to verified road geometry would improve both coverage and the fairness of geographic comparisons. Repeated coordinates also warrant checking against route and kilometre-post information.
+
+The higher recorded daily frequency in October–December provides a reason to review late-year response workload, traffic volumes and operating conditions. It does not establish a recurring seasonal hazard. Validate the pattern against additional years and reporting changes before committing seasonal resources.
+
+Before selecting physical measures, obtain a connected road network appropriate to 2022, traffic exposure, road geometry, speed observations and road-user composition. Network density and severity-specific rates could then support more precise site screening. Validate candidate sites through engineering inspection and local evidence. These data alone cannot justify a causal claim about speeding, prescribe a particular design intervention, or establish its expected safety benefit. Evaluate implemented measures with suitable comparison locations and allowance for changes in exposure and regression to the mean.
 :::
 
-## Limitations
+## Reproducibility and analytical checks
 
-::: {.th-prompt}
-**Your contribution:** Discuss the limitations actually relevant to your work,
-including observation coverage, location accuracy, study-window choices,
-network representation, parameter sensitivity, and inferential assumptions.
-Explain what the analysis can and cannot establish.
-:::
+Every analytical operation and figure is produced with R. This report executes labelled sections from [`R/prepare.R`](R/prepare.R) and [`R/analysis.R`](R/analysis.R); opening a code block shows the code used. The same saved figures are reused in the presentation. No external analytical outputs are pasted into the workflow.
 
-## Reproducibility
+The scripts check input parsing, event-ID uniqueness, finite coordinates, valid geometries, complete casualty counts, the point-pattern size and finite simulation results. Original inputs are checked by SHA-256. Seeds **6262022–6262025** are fixed and independent across the simulation comparisons. The report, source scripts and generated site are kept together in the repository. See the [reproduction guide](learning-guide.qmd) for a clean RStudio run and acquisition instructions.
 
-::: {.th-prompt}
-**Your contribution:** Provide the script execution order, input checksums,
-package versions, random seeds, and expected outputs. Include `sessionInfo()`
-from your analytical run. The environment checker in this folder verifies setup
-only; it does not establish that the analysis is reproducible.
-:::
+```{r}
+#| label: thx-session
+#| code-summary: "R and package versions"
+sessionInfo()
+```
 
-## References
+## References and attribution
 
-These are starting references. Retain the ones used and add the sources supporting
-your analytical choices and context.
-
-- [Course assignment](https://isss626-ay2026-27aug.netlify.app/take-home_ex01)
-- [Accident dataset](https://www.kaggle.com/datasets/thaweewatboy/thailand-road-accident-2019-2022)
-- [geoBoundaries](https://www.geoboundaries.org/)
-- [Bangkok and Vicinities definition](https://www.nso.go.th/public/e-book/Indicators-Environment/Environment-Indicators-2567/47/)
-- [Chapter 7](https://r4gdsa.netlify.app/chap07)
-- [spNetwork documentation](https://jeremygelb.github.io/spNetwork/reference/index.html)
-
-## AI-use declaration
-
-Generative AI helped prepare the website navigation, document and presentation
-templates, learning notes, and source-acquisition records. It has not produced
-analytical code, results, interpretations, or conclusions for this exercise.
-The student must update this declaration to accurately describe the final work.
+- ISSS626. [Take-home Exercise 1: assignment brief](https://isss626-ay2026-27aug.netlify.app/take-home_ex01). Thailand option; accessed 27 September 2026.
+- thaweewatboy. [Thailand Road Accident 2019–2022](https://www.kaggle.com/datasets/thaweewatboy/thailand-road-accident-2019-2022). Kaggle. CC0 as listed at acquisition.
+- geoBoundaries. [THA ADM1 metadata](https://www.geoboundaries.org/api/current/gbOpen/THA/ADM1/) and [pinned boundary file](https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/THA/ADM1/geoBoundaries-THA-ADM1.geojson). Boundaries derived from OpenStreetMap contributors and Wambacher, [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/). Maps use these boundaries with attribution; no edited boundary database is redistributed.
+- National Statistical Office of Thailand. [Bangkok and Vicinities grouping](https://www.nso.go.th/public/e-book/Indicators-Environment/Environment-Indicators-2567/47/).
+- R for Geospatial Data Science and Analytics. [Chapter 7: network point-pattern analysis](https://r4gdsa.netlify.app/chap07).
+- Gelb, J. [spNetwork reference](https://jeremygelb.github.io/spNetwork/reference/index.html), especially [network kernel density estimation](https://jeremygelb.github.io/spNetwork/reference/nkde.html). Methodological comparison; network statistics are not computed here.
+- Baddeley, A., Rubak, E. and Turner, R. [spatstat project](https://spatstat.org/). See [`density.ppp`](https://rdrr.io/cran/spatstat.explore/man/density.ppp.html), [`Lest`](https://rdrr.io/cran/spatstat.explore/man/Lest.html) and [`closepairs`](https://rdrr.io/cran/spatstat.geom/man/closepairs.html) for the estimators and pair enumeration used.

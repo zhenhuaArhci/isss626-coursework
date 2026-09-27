@@ -1,9 +1,19 @@
-.reveal { font-family: "Segoe UI", Arial, sans-serif; color: #35455e; font-size: 30px; }
+.reveal { font-family: "Segoe UI", Arial, sans-serif; color: #35455e; font-size: 29px; }
 .reveal .slides { text-align: left; }
-.reveal h1, .reveal h2 { color: #465d91; text-transform: none; }
-.reveal h1 { font-size: 1.9em; }
-.reveal h2 { font-size: 1.4em; }
-.reveal a { color: #344d79; text-decoration: underline; }
-.reveal .slide-prompt { background: #f8f3e8; border-left: 5px solid #a17728; padding: 1rem 1.4rem; }
-.reveal .footer { color: #64460e; font-size: 16px; }
+.reveal h1, .reveal h2, .reveal h3 { color: #36557b; text-transform: none; }
+.reveal h1 { font-size: 1.8em; }
+.reveal h2 { font-size: 1.3em; margin-bottom: .5em; }
+.reveal h3 { font-size: 1em; }
+.reveal a { color: #285c81; text-decoration: underline; }
+.reveal .footer { color: #66768b; font-size: 15px; }
 .reveal .slide-number { color: #35455e; }
+.reveal .slide-source { font-size: .62em; line-height: 1.35; color: #5d6f84; }
+.reveal table { font-size: .85em; margin: .5em 0 1em; width: 100%; }
+.reveal .columns { gap: 1.5em; }
+.reveal p { line-height: 1.35; }
+.reveal img { margin: .15em auto; object-fit: contain; }
+.reveal .quarto-figure { margin: 0; }
+.reveal .slide figure { margin: 0; }
+.reveal .slide figure figcaption { display: none; }
+/* Keep report styles from overriding the declared slide image heights. */
+.reveal .slides section img { height: 420px; width: auto; max-height: 420px; max-width: 100%; object-fit: contain; display: block; margin: .2em auto; }

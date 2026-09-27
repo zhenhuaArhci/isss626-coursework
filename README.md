@@ -36,10 +36,10 @@ The project-level `.Renviron` selects a Windows-compatible UTF-8 locale so R can
 - `about.qmd` — short course and author page
 - `styles.css` — minimal light-blue page styling
 - `netlify.toml` — static publishing configuration
-- `take home exercise1/` — draft Thailand accident report, revealjs slides, R scripts,
-  learning guide, and acquisition records; student analysis remains pending
+- `take home exercise1/` — completed Greater Bangkok accident analysis, revealjs slides,
+  R scripts, figures, reproduction guide and acquisition records
 
-## Take-home Exercise 1 (draft)
+## Take-home Exercise 1
 
 This workspace follows the same R + Quarto workflow as the hands-on exercises.
 From the project root in RStudio:
@@ -50,8 +50,8 @@ source("take home exercise1/R/download-data.R")
 source("take home exercise1/R/render.R")
 ```
 
-See `take home exercise1/README.md` for the student workflow and final publication
-checklist. The templates are not a completed assignment. Original inputs are kept
+See `take home exercise1/README.md` for the reproducible R workflow and publication
+details. The report analyses 3,599 geolocated accidents in 2022. Original inputs are kept
 locally, while their provenance and SHA-256 hashes are tracked in Git.
 
 ## Exercises 2A and 2B

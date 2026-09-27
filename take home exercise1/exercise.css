@@ -42,3 +42,6 @@
   .take-home-page .th-links { flex-direction: column; }
   .take-home-page .th-links a { text-align: center; }
 }
+.take-home-page .visual-interpretation { border-left: 3px solid #217c91; padding: .2rem 1rem; margin: 1rem 0 1.7rem; background: #f2f7fa; }
+.take-home-page .planning-discussion { line-height: 1.7; }
+.take-home-page img { max-width: 100%; height: auto; }

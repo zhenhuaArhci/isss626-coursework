@@ -1,14 +1,10 @@
-# Take-home Exercise 1 — R + Quarto workspace
+# Take-home Exercise 1 — Greater Bangkok road accidents, 2022
 
-**Draft: analysis and student interpretation pending. Do not submit these templates.**
+The complete R and Quarto study covers 3,599 geolocated events across Bangkok and five surrounding provinces. It includes a technical report, a revealjs summary with ten content slides, R scripts, five figures, source metadata and a reproduction guide.
 
-This folder uses the same R-script and `knitr::read_chunk()` pattern as Exercise
-2A. It contains the report, revealjs presentation, learning guide, R workspace,
-and data provenance. All analytical work will be written in R by the student.
+## Reproduce in RStudio
 
-## Start in RStudio
-
-Open `ISSS626-GAA.Rproj` in the website root and run:
+Open `ISSS626-GAA.Rproj` at the repository root. Install missing packages listed by the checker, then run:
 
 ```r
 source("take home exercise1/R/check-environment.R")
@@ -16,53 +12,30 @@ source("take home exercise1/R/download-data.R")
 source("take home exercise1/R/render.R")
 ```
 
-The first two scripts check setup and acquire/verify original inputs. The last
-renders the website, reusing available frozen results, without executing unfinished
-analytical sections. This updates navigation on the existing pages as well. For
-older exercises with no frozen results, use their download scripts documented in
-the main project README before a full build.
-Install any missing workspace dependencies (`knitr`, `rmarkdown`, `jsonlite`,
-`digest`) through RStudio. Method-dependent packages are listed by the checker.
+Required packages: sf, dplyr, readr, ggplot2, spatstat.geom, spatstat.explore, spatstat.random, knitr, rmarkdown, jsonlite and digest. Tested with R 4.5.3 and Quarto 1.10.18. The report records package versions.
 
-## Where to work
+The full-site build executes this report and reuses frozen results for previous exercises. A report-only refresh is `quarto render "take home exercise1/technical-report.qmd"`. To inspect intermediate objects, source `R/prepare.R` followed by `R/analysis.R` from the project root.
 
-- `index.qmd`: exercise landing page and completion status.
-- `technical-report.qmd`: report narrative and R chunks.
-- `executive-summary.qmd`: revealjs deck, with 10 content slides plus cover/contents.
-- `learning-guide.qmd`: concepts, study-design worksheet, and stage outputs.
-- `R/prepare.R`: labelled student preparation sections.
-- `R/analysis.R`: labelled student analysis sections.
-- `data/metadata/`: source metadata and checksums.
-- `data/raw/`: local original files, ignored by Git.
-- `data/derived/`: student intermediates, ignored by Git.
-- `figures/`: completed R-generated figures for reuse in the report/slides.
+## Contents
 
-The report reads the labelled R sections directly. Replace each explicit pending
-`stop()` with your own work and remove the corresponding chunk's `eval: false`
-when it is ready. Enable chunks in report order. Do not copy rendered output into
-the report as a substitute for running the code that produces it.
+- `index.qmd`: landing page and deliverable links.
+- `technical-report.qmd`: report with executed labelled R sections.
+- `executive-summary.qmd`: revealjs slides reusing the generated figures.
+- `learning-guide.qmd`: final reproduction guide; its existing route is preserved.
+- `R/`: acquisition, validation, preparation, analysis and rendering scripts.
+- `data/metadata/`: original metadata and SHA-256 manifest.
+- `data/raw/`: locally downloaded original inputs, ignored by Git.
+- `data/derived/`: regenerated tables and summary JSON, ignored by Git.
+- `figures/`: five R-generated figures, committed with the report.
 
-## Final publication checklist
+All spatial distances are planar metres in EPSG:32647. The study does not claim network density or travel-risk estimates. Methods and limitations are explained in the report. Seeds 6262022–6262025 fix the Monte Carlo runs.
 
-The accepted plan reserves final publication for completed student analysis.
-Development is on `codex/take-home-exercise1`; the production site uses `main`.
+## Publication
 
-1. Complete and run the student R preparation and analysis; review the outputs.
-2. Complete interpretations (at most 150 words per major visual), the planning
-   discussion (at most 500 words), and the summary (at most 10 content slides).
-3. Include the analytical `sessionInfo()`, execution order, seeds, source records,
-   and an accurate AI-use declaration. Check all references and data licenses.
-4. Remove pending text, draft labels, and exercise `noindex` metadata.
-5. Change exercise GitHub links from the development branch to `main`.
-6. Render the whole site from R using Quarto and the existing freezer when
-   appropriate; explicitly rerun this report when external R scripts change.
-7. Check every new route, navigation menu, figure, slide control, and old exercise.
-8. Commit the source and `_site/` together, push the completed changes to `main`,
-   and verify Netlify publishes that revision before submitting links to eLearn.
+Source and generated `_site/` pages are versioned together on `main`. Netlify serves `_site/` on the existing coursework domain. The live deliverables are:
 
-## Current assistance
+- [Report](https://isss626-gaa-zhenhua-liu.netlify.app/take%20home%20exercise1/technical-report.html)
+- [Slides](https://isss626-gaa-zhenhua-liu.netlify.app/take%20home%20exercise1/executive-summary.html)
+- [Source folder](https://github.com/zhenhuaArhci/isss626-coursework/tree/main/take%20home%20exercise1)
 
-AI prepared the document structures, conceptual learning guide, website
-integration, source acquisition, and R setup/rendering helpers. It did not produce
-the assessed analytical solution or interpretations. The unfinished analytical
-sections remain explicit student tasks.
+See `data/README.md` for source licenses and acquisition details. Raw data are acquired by script instead of bundled; boundary attribution is retained in figures and the report.

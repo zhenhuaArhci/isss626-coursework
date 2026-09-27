@@ -130,7 +130,6 @@
       margin-right: 0; 
     }
   </style>
-  <meta name="robots" content="noindex, nofollow">
 </head>
 <body class="exercise-page take-home-page quarto-light">
   <div class="reveal">
@@ -138,7 +137,7 @@
 
 <section id="title-slide" class="quarto-title-block center">
   <h1 class="title">Road Traffic Accidents in Greater Bangkok</h1>
-  <p class="subtitle">2022 · DRAFT TEMPLATE · analysis pending</p>
+  <p class="subtitle">2022 · Spatial concentration and fatal-event proximity</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -152,80 +151,149 @@ Zhenhua Liu
 <section id="contents" class="slide level2 unnumbered">
 <h2>Contents</h2>
 <ol type="1">
-<li>Question and scope</li>
-<li>Data, quality, and methods</li>
-<li>Evidence, limitations, and implications</li>
+<li>Question, study area and data quality</li>
+<li>Spatial and temporal concentration</li>
+<li>Two second-order comparisons</li>
+<li>Robustness, actions and limits</li>
 </ol>
-<p><strong>Template only:</strong> replace prompts with your own completed work.</p>
-<p><a href="../take home exercise1/index.html">Exercise home</a> · <a href="../take home exercise1/technical-report.html">Technical report</a></p>
+<p><a href="../take home exercise1/technical-report.html">Technical report</a> · <a href="../take home exercise1/learning-guide.html">Reproduction guide</a> · <a href="https://github.com/zhenhuaArhci/isss626-coursework/tree/main/take%20home%20exercise1">GitHub</a></p>
 </section>
-<section id="research-question" class="slide level2">
-<h2>1. Research question</h2>
-<div class="slide-prompt">
-<p>State your research question and explain why it matters to the intended audience. Identify the event, place, and time period.</p>
+<section id="where-are-accidents-concentrated" class="slide level2">
+<h2>1. Where are accidents concentrated?</h2>
+<p><strong>Question:</strong> Where do recorded accidents concentrate, and are fatal accidents unusually close to one another?</p>
+<div class="columns">
+<div class="column" style="width:54%;">
+<h3 id="six-administrative-areas">Six administrative areas</h3>
+<p>Bangkok, Nonthaburi, Pathum Thani, Samut Prakan, Samut Sakhon and Nakhon Pathom.</p>
+<p>Incident dates: <strong>1 January–31 December 2022</strong>.</p>
+<p>Window: union of six geoBoundaries polygons; <strong>7,604 km²</strong>.</p>
+</div><div class="column" style="width:46%;">
+<h3 id="three-measures">Three measures</h3>
+<ul>
+<li><strong>3,599</strong> geolocated accidents</li>
+<li><strong>159</strong> fatal accidents</li>
+<li><strong>177</strong> recorded deaths</li>
+</ul>
+<p>An accident is one record with a unique ID. Fatality counts and accident counts are different units.</p>
+</div></div>
+<div class="slide-source">
+<p>Sources: <a href="https://www.kaggle.com/datasets/thaweewatboy/thailand-road-accident-2019-2022">Kaggle accident dataset</a>, <a href="https://www.geoboundaries.org/api/current/gbOpen/THA/ADM1/">geoBoundaries</a>, <a href="https://www.nso.go.th/public/e-book/Indicators-Environment/Environment-Indicators-2567/47/">NSO grouping</a>.</p>
 </div>
 </section>
-<section id="study-area-and-period" class="slide level2">
-<h2>2. Study area and period</h2>
-<div class="slide-prompt">
-<p>Insert your study-area map. Explain how you defined Greater Bangkok and restricted the incident records to 2022. Include boundary source and vintage.</p>
+<section id="coverage-shapes-the-findings" class="slide level2">
+<h2>2. Coverage shapes the findings</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Processing step</th>
+<th style="text-align: right;">Records</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Source, all years</td>
+<td style="text-align: right;">81,735</td>
+</tr>
+<tr class="even">
+<td>Incident year 2022</td>
+<td style="text-align: right;">21,032</td>
+</tr>
+<tr class="odd">
+<td>Valid coordinates</td>
+<td style="text-align: right;">20,843</td>
+</tr>
+<tr class="even">
+<td>Inside study polygon</td>
+<td style="text-align: right;"><strong>3,599</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>189 records lack coordinates:</strong> all are Bangkok records from the expressway agency. Their exclusion can understate mapped expressway intensity.</p>
+<p><strong>3,278 distinct coordinates; 199 repeated sites.</strong> Different accident IDs remain separate events. Province labels are checked against polygon locations.</p>
+<div class="slide-source">
+<p>No duplicate accident IDs in 2022. Inputs are checksum-verified; all preparation and analysis use R.</p>
 </div>
 </section>
-<section id="data-and-event-definition" class="slide level2">
-<h2>3. Data and event definition</h2>
-<div class="slide-prompt">
-<p>Describe your sources, observation coverage, and definition of one event. Include the final event count only after running and checking your preparation.</p>
-</div>
+<section id="recorded-accidents-form-corridors" class="slide level2">
+<h2>3. Recorded accidents form corridors</h2>
+<p><img data-src="figures/study-area.png" alt="Accidents across Bangkok and five surrounding provinces, showing corridor-shaped concentrations." height="450"></p>
+<p>Bangkok contains <strong>1,802 records (50.1%)</strong>. Fatal events also occur outside the densest Bangkok alignments. Sparse areas cannot automatically be considered safer.</p>
 </section>
-<section id="data-quality" class="slide level2">
-<h2>4. Data quality</h2>
-<div class="slide-prompt">
-<p>Summarise your inclusion and exclusion counts. Explain the most consequential data-quality issue and how you treated it.</p>
-</div>
+<section id="late-year-recorded-frequency-is-higher" class="slide level2">
+<h2>4. Late-year recorded frequency is higher</h2>
+<p><img data-src="figures/monthly.png" alt="Monthly events per day with October highest and February lowest." height="405"></p>
+<p><strong>October: 12.71/day; February: 7.57/day.</strong> October–December account for <strong>31.5%</strong> of records. Calendar-day adjustment removes month-length differences; traffic exposure and reporting changes remain uncontrolled.</p>
 </section>
-<section id="analytical-approach" class="slide level2">
-<h2>5. Analytical approach</h2>
-<div class="slide-prompt">
-<p>Explain your first- and second-order methods, the null model, key parameters, and the assumptions needed to interpret your results.</p>
-</div>
+<section id="broad-concentrations-survive-smoothing" class="slide level2">
+<h2>5. Broad concentrations survive smoothing</h2>
+<p><img data-src="figures/planar-kde.png" alt="Planar kernel density maps at 1, 2 and 3 kilometre Gaussian bandwidths." height="390"></p>
+<p>Gaussian KDE, <strong>250 m grid</strong>, polygon edge correction, events/km². Adjacent-bandwidth rank correlations are <strong>0.901</strong> and <strong>0.963</strong>; top-decile overlap is <strong>0.644</strong> and <strong>0.731</strong>. Local hotspot boundaries remain bandwidth-sensitive.</p>
 </section>
-<section id="first-order-evidence" class="slide level2">
-<h2>6. First-order evidence</h2>
-<div class="slide-prompt">
-<p>Insert your main intensity map or graphic with units and a readable legend. Add your interpretation, at most 150 words, and a limitation.</p>
-</div>
+<section id="uniform-spatial-placement-is-inadequate" class="slide level2">
+<h2>6. Uniform spatial placement is inadequate</h2>
+<p><img data-src="figures/csr-envelope.png" alt="Observed L minus r lies above the simultaneous CSR simulation band." height="400"></p>
+<p>Border-corrected <strong>L(r) − r</strong>, 0.25–5 km; <strong>199 fixed-count simulations</strong>, global <strong>p = 0.005</strong>. This establishes departure from the uniform-land benchmark. Roads and reporting intensity can explain that departure; it is not evidence of crash contagion.</p>
 </section>
-<section id="second-order-evidence" class="slide level2">
-<h2>7. Second-order evidence</h2>
-<div class="slide-prompt">
-<p>Insert your second-order result with the null model and distance units clearly labelled. Add your interpretation, at most 150 words, and an inference caveat.</p>
-</div>
+<section id="fatal-events-show-no-excess-proximity" class="slide level2">
+<h2>7. Fatal events show no excess proximity</h2>
+<p><img data-src="figures/fatal-pairs.png" alt="Observed fatal-fatal pairs are below the stratified random-label mean at four distance thresholds." height="395"></p>
+<p><strong>999 permutations</strong> preserve province × agency fatal totals and all accident locations. At 1 km: <strong>52 observed pairs vs 90.6 expected</strong>. One-sided global <strong>p = 0.998</strong>: no excess clustering at the tested scales. This does not prove random labelling or dispersion.</p>
 </section>
-<section id="sensitivity-and-integrated-findings" class="slide level2">
-<h2>8. Sensitivity and integrated findings</h2>
-<div class="slide-prompt">
-<p>Show how a justified sensitivity check affects your conclusion. Connect this evidence to your first- and second-order findings.</p>
-</div>
+<section id="main-conclusions-survive-the-checks" class="slide level2">
+<h2>8. Main conclusions survive the checks</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Sensitivity check</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>CSR with one point per recorded location</td>
+<td>p = <strong>0.005</strong></td>
+</tr>
+<tr class="even">
+<td>Fatal-label test without coincident pairs</td>
+<td>p = <strong>0.998</strong></td>
+</tr>
+<tr class="odd">
+<td>Fatal-label test without strata</td>
+<td>p = <strong>0.995</strong></td>
+</tr>
+<tr class="even">
+<td>KDE: 1, 2 and 3 km bandwidths</td>
+<td>Broad concentration persists</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Interpretation:</strong> high accident intensity and excess fatal-event clustering are different questions. Stable broad patterns do not make individual hotspot boundaries or causal explanations certain.</p>
 </section>
-<section id="limitations" class="slide level2">
-<h2>9. Limitations</h2>
-<div class="slide-prompt">
-<p>Explain the limitations that matter most for your conclusions. Distinguish recorded event concentration from exposure-adjusted accident risk.</p>
-</div>
+<section id="use-the-evidence-for-screening-and-review" class="slide level2">
+<h2>9. Use the evidence for screening and review</h2>
+<ol type="1">
+<li><strong>Review broad corridors</strong> that remain concentrated across bandwidths; confirm exact sites using road geometry and original reports.</li>
+<li><strong>Review fatal cases separately</strong>, including dispersed locations beyond the highest-density zones.</li>
+<li><strong>Recover missing expressway coordinates</strong> before comparing geographic performance.</li>
+<li><strong>Check late-year workload</strong> against exposure, operating conditions and additional years.</li>
+</ol>
+<p>Before selecting an intervention, obtain traffic volumes, road design, speed and road-user data. Evaluate changes with suitable comparison sites.</p>
 </section>
-<section id="public-safety-implications" class="slide level2">
-<h2>10. Public-safety implications</h2>
-<div class="slide-prompt">
-<p>Summarise your own evidence-supported implications and the additional information needed before action. Keep these consistent with the technical report.</p>
+<section id="what-this-study-establishes" class="slide level2">
+<h2>10. What this study establishes</h2>
+<p><strong>Supported:</strong> concentration of <em>recorded</em> accidents, unequal monthly frequency, departure from uniform spatial placement, and no evidence of extra fatal-event clustering under the specified conditional test.</p>
+<p><strong>Limits:</strong> selective reporting; 189 missing coordinates; uncertain positional accuracy; 2017 boundary vintage; one year; Euclidean distances; no traffic exposure.</p>
+<p>Planar intensity is a regional screening measure. A validated historical road graph is needed for network density and road-segment inference.</p>
+<div class="slide-source">
+<p>Methods: <a href="https://spatstat.org/">spatstat</a>, <a href="https://r4gdsa.netlify.app/chap07">Chapter 7</a>, <a href="https://jeremygelb.github.io/spNetwork/reference/index.html">spNetwork reference</a>. Full assumptions, code, source attribution and results: <a href="../take home exercise1/technical-report.html">technical report</a>.</p>
 </div>
-<p><a href="../take home exercise1/technical-report.html">Full report and references</a> · <a href="https://github.com/zhenhuaArhci/isss626-coursework/tree/codex/take-home-exercise1/take%20home%20exercise1">Source repository</a></p>
 
 
 </section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
-<p>Draft template · not ready for submission</p>
+<p>ISSS626 · Take-home Exercise 1 · 27 September 2026</p>
 </div>
 </div></div>
 

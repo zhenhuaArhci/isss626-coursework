@@ -6,11 +6,9 @@ toc: true
 toc-location: right
 code-copy: true
 code-overflow: wrap
-include-in-header:
-  text: '<meta name="robots" content="noindex, nofollow">'
 execute:
   freeze: false
   echo: true
-  warning: true
+  warning: false
   message: false
   error: false

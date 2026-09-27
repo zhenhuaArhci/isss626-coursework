@@ -48,9 +48,9 @@ website:
         menu:
           - text: "Exercise 1 · Thailand road accidents"
             href: "take home exercise1/index.qmd"
-          - text: "Technical Report · draft"
+          - text: "Technical Report"
             href: "take home exercise1/technical-report.qmd"
-          - text: "Executive Summary · draft"
+          - text: "Executive Summary"
             href: "take home exercise1/executive-summary.qmd"
     right:
       - text: "Home"

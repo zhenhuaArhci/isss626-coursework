@@ -1,6 +1,6 @@
 ---
 title: "Road Traffic Accidents in Greater Bangkok"
-subtitle: "2022 · DRAFT TEMPLATE · analysis pending"
+subtitle: "2022 · Spatial concentration and fatal-event proximity"
 author: "Zhenhua Liu"
 format: revealjs
 theme: simple
@@ -16,91 +16,123 @@ center: false
 width: 1280
 height: 800
 margin: 0.08
-footer: "Draft template · not ready for submission"
-include-in-header:
-  text: '<meta name="robots" content="noindex, nofollow">'
+footer: "ISSS626 · Take-home Exercise 1 · 27 September 2026"
 toc: false
 ---
 
 ## Contents {.unnumbered}
 
-1. Question and scope
-2. Data, quality, and methods
-3. Evidence, limitations, and implications
+1. Question, study area and data quality
+2. Spatial and temporal concentration
+3. Two second-order comparisons
+4. Robustness, actions and limits
 
-**Template only:** replace prompts with your own completed work.
+[Technical report](technical-report.qmd) · [Reproduction guide](learning-guide.qmd) · [GitHub](https://github.com/zhenhuaArhci/isss626-coursework/tree/main/take%20home%20exercise1)
 
-[Exercise home](index.qmd) · [Technical report](technical-report.qmd)
+## 1. Where are accidents concentrated?
 
-## 1. Research question
+**Question:** Where do recorded accidents concentrate, and are fatal accidents unusually close to one another?
 
-::: {.slide-prompt}
-State your research question and explain why it matters to the intended audience.
-Identify the event, place, and time period.
+::: {.columns}
+::: {.column width="54%"}
+### Six administrative areas
+
+Bangkok, Nonthaburi, Pathum Thani, Samut Prakan, Samut Sakhon and Nakhon Pathom.
+
+Incident dates: **1 January–31 December 2022**.
+
+Window: union of six geoBoundaries polygons; **7,604 km²**.
+:::
+::: {.column width="46%"}
+### Three measures
+
+- **3,599** geolocated accidents
+- **159** fatal accidents
+- **177** recorded deaths
+
+An accident is one record with a unique ID. Fatality counts and accident counts are different units.
+:::
 :::
 
-## 2. Study area and period
-
-::: {.slide-prompt}
-Insert your study-area map. Explain how you defined Greater Bangkok and restricted
-the incident records to 2022. Include boundary source and vintage.
+::: {.slide-source}
+Sources: [Kaggle accident dataset](https://www.kaggle.com/datasets/thaweewatboy/thailand-road-accident-2019-2022), [geoBoundaries](https://www.geoboundaries.org/api/current/gbOpen/THA/ADM1/), [NSO grouping](https://www.nso.go.th/public/e-book/Indicators-Environment/Environment-Indicators-2567/47/).
 :::
 
-## 3. Data and event definition
+## 2. Coverage shapes the findings
 
-::: {.slide-prompt}
-Describe your sources, observation coverage, and definition of one event.
-Include the final event count only after running and checking your preparation.
+| Processing step | Records |
+|---|---:|
+| Source, all years | 81,735 |
+| Incident year 2022 | 21,032 |
+| Valid coordinates | 20,843 |
+| Inside study polygon | **3,599** |
+
+**189 records lack coordinates:** all are Bangkok records from the expressway agency. Their exclusion can understate mapped expressway intensity.
+
+**3,278 distinct coordinates; 199 repeated sites.** Different accident IDs remain separate events. Province labels are checked against polygon locations.
+
+::: {.slide-source}
+No duplicate accident IDs in 2022. Inputs are checksum-verified; all preparation and analysis use R.
 :::
 
-## 4. Data quality
+## 3. Recorded accidents form corridors
 
-::: {.slide-prompt}
-Summarise your inclusion and exclusion counts. Explain the most consequential
-data-quality issue and how you treated it.
+![](figures/study-area.png){height=450 fig-alt="Accidents across Bangkok and five surrounding provinces, showing corridor-shaped concentrations."}
+
+Bangkok contains **1,802 records (50.1%)**. Fatal events also occur outside the densest Bangkok alignments. Sparse areas cannot automatically be considered safer.
+
+## 4. Late-year recorded frequency is higher
+
+![](figures/monthly.png){height=405 fig-alt="Monthly events per day with October highest and February lowest."}
+
+**October: 12.71/day; February: 7.57/day.** October–December account for **31.5%** of records. Calendar-day adjustment removes month-length differences; traffic exposure and reporting changes remain uncontrolled.
+
+## 5. Broad concentrations survive smoothing
+
+![](figures/planar-kde.png){height=390 fig-alt="Planar kernel density maps at 1, 2 and 3 kilometre Gaussian bandwidths."}
+
+Gaussian KDE, **250 m grid**, polygon edge correction, events/km². Adjacent-bandwidth rank correlations are **0.901** and **0.963**; top-decile overlap is **0.644** and **0.731**. Local hotspot boundaries remain bandwidth-sensitive.
+
+## 6. Uniform spatial placement is inadequate
+
+![](figures/csr-envelope.png){height=400 fig-alt="Observed L minus r lies above the simultaneous CSR simulation band."}
+
+Border-corrected **L(r) − r**, 0.25–5 km; **199 fixed-count simulations**, global **p = 0.005**. This establishes departure from the uniform-land benchmark. Roads and reporting intensity can explain that departure; it is not evidence of crash contagion.
+
+## 7. Fatal events show no excess proximity
+
+![](figures/fatal-pairs.png){height=395 fig-alt="Observed fatal-fatal pairs are below the stratified random-label mean at four distance thresholds."}
+
+**999 permutations** preserve province × agency fatal totals and all accident locations. At 1 km: **52 observed pairs vs 90.6 expected**. One-sided global **p = 0.998**: no excess clustering at the tested scales. This does not prove random labelling or dispersion.
+
+## 8. Main conclusions survive the checks
+
+| Sensitivity check | Result |
+|---|---|
+| CSR with one point per recorded location | p = **0.005** |
+| Fatal-label test without coincident pairs | p = **0.998** |
+| Fatal-label test without strata | p = **0.995** |
+| KDE: 1, 2 and 3 km bandwidths | Broad concentration persists |
+
+**Interpretation:** high accident intensity and excess fatal-event clustering are different questions. Stable broad patterns do not make individual hotspot boundaries or causal explanations certain.
+
+## 9. Use the evidence for screening and review
+
+1. **Review broad corridors** that remain concentrated across bandwidths; confirm exact sites using road geometry and original reports.
+2. **Review fatal cases separately**, including dispersed locations beyond the highest-density zones.
+3. **Recover missing expressway coordinates** before comparing geographic performance.
+4. **Check late-year workload** against exposure, operating conditions and additional years.
+
+Before selecting an intervention, obtain traffic volumes, road design, speed and road-user data. Evaluate changes with suitable comparison sites.
+
+## 10. What this study establishes
+
+**Supported:** concentration of *recorded* accidents, unequal monthly frequency, departure from uniform spatial placement, and no evidence of extra fatal-event clustering under the specified conditional test.
+
+**Limits:** selective reporting; 189 missing coordinates; uncertain positional accuracy; 2017 boundary vintage; one year; Euclidean distances; no traffic exposure.
+
+Planar intensity is a regional screening measure. A validated historical road graph is needed for network density and road-segment inference.
+
+::: {.slide-source}
+Methods: [spatstat](https://spatstat.org/), [Chapter 7](https://r4gdsa.netlify.app/chap07), [spNetwork reference](https://jeremygelb.github.io/spNetwork/reference/index.html). Full assumptions, code, source attribution and results: [technical report](technical-report.qmd).
 :::
-
-## 5. Analytical approach
-
-::: {.slide-prompt}
-Explain your first- and second-order methods, the null model, key parameters,
-and the assumptions needed to interpret your results.
-:::
-
-## 6. First-order evidence
-
-::: {.slide-prompt}
-Insert your main intensity map or graphic with units and a readable legend.
-Add your interpretation, at most 150 words, and a limitation.
-:::
-
-## 7. Second-order evidence
-
-::: {.slide-prompt}
-Insert your second-order result with the null model and distance units clearly
-labelled. Add your interpretation, at most 150 words, and an inference caveat.
-:::
-
-## 8. Sensitivity and integrated findings
-
-::: {.slide-prompt}
-Show how a justified sensitivity check affects your conclusion. Connect this
-evidence to your first- and second-order findings.
-:::
-
-## 9. Limitations
-
-::: {.slide-prompt}
-Explain the limitations that matter most for your conclusions. Distinguish
-recorded event concentration from exposure-adjusted accident risk.
-:::
-
-## 10. Public-safety implications
-
-::: {.slide-prompt}
-Summarise your own evidence-supported implications and the additional information
-needed before action. Keep these consistent with the technical report.
-:::
-
-[Full report and references](technical-report.qmd) ·
-[Source repository](https://github.com/zhenhuaArhci/isss626-coursework/tree/codex/take-home-exercise1/take%20home%20exercise1)

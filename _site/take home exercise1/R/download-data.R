@@ -76,5 +76,5 @@ local({
     row.names = NULL
   )
   print(checked, row.names = FALSE)
-  message("Original inputs verified. Data preparation and analysis remain student tasks.")
+  message("Original inputs verified. Run prepare.R and analysis.R, or render the technical report.")
 })
