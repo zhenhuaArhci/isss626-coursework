@@ -2,6 +2,11 @@ project:
   type: website
   output-dir: _site
   execute-dir: project
+  resources:
+    - "/take home exercise1/data/metadata/**"
+    - "/take home exercise1/R/*.R"
+    - "!/take home exercise1/data/raw/**"
+    - "!/take home exercise1/data/derived/**"
   render:
     - index.qmd
     - about.qmd
@@ -12,6 +17,10 @@ project:
     - handson2B/index.qmd
     - handson4/index.qmd
     - inlcass4/index.qmd
+    - "take home exercise1/index.qmd"
+    - "take home exercise1/technical-report.qmd"
+    - "take home exercise1/executive-summary.qmd"
+    - "take home exercise1/learning-guide.qmd"
 
 website:
   title: "ISSS626-GAA"
@@ -35,6 +44,14 @@ website:
         menu:
           - text: "inlcass4"
             href: inlcass4/index.qmd
+      - text: "Take-home Exercise"
+        menu:
+          - text: "Exercise 1 · Thailand road accidents"
+            href: "take home exercise1/index.qmd"
+          - text: "Technical Report · draft"
+            href: "take home exercise1/technical-report.qmd"
+          - text: "Executive Summary · draft"
+            href: "take home exercise1/executive-summary.qmd"
     right:
       - text: "Home"
         href: index.qmd

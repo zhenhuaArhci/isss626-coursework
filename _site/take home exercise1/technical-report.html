@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Zhenhua Liu">
+<meta name="description" content="Uncompleted technical report structure for Take-home Exercise 1.">
+
+<title>Road Traffic Accidents in Greater Bangkok, 2022 – ISSS626-GAA</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-badc0c3283439475f705a6c0bfcf04a2.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<meta name="robots" content="noindex, nofollow">
+
+
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="exercise.css">
+</head>
+
+<body class="nav-fixed exercise-page take-home-page quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">ISSS626-GAA</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hands-on-exercise" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Hands-on Exercise</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-hands-on-exercise">    
+        <li>
+    <a class="dropdown-item" href="../hands-on-exercise-1a/index.html">
+ <span class="dropdown-text">Hands-on Exercise 1A</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../hands-on-exercise-1b/index.html">
+ <span class="dropdown-text">Hands-on Exercise 1B</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../handson2A/index.html">
+ <span class="dropdown-text">Hands-on Exercise 2A</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../handson2B/index.html">
+ <span class="dropdown-text">Hands-on Exercise 2B</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../handson4/index.html">
+ <span class="dropdown-text">Hands-on Exercise 4</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-in-class-exercise" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">In-class Exercise</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-in-class-exercise">    
+        <li>
+    <a class="dropdown-item" href="../inlcass4/index.html">
+ <span class="dropdown-text">inlcass4</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-take-home-exercise" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Take-home Exercise</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-take-home-exercise">    
+        <li>
+    <a class="dropdown-item" href="../take home exercise1/index.html">
+ <span class="dropdown-text">Exercise 1 · Thailand road accidents</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../take home exercise1/technical-report.html">
+ <span class="dropdown-text">Technical Report · draft</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../take home exercise1/executive-summary.html">
+ <span class="dropdown-text">Executive Summary · draft</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction-and-study-context" id="toc-introduction-and-study-context" class="nav-link active" data-scroll-target="#introduction-and-study-context"><span class="header-section-number">1</span> Introduction and study context</a></li>
+  <li><a href="#research-question-and-objectives" id="toc-research-question-and-objectives" class="nav-link" data-scroll-target="#research-question-and-objectives"><span class="header-section-number">2</span> Research question and objectives</a></li>
+  <li><a href="#data-and-study-design" id="toc-data-and-study-design" class="nav-link" data-scroll-target="#data-and-study-design"><span class="header-section-number">3</span> Data and study design</a>
+  <ul class="collapse">
+  <li><a href="#source-inventory" id="toc-source-inventory" class="nav-link" data-scroll-target="#source-inventory"><span class="header-section-number">3.1</span> Source inventory</a></li>
+  <li><a href="#event-definition" id="toc-event-definition" class="nav-link" data-scroll-target="#event-definition"><span class="header-section-number">3.2</span> Event definition</a></li>
+  <li><a href="#spatial-and-temporal-windows" id="toc-spatial-and-temporal-windows" class="nav-link" data-scroll-target="#spatial-and-temporal-windows"><span class="header-section-number">3.3</span> Spatial and temporal windows</a></li>
+  </ul></li>
+  <li><a href="#data-preparation-and-quality-assessment" id="toc-data-preparation-and-quality-assessment" class="nav-link" data-scroll-target="#data-preparation-and-quality-assessment"><span class="header-section-number">4</span> Data preparation and quality assessment</a>
+  <ul class="collapse">
+  <li><a href="#spatial-preparation-and-study-area-map" id="toc-spatial-preparation-and-study-area-map" class="nav-link" data-scroll-target="#spatial-preparation-and-study-area-map"><span class="header-section-number">4.1</span> Spatial preparation and study-area map</a></li>
+  <li><a href="#network-preparation-if-applicable" id="toc-network-preparation-if-applicable" class="nav-link" data-scroll-target="#network-preparation-if-applicable"><span class="header-section-number">4.2</span> Network preparation, if applicable</a></li>
+  </ul></li>
+  <li><a href="#analytical-assumptions-and-methodological-decisions" id="toc-analytical-assumptions-and-methodological-decisions" class="nav-link" data-scroll-target="#analytical-assumptions-and-methodological-decisions"><span class="header-section-number">5</span> Analytical assumptions and methodological decisions</a></li>
+  <li><a href="#first-order-point-pattern-analysis" id="toc-first-order-point-pattern-analysis" class="nav-link" data-scroll-target="#first-order-point-pattern-analysis"><span class="header-section-number">6</span> First-order point-pattern analysis</a></li>
+  <li><a href="#second-order-point-pattern-analysis" id="toc-second-order-point-pattern-analysis" class="nav-link" data-scroll-target="#second-order-point-pattern-analysis"><span class="header-section-number">7</span> Second-order point-pattern analysis</a></li>
+  <li><a href="#integrated-findings-and-discussion" id="toc-integrated-findings-and-discussion" class="nav-link" data-scroll-target="#integrated-findings-and-discussion"><span class="header-section-number">8</span> Integrated findings and discussion</a></li>
+  <li><a href="#public-safety-planning-and-management" id="toc-public-safety-planning-and-management" class="nav-link" data-scroll-target="#public-safety-planning-and-management"><span class="header-section-number">9</span> Public-safety planning and management</a></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations"><span class="header-section-number">10</span> Limitations</a></li>
+  <li><a href="#reproducibility" id="toc-reproducibility" class="nav-link" data-scroll-target="#reproducibility"><span class="header-section-number">11</span> Reproducibility</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">12</span> References</a></li>
+  <li><a href="#ai-use-declaration" id="toc-ai-use-declaration" class="nav-link" data-scroll-target="#ai-use-declaration"><span class="header-section-number">13</span> AI-use declaration</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Road Traffic Accidents in Greater Bangkok, 2022</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<p class="subtitle lead">Technical report template · analysis pending</p>
+</div>
+
+<div>
+  <div class="description">
+    Uncompleted technical report structure for Take-home Exercise 1.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Zhenhua Liu </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-warning callout-titled" title="Draft — not ready for submission">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Draft — not ready for submission
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The student has not yet supplied analytical code, maps, results, or interpretations. The prompts below identify the work needed. Replace each prompt with your own completed work before final publication.</p>
+</div>
+</div>
+<p><a href="../take home exercise1/index.html">Exercise home</a> · <a href="../take home exercise1/executive-summary.html">Executive summary</a> · <a href="../take home exercise1/learning-guide.html">Learning guide</a></p>
+<section id="introduction-and-study-context" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="introduction-and-study-context"><span class="header-section-number">1</span> Introduction and study context</h2>
+<div class="th-prompt">
+<p><strong>Your contribution:</strong> Explain the public-safety problem and the audience for your report. Cite the evidence you use to establish context. Define the population represented by this dataset without assuming that it captures every crash.</p>
+</div>
+</section>
+<section id="research-question-and-objectives" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="research-question-and-objectives"><span class="header-section-number">2</span> Research question and objectives</h2>
+<div class="th-prompt">
+<p><strong>Your contribution:</strong> State your main question, its spatial and temporal scope, and what evidence would answer it. Distinguish the question about event intensity from the question about interaction among events.</p>
+</div>
+</section>
+<section id="data-and-study-design" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="data-and-study-design"><span class="header-section-number">3</span> Data and study design</h2>
+<section id="source-inventory" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="source-inventory"><span class="header-section-number">3.1</span> Source inventory</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Input</th>
+<th>Source and coverage</th>
+<th>Acquisition record</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Accident records</td>
+<td><a href="https://www.kaggle.com/datasets/thaweewatboy/thailand-road-accident-2019-2022">Kaggle, Thailand Road Accident 2019–2022</a>; nationwide source, 2022 study restriction</td>
+<td>Downloaded 27 September 2026; original CSV and Parquet retained locally</td>
+</tr>
+<tr class="even">
+<td>Administrative boundaries</td>
+<td><a href="https://www.geoboundaries.org/api/current/gbOpen/THA/ADM1/">geoBoundaries THA ADM1</a>; 2017 vintage in source metadata</td>
+<td>Boundary ID THA-ADM1-36821470; full-resolution GeoJSON retained locally</td>
+</tr>
+<tr class="odd">
+<td>Road network, if used</td>
+<td>Not acquired or selected</td>
+<td>Document provider, extract date, historical suitability, license, and road coverage</td>
+</tr>
+</tbody>
+</table>
+<p>Checksums and original metadata are recorded in the <a href="data/README.md">data notes</a>. Acquisition is complete; analytical validation of these inputs is still pending.</p>
+<p>The RStudio workflow follows Exercise 2A. The report loads labelled sections of <a href="R/prepare.R"><code>R/prepare.R</code></a> and <a href="R/analysis.R"><code>R/analysis.R</code></a> with <code>knitr::read_chunk()</code>. Replace the corresponding script section with your own code, then remove <code>eval: false</code> from its report chunk to execute it during rendering. Do this in order so later sections can use objects created earlier.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the R packages you have chosen and can justify.</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">stop</span>(<span class="st">"Student preparation code is pending: thx-packages."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import the original input files and inspect their structure and metadata.</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">stop</span>(<span class="st">"Student preparation code is pending: thx-import."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="event-definition" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="event-definition"><span class="header-section-number">3.2</span> Event definition</h3>
+<div class="th-prompt">
+<p><strong>Your contribution:</strong> Define one event. Explain how accident IDs, casualties, repeated coordinates, and possible duplicate reports relate to that definition. Record the evidence supporting your treatment of each.</p>
+</div>
+</section>
+<section id="spatial-and-temporal-windows" class="level3" data-number="3.3">
+<h3 data-number="3.3" class="anchored" data-anchor-id="spatial-and-temporal-windows"><span class="header-section-number">3.3</span> Spatial and temporal windows</h3>
+<div class="th-prompt">
+<p><strong>Your contribution:</strong> Operationalise the proposed six-area extent with the boundary dataset. Document the actual selected features and any boundary/name mismatches. Explain the boundary vintage, incident-date interpretation, the 2022 filter, and any temporal grouping. Include your study-area map and caption.</p>
+</div>
+</section>
+</section>
+<section id="data-preparation-and-quality-assessment" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="data-preparation-and-quality-assessment"><span class="header-section-number">4</span> Data preparation and quality assessment</h2>
+<div class="th-prompt">
+<p><strong>Your contribution:</strong> Insert your executed preparation code and explain each major step. Document coordinate validation, CRS transformation, geometry checks, temporal and spatial filters, and handling of missing or repeated records.</p>
+</div>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Check or transformation</th>
+<th>Rule you applied</th>
+<th>Removed or changed</th>
+<th>Retained</th>
+<th>Reason and consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Original import</td>
+<td>Pending</td>
+<td>—</td>
+<td>—</td>
+<td>Pending</td>
+</tr>
+<tr class="even">
+<td>Incident dates and 2022 filter</td>
+<td>Pending</td>
+<td>—</td>
+<td>—</td>
+<td>Pending</td>
+</tr>
+<tr class="odd">
+<td>Duplicate reports</td>
+<td>Pending</td>
+<td>—</td>
+<td>—</td>
+<td>Pending</td>
+</tr>
+<tr class="even">
+<td>Missing or invalid coordinates</td>
+<td>Pending</td>
+<td>—</td>
+<td>—</td>
+<td>Pending</td>
+</tr>
+<tr class="odd">
+<td>Study-area membership</td>
+<td>Pending</td>
+<td>—</td>
+<td>—</td>
+<td>Pending</td>
+</tr>
+<tr class="even">
+<td>Road matching, if applicable</td>
+<td>Pending</td>
+<td>—</td>
+<td>—</td>
+<td>Pending</td>
+</tr>
+</tbody>
+</table>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Implement and document your data-quality decisions and 2022 restriction.</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Keep an audit of exclusions and preserve original identifiers.</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">stop</span>(<span class="st">"Student preparation code is pending: thx-quality."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="spatial-preparation-and-study-area-map" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="spatial-preparation-and-study-area-map"><span class="header-section-number">4.1</span> Spatial preparation and study-area map</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Implement and justify your spatial window and coordinate reference system.</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">stop</span>(<span class="st">"Student preparation code is pending: thx-window."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create your study-area map in R, with source, units, and an informative caption.</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">stop</span>(<span class="st">"Student preparation code is pending: thx-study-map."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="network-preparation-if-applicable" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="network-preparation-if-applicable"><span class="header-section-number">4.2</span> Network preparation, if applicable</h3>
+<div class="th-prompt">
+<p><strong>Your contribution:</strong> Document road selection, topology, disconnected components, grade-separated crossings, and how events were matched to roads. Report snapping distances and exclusions. Explain how a network extract from a different year might affect the study.</p>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If your chosen method uses a network, prepare and validate it here.</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">stop</span>(<span class="st">"Student preparation code is pending: thx-network."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="analytical-assumptions-and-methodological-decisions" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="analytical-assumptions-and-methodological-decisions"><span class="header-section-number">5</span> Analytical assumptions and methodological decisions</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Decision</th>
+<th>Your setting</th>
+<th>Your justification</th>
+<th>Assumption or sensitivity check</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>CRS and distance units</td>
+<td>Pending</td>
+<td>Pending</td>
+<td>Pending</td>
+</tr>
+<tr class="even">
+<td>Event weights</td>
+<td>Pending</td>
+<td>Pending</td>
+<td>Pending</td>
+</tr>
+<tr class="odd">
+<td>Temporal aggregation</td>
+<td>Pending</td>
+<td>Pending</td>
+<td>Pending</td>
+</tr>
+<tr class="even">
+<td>Kernel and bandwidth</td>
+<td>Pending</td>
+<td>Pending</td>
+<td>Pending</td>
+</tr>
+<tr class="odd">
+<td>Sampling spacing, if applicable</td>
+<td>Pending</td>
+<td>Pending</td>
+<td>Pending</td>
+</tr>
+<tr class="even">
+<td>Distance range and step</td>
+<td>Pending</td>
+<td>Pending</td>
+<td>Pending</td>
+</tr>
+<tr class="odd">
+<td>Edge treatment</td>
+<td>Pending</td>
+<td>Pending</td>
+<td>Pending</td>
+</tr>
+<tr class="even">
+<td>Reference/null model</td>
+<td>Pending</td>
+<td>Pending</td>
+<td>Pending</td>
+</tr>
+<tr class="odd">
+<td>Simulations, seed, and envelope type</td>
+<td>Pending</td>
+<td>Pending</td>
+<td>Pending</td>
+</tr>
+</tbody>
+</table>
+<div class="th-prompt">
+<p>Explain which assumptions are reasonable for your data and what departures would mean. Cite methods you actually use. Parameters shown in a teaching example are not a justification for your own settings.</p>
+</div>
+</section>
+<section id="first-order-point-pattern-analysis" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="first-order-point-pattern-analysis"><span class="header-section-number">6</span> First-order point-pattern analysis</h2>
+<div class="th-prompt">
+<p><strong>Your contribution:</strong> State the question, justify the method, show the executed code and resulting maps or graphics, and explain their units. Discuss time where it helps answer your question.</p>
+<p>For each major visual, write your own interpretation of <strong>no more than 150 words</strong>: what it shows, the supporting evidence, and its main limitation.</p>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run your first-order analysis and generate its R maps or graphics.</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">stop</span>(<span class="st">"Student analytical code is pending: thx-first-order."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="second-order-point-pattern-analysis" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="second-order-point-pattern-analysis"><span class="header-section-number">7</span> Second-order point-pattern analysis</h2>
+<div class="th-prompt">
+<p><strong>Your contribution:</strong> State the question and null model before presenting the result. Document assumptions, distance settings, edge treatment, simulation settings, and the type of envelope or statistical test. Explain the result relative to that model. Keep each major visual’s interpretation within 150 words.</p>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run your second-order analysis with the documented null model and settings.</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">stop</span>(<span class="st">"Student analytical code is pending: thx-second-order."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="integrated-findings-and-discussion" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="integrated-findings-and-discussion"><span class="header-section-number">8</span> Integrated findings and discussion</h2>
+<div class="th-prompt">
+<p><strong>Your contribution:</strong> Bring the first- and second-order findings together. Explain agreements, differences, alternative explanations, and how reporting coverage or exposure could affect conclusions. Insert your sensitivity results and discuss whether the substantive conclusions change.</p>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Implement the sensitivity check you chose and explain what it tests.</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">stop</span>(<span class="st">"Student analytical code is pending: thx-sensitivity."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="public-safety-planning-and-management" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="public-safety-planning-and-management"><span class="header-section-number">9</span> Public-safety planning and management</h2>
+<div class="th-prompt">
+<p><strong>Your contribution — maximum 500 words:</strong> Link each proposed action to your analytical evidence. Distinguish actions supported by the results from proposals requiring traffic volumes, field assessment, or other information. Avoid causal claims that your study cannot support.</p>
+</div>
+</section>
+<section id="limitations" class="level2" data-number="10">
+<h2 data-number="10" class="anchored" data-anchor-id="limitations"><span class="header-section-number">10</span> Limitations</h2>
+<div class="th-prompt">
+<p><strong>Your contribution:</strong> Discuss the limitations actually relevant to your work, including observation coverage, location accuracy, study-window choices, network representation, parameter sensitivity, and inferential assumptions. Explain what the analysis can and cannot establish.</p>
+</div>
+</section>
+<section id="reproducibility" class="level2" data-number="11">
+<h2 data-number="11" class="anchored" data-anchor-id="reproducibility"><span class="header-section-number">11</span> Reproducibility</h2>
+<div class="th-prompt">
+<p><strong>Your contribution:</strong> Provide the script execution order, input checksums, package versions, random seeds, and expected outputs. Include <code>sessionInfo()</code> from your analytical run. The environment checker in this folder verifies setup only; it does not establish that the analysis is reproducible.</p>
+</div>
+</section>
+<section id="references" class="level2" data-number="12">
+<h2 data-number="12" class="anchored" data-anchor-id="references"><span class="header-section-number">12</span> References</h2>
+<p>These are starting references. Retain the ones used and add the sources supporting your analytical choices and context.</p>
+<ul>
+<li><a href="https://isss626-ay2026-27aug.netlify.app/take-home_ex01">Course assignment</a></li>
+<li><a href="https://www.kaggle.com/datasets/thaweewatboy/thailand-road-accident-2019-2022">Accident dataset</a></li>
+<li><a href="https://www.geoboundaries.org/">geoBoundaries</a></li>
+<li><a href="https://www.nso.go.th/public/e-book/Indicators-Environment/Environment-Indicators-2567/47/">Bangkok and Vicinities definition</a></li>
+<li><a href="https://r4gdsa.netlify.app/chap07">Chapter 7</a></li>
+<li><a href="https://jeremygelb.github.io/spNetwork/reference/index.html">spNetwork documentation</a></li>
+</ul>
+</section>
+<section id="ai-use-declaration" class="level2" data-number="13">
+<h2 data-number="13" class="anchored" data-anchor-id="ai-use-declaration"><span class="header-section-number">13</span> AI-use declaration</h2>
+<p>Generative AI helped prepare the website navigation, document and presentation templates, learning notes, and source-acquisition records. It has not produced analytical code, results, interpretations, or conclusions for this exercise. The student must update this declaration to accurately describe the final work.</p>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const cellDetails = window.document.querySelectorAll(".cell details.code-fold");
+        for (let i=0; i<cellDetails.length; i++) {
+          const details = cellDetails[i];
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell div.sourceCode.cell-code");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Road Traffic Accidents in Greater Bangkok, 2022"</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Technical report template · analysis pending"</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> "Uncompleted technical report structure for Take-home Exercise 1."</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="an">number-sections:</span><span class="co"> true</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="an">code-tools:</span><span class="co"> true</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: thx-register-code</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">read_chunk</span>(<span class="st">"take home exercise1/R/prepare.R"</span>)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">read_chunk</span>(<span class="st">"take home exercise1/R/analysis.R"</span>)</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">fig.width =</span> <span class="dv">9</span>, <span class="at">fig.height =</span> <span class="dv">6</span>, <span class="at">dpi =</span> <span class="dv">150</span>)</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning title="Draft — not ready for submission"}</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>The student has not yet supplied analytical code, maps, results, or interpretations.</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>The prompts below identify the work needed. Replace each prompt with your own</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>completed work before final publication.</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Exercise home</span><span class="co">](index.qmd)</span> · <span class="co">[</span><span class="ot">Executive summary</span><span class="co">](executive-summary.qmd)</span> ·</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Learning guide</span><span class="co">](learning-guide.qmd)</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a><span class="fu">## Introduction and study context</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>::: {.th-prompt}</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>**Your contribution:** Explain the public-safety problem and the audience for</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>your report. Cite the evidence you use to establish context. Define the population</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>represented by this dataset without assuming that it captures every crash.</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a><span class="fu">## Research question and objectives</span></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>::: {.th-prompt}</span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>**Your contribution:** State your main question, its spatial and temporal scope,</span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>and what evidence would answer it. Distinguish the question about event intensity</span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>from the question about interaction among events.</span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data and study design</span></span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a><span class="fu">### Source inventory</span></span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Input <span class="pp">|</span> Source and coverage <span class="pp">|</span> Acquisition record <span class="pp">|</span></span>
+<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
+<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Accident records <span class="pp">|</span> <span class="co">[</span><span class="ot">Kaggle, Thailand Road Accident 2019–2022</span><span class="co">](https://www.kaggle.com/datasets/thaweewatboy/thailand-road-accident-2019-2022)</span>; nationwide source, 2022 study restriction <span class="pp">|</span> Downloaded 27 September 2026; original CSV and Parquet retained locally <span class="pp">|</span></span>
+<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Administrative boundaries <span class="pp">|</span> <span class="co">[</span><span class="ot">geoBoundaries THA ADM1</span><span class="co">](https://www.geoboundaries.org/api/current/gbOpen/THA/ADM1/)</span>; 2017 vintage in source metadata <span class="pp">|</span> Boundary ID THA-ADM1-36821470; full-resolution GeoJSON retained locally <span class="pp">|</span></span>
+<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Road network, if used <span class="pp">|</span> Not acquired or selected <span class="pp">|</span> Document provider, extract date, historical suitability, license, and road coverage <span class="pp">|</span></span>
+<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a>Checksums and original metadata are recorded in the <span class="co">[</span><span class="ot">data notes</span><span class="co">](data/README.md)</span>.</span>
+<span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a>Acquisition is complete; analytical validation of these inputs is still pending.</span>
+<span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-57"><a href="#cb10-57" aria-hidden="true" tabindex="-1"></a>The RStudio workflow follows Exercise 2A. The report loads labelled sections of</span>
+<span id="cb10-58"><a href="#cb10-58" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">`R/prepare.R`</span><span class="co">](R/prepare.R)</span> and <span class="co">[</span><span class="ot">`R/analysis.R`</span><span class="co">](R/analysis.R)</span> with</span>
+<span id="cb10-59"><a href="#cb10-59" aria-hidden="true" tabindex="-1"></a><span class="in">`knitr::read_chunk()`</span>. Replace the corresponding script section with your own code,</span>
+<span id="cb10-60"><a href="#cb10-60" aria-hidden="true" tabindex="-1"></a>then remove <span class="in">`eval: false`</span> from its report chunk to execute it during rendering.</span>
+<span id="cb10-61"><a href="#cb10-61" aria-hidden="true" tabindex="-1"></a>Do this in order so later sections can use objects created earlier.</span>
+<span id="cb10-62"><a href="#cb10-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-65"><a href="#cb10-65" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb10-66"><a href="#cb10-66" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: thx-packages</span></span>
+<span id="cb10-67"><a href="#cb10-67" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb10-68"><a href="#cb10-68" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-69"><a href="#cb10-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-72"><a href="#cb10-72" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb10-73"><a href="#cb10-73" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: thx-import</span></span>
+<span id="cb10-74"><a href="#cb10-74" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb10-75"><a href="#cb10-75" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-76"><a href="#cb10-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-77"><a href="#cb10-77" aria-hidden="true" tabindex="-1"></a><span class="fu">### Event definition</span></span>
+<span id="cb10-78"><a href="#cb10-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-79"><a href="#cb10-79" aria-hidden="true" tabindex="-1"></a>::: {.th-prompt}</span>
+<span id="cb10-80"><a href="#cb10-80" aria-hidden="true" tabindex="-1"></a>**Your contribution:** Define one event. Explain how accident IDs, casualties,</span>
+<span id="cb10-81"><a href="#cb10-81" aria-hidden="true" tabindex="-1"></a>repeated coordinates, and possible duplicate reports relate to that definition.</span>
+<span id="cb10-82"><a href="#cb10-82" aria-hidden="true" tabindex="-1"></a>Record the evidence supporting your treatment of each.</span>
+<span id="cb10-83"><a href="#cb10-83" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb10-84"><a href="#cb10-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-85"><a href="#cb10-85" aria-hidden="true" tabindex="-1"></a><span class="fu">### Spatial and temporal windows</span></span>
+<span id="cb10-86"><a href="#cb10-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-87"><a href="#cb10-87" aria-hidden="true" tabindex="-1"></a>::: {.th-prompt}</span>
+<span id="cb10-88"><a href="#cb10-88" aria-hidden="true" tabindex="-1"></a>**Your contribution:** Operationalise the proposed six-area extent with the</span>
+<span id="cb10-89"><a href="#cb10-89" aria-hidden="true" tabindex="-1"></a>boundary dataset. Document the actual selected features and any boundary/name</span>
+<span id="cb10-90"><a href="#cb10-90" aria-hidden="true" tabindex="-1"></a>mismatches. Explain the boundary vintage, incident-date interpretation, the 2022</span>
+<span id="cb10-91"><a href="#cb10-91" aria-hidden="true" tabindex="-1"></a>filter, and any temporal grouping. Include your study-area map and caption.</span>
+<span id="cb10-92"><a href="#cb10-92" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb10-93"><a href="#cb10-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-94"><a href="#cb10-94" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data preparation and quality assessment</span></span>
+<span id="cb10-95"><a href="#cb10-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-96"><a href="#cb10-96" aria-hidden="true" tabindex="-1"></a>::: {.th-prompt}</span>
+<span id="cb10-97"><a href="#cb10-97" aria-hidden="true" tabindex="-1"></a>**Your contribution:** Insert your executed preparation code and explain each</span>
+<span id="cb10-98"><a href="#cb10-98" aria-hidden="true" tabindex="-1"></a>major step. Document coordinate validation, CRS transformation, geometry checks,</span>
+<span id="cb10-99"><a href="#cb10-99" aria-hidden="true" tabindex="-1"></a>temporal and spatial filters, and handling of missing or repeated records.</span>
+<span id="cb10-100"><a href="#cb10-100" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb10-101"><a href="#cb10-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-102"><a href="#cb10-102" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Check or transformation <span class="pp">|</span> Rule you applied <span class="pp">|</span> Removed or changed <span class="pp">|</span> Retained <span class="pp">|</span> Reason and consequence <span class="pp">|</span></span>
+<span id="cb10-103"><a href="#cb10-103" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|---|---|</span></span>
+<span id="cb10-104"><a href="#cb10-104" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Original import <span class="pp">|</span> Pending <span class="pp">|</span> — <span class="pp">|</span> — <span class="pp">|</span> Pending <span class="pp">|</span></span>
+<span id="cb10-105"><a href="#cb10-105" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Incident dates and 2022 filter <span class="pp">|</span> Pending <span class="pp">|</span> — <span class="pp">|</span> — <span class="pp">|</span> Pending <span class="pp">|</span></span>
+<span id="cb10-106"><a href="#cb10-106" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Duplicate reports <span class="pp">|</span> Pending <span class="pp">|</span> — <span class="pp">|</span> — <span class="pp">|</span> Pending <span class="pp">|</span></span>
+<span id="cb10-107"><a href="#cb10-107" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Missing or invalid coordinates <span class="pp">|</span> Pending <span class="pp">|</span> — <span class="pp">|</span> — <span class="pp">|</span> Pending <span class="pp">|</span></span>
+<span id="cb10-108"><a href="#cb10-108" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Study-area membership <span class="pp">|</span> Pending <span class="pp">|</span> — <span class="pp">|</span> — <span class="pp">|</span> Pending <span class="pp">|</span></span>
+<span id="cb10-109"><a href="#cb10-109" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Road matching, if applicable <span class="pp">|</span> Pending <span class="pp">|</span> — <span class="pp">|</span> — <span class="pp">|</span> Pending <span class="pp">|</span></span>
+<span id="cb10-110"><a href="#cb10-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-113"><a href="#cb10-113" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb10-114"><a href="#cb10-114" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: thx-quality</span></span>
+<span id="cb10-115"><a href="#cb10-115" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb10-116"><a href="#cb10-116" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-117"><a href="#cb10-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-118"><a href="#cb10-118" aria-hidden="true" tabindex="-1"></a><span class="fu">### Spatial preparation and study-area map</span></span>
+<span id="cb10-119"><a href="#cb10-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-122"><a href="#cb10-122" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb10-123"><a href="#cb10-123" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: thx-window</span></span>
+<span id="cb10-124"><a href="#cb10-124" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb10-125"><a href="#cb10-125" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-126"><a href="#cb10-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-129"><a href="#cb10-129" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb10-130"><a href="#cb10-130" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: thx-study-map</span></span>
+<span id="cb10-131"><a href="#cb10-131" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb10-132"><a href="#cb10-132" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-133"><a href="#cb10-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-134"><a href="#cb10-134" aria-hidden="true" tabindex="-1"></a><span class="fu">### Network preparation, if applicable</span></span>
+<span id="cb10-135"><a href="#cb10-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-136"><a href="#cb10-136" aria-hidden="true" tabindex="-1"></a>::: {.th-prompt}</span>
+<span id="cb10-137"><a href="#cb10-137" aria-hidden="true" tabindex="-1"></a>**Your contribution:** Document road selection, topology, disconnected components,</span>
+<span id="cb10-138"><a href="#cb10-138" aria-hidden="true" tabindex="-1"></a>grade-separated crossings, and how events were matched to roads. Report snapping</span>
+<span id="cb10-139"><a href="#cb10-139" aria-hidden="true" tabindex="-1"></a>distances and exclusions. Explain how a network extract from a different year</span>
+<span id="cb10-140"><a href="#cb10-140" aria-hidden="true" tabindex="-1"></a>might affect the study.</span>
+<span id="cb10-141"><a href="#cb10-141" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb10-142"><a href="#cb10-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-145"><a href="#cb10-145" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb10-146"><a href="#cb10-146" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: thx-network</span></span>
+<span id="cb10-147"><a href="#cb10-147" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb10-148"><a href="#cb10-148" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-149"><a href="#cb10-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-150"><a href="#cb10-150" aria-hidden="true" tabindex="-1"></a><span class="fu">## Analytical assumptions and methodological decisions</span></span>
+<span id="cb10-151"><a href="#cb10-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-152"><a href="#cb10-152" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Decision <span class="pp">|</span> Your setting <span class="pp">|</span> Your justification <span class="pp">|</span> Assumption or sensitivity check <span class="pp">|</span></span>
+<span id="cb10-153"><a href="#cb10-153" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|---|</span></span>
+<span id="cb10-154"><a href="#cb10-154" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> CRS and distance units <span class="pp">|</span> Pending <span class="pp">|</span> Pending <span class="pp">|</span> Pending <span class="pp">|</span></span>
+<span id="cb10-155"><a href="#cb10-155" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Event weights <span class="pp">|</span> Pending <span class="pp">|</span> Pending <span class="pp">|</span> Pending <span class="pp">|</span></span>
+<span id="cb10-156"><a href="#cb10-156" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Temporal aggregation <span class="pp">|</span> Pending <span class="pp">|</span> Pending <span class="pp">|</span> Pending <span class="pp">|</span></span>
+<span id="cb10-157"><a href="#cb10-157" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Kernel and bandwidth <span class="pp">|</span> Pending <span class="pp">|</span> Pending <span class="pp">|</span> Pending <span class="pp">|</span></span>
+<span id="cb10-158"><a href="#cb10-158" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Sampling spacing, if applicable <span class="pp">|</span> Pending <span class="pp">|</span> Pending <span class="pp">|</span> Pending <span class="pp">|</span></span>
+<span id="cb10-159"><a href="#cb10-159" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Distance range and step <span class="pp">|</span> Pending <span class="pp">|</span> Pending <span class="pp">|</span> Pending <span class="pp">|</span></span>
+<span id="cb10-160"><a href="#cb10-160" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Edge treatment <span class="pp">|</span> Pending <span class="pp">|</span> Pending <span class="pp">|</span> Pending <span class="pp">|</span></span>
+<span id="cb10-161"><a href="#cb10-161" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Reference/null model <span class="pp">|</span> Pending <span class="pp">|</span> Pending <span class="pp">|</span> Pending <span class="pp">|</span></span>
+<span id="cb10-162"><a href="#cb10-162" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Simulations, seed, and envelope type <span class="pp">|</span> Pending <span class="pp">|</span> Pending <span class="pp">|</span> Pending <span class="pp">|</span></span>
+<span id="cb10-163"><a href="#cb10-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-164"><a href="#cb10-164" aria-hidden="true" tabindex="-1"></a>::: {.th-prompt}</span>
+<span id="cb10-165"><a href="#cb10-165" aria-hidden="true" tabindex="-1"></a>Explain which assumptions are reasonable for your data and what departures would</span>
+<span id="cb10-166"><a href="#cb10-166" aria-hidden="true" tabindex="-1"></a>mean. Cite methods you actually use. Parameters shown in a teaching example are</span>
+<span id="cb10-167"><a href="#cb10-167" aria-hidden="true" tabindex="-1"></a>not a justification for your own settings.</span>
+<span id="cb10-168"><a href="#cb10-168" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb10-169"><a href="#cb10-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-170"><a href="#cb10-170" aria-hidden="true" tabindex="-1"></a><span class="fu">## First-order point-pattern analysis</span></span>
+<span id="cb10-171"><a href="#cb10-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-172"><a href="#cb10-172" aria-hidden="true" tabindex="-1"></a>::: {.th-prompt}</span>
+<span id="cb10-173"><a href="#cb10-173" aria-hidden="true" tabindex="-1"></a>**Your contribution:** State the question, justify the method, show the executed</span>
+<span id="cb10-174"><a href="#cb10-174" aria-hidden="true" tabindex="-1"></a>code and resulting maps or graphics, and explain their units. Discuss time where</span>
+<span id="cb10-175"><a href="#cb10-175" aria-hidden="true" tabindex="-1"></a>it helps answer your question.</span>
+<span id="cb10-176"><a href="#cb10-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-177"><a href="#cb10-177" aria-hidden="true" tabindex="-1"></a>For each major visual, write your own interpretation of **no more than 150 words**:</span>
+<span id="cb10-178"><a href="#cb10-178" aria-hidden="true" tabindex="-1"></a>what it shows, the supporting evidence, and its main limitation.</span>
+<span id="cb10-179"><a href="#cb10-179" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb10-180"><a href="#cb10-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-183"><a href="#cb10-183" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb10-184"><a href="#cb10-184" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: thx-first-order</span></span>
+<span id="cb10-185"><a href="#cb10-185" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb10-186"><a href="#cb10-186" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-187"><a href="#cb10-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-188"><a href="#cb10-188" aria-hidden="true" tabindex="-1"></a><span class="fu">## Second-order point-pattern analysis</span></span>
+<span id="cb10-189"><a href="#cb10-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-190"><a href="#cb10-190" aria-hidden="true" tabindex="-1"></a>::: {.th-prompt}</span>
+<span id="cb10-191"><a href="#cb10-191" aria-hidden="true" tabindex="-1"></a>**Your contribution:** State the question and null model before presenting the</span>
+<span id="cb10-192"><a href="#cb10-192" aria-hidden="true" tabindex="-1"></a>result. Document assumptions, distance settings, edge treatment, simulation</span>
+<span id="cb10-193"><a href="#cb10-193" aria-hidden="true" tabindex="-1"></a>settings, and the type of envelope or statistical test. Explain the result</span>
+<span id="cb10-194"><a href="#cb10-194" aria-hidden="true" tabindex="-1"></a>relative to that model. Keep each major visual's interpretation within 150 words.</span>
+<span id="cb10-195"><a href="#cb10-195" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb10-196"><a href="#cb10-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-199"><a href="#cb10-199" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb10-200"><a href="#cb10-200" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: thx-second-order</span></span>
+<span id="cb10-201"><a href="#cb10-201" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb10-202"><a href="#cb10-202" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-203"><a href="#cb10-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-204"><a href="#cb10-204" aria-hidden="true" tabindex="-1"></a><span class="fu">## Integrated findings and discussion</span></span>
+<span id="cb10-205"><a href="#cb10-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-206"><a href="#cb10-206" aria-hidden="true" tabindex="-1"></a>::: {.th-prompt}</span>
+<span id="cb10-207"><a href="#cb10-207" aria-hidden="true" tabindex="-1"></a>**Your contribution:** Bring the first- and second-order findings together.</span>
+<span id="cb10-208"><a href="#cb10-208" aria-hidden="true" tabindex="-1"></a>Explain agreements, differences, alternative explanations, and how reporting</span>
+<span id="cb10-209"><a href="#cb10-209" aria-hidden="true" tabindex="-1"></a>coverage or exposure could affect conclusions. Insert your sensitivity results</span>
+<span id="cb10-210"><a href="#cb10-210" aria-hidden="true" tabindex="-1"></a>and discuss whether the substantive conclusions change.</span>
+<span id="cb10-211"><a href="#cb10-211" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb10-212"><a href="#cb10-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-215"><a href="#cb10-215" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb10-216"><a href="#cb10-216" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: thx-sensitivity</span></span>
+<span id="cb10-217"><a href="#cb10-217" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb10-218"><a href="#cb10-218" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-219"><a href="#cb10-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-220"><a href="#cb10-220" aria-hidden="true" tabindex="-1"></a><span class="fu">## Public-safety planning and management</span></span>
+<span id="cb10-221"><a href="#cb10-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-222"><a href="#cb10-222" aria-hidden="true" tabindex="-1"></a>::: {.th-prompt}</span>
+<span id="cb10-223"><a href="#cb10-223" aria-hidden="true" tabindex="-1"></a>**Your contribution — maximum 500 words:** Link each proposed action to your</span>
+<span id="cb10-224"><a href="#cb10-224" aria-hidden="true" tabindex="-1"></a>analytical evidence. Distinguish actions supported by the results from proposals</span>
+<span id="cb10-225"><a href="#cb10-225" aria-hidden="true" tabindex="-1"></a>requiring traffic volumes, field assessment, or other information. Avoid causal</span>
+<span id="cb10-226"><a href="#cb10-226" aria-hidden="true" tabindex="-1"></a>claims that your study cannot support.</span>
+<span id="cb10-227"><a href="#cb10-227" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb10-228"><a href="#cb10-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-229"><a href="#cb10-229" aria-hidden="true" tabindex="-1"></a><span class="fu">## Limitations</span></span>
+<span id="cb10-230"><a href="#cb10-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-231"><a href="#cb10-231" aria-hidden="true" tabindex="-1"></a>::: {.th-prompt}</span>
+<span id="cb10-232"><a href="#cb10-232" aria-hidden="true" tabindex="-1"></a>**Your contribution:** Discuss the limitations actually relevant to your work,</span>
+<span id="cb10-233"><a href="#cb10-233" aria-hidden="true" tabindex="-1"></a>including observation coverage, location accuracy, study-window choices,</span>
+<span id="cb10-234"><a href="#cb10-234" aria-hidden="true" tabindex="-1"></a>network representation, parameter sensitivity, and inferential assumptions.</span>
+<span id="cb10-235"><a href="#cb10-235" aria-hidden="true" tabindex="-1"></a>Explain what the analysis can and cannot establish.</span>
+<span id="cb10-236"><a href="#cb10-236" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb10-237"><a href="#cb10-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-238"><a href="#cb10-238" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reproducibility</span></span>
+<span id="cb10-239"><a href="#cb10-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-240"><a href="#cb10-240" aria-hidden="true" tabindex="-1"></a>::: {.th-prompt}</span>
+<span id="cb10-241"><a href="#cb10-241" aria-hidden="true" tabindex="-1"></a>**Your contribution:** Provide the script execution order, input checksums,</span>
+<span id="cb10-242"><a href="#cb10-242" aria-hidden="true" tabindex="-1"></a>package versions, random seeds, and expected outputs. Include <span class="in">`sessionInfo()`</span></span>
+<span id="cb10-243"><a href="#cb10-243" aria-hidden="true" tabindex="-1"></a>from your analytical run. The environment checker in this folder verifies setup</span>
+<span id="cb10-244"><a href="#cb10-244" aria-hidden="true" tabindex="-1"></a>only; it does not establish that the analysis is reproducible.</span>
+<span id="cb10-245"><a href="#cb10-245" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb10-246"><a href="#cb10-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-247"><a href="#cb10-247" aria-hidden="true" tabindex="-1"></a><span class="fu">## References</span></span>
+<span id="cb10-248"><a href="#cb10-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-249"><a href="#cb10-249" aria-hidden="true" tabindex="-1"></a>These are starting references. Retain the ones used and add the sources supporting</span>
+<span id="cb10-250"><a href="#cb10-250" aria-hidden="true" tabindex="-1"></a>your analytical choices and context.</span>
+<span id="cb10-251"><a href="#cb10-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-252"><a href="#cb10-252" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Course assignment</span><span class="co">](https://isss626-ay2026-27aug.netlify.app/take-home_ex01)</span></span>
+<span id="cb10-253"><a href="#cb10-253" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Accident dataset</span><span class="co">](https://www.kaggle.com/datasets/thaweewatboy/thailand-road-accident-2019-2022)</span></span>
+<span id="cb10-254"><a href="#cb10-254" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">geoBoundaries</span><span class="co">](https://www.geoboundaries.org/)</span></span>
+<span id="cb10-255"><a href="#cb10-255" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Bangkok and Vicinities definition</span><span class="co">](https://www.nso.go.th/public/e-book/Indicators-Environment/Environment-Indicators-2567/47/)</span></span>
+<span id="cb10-256"><a href="#cb10-256" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Chapter 7</span><span class="co">](https://r4gdsa.netlify.app/chap07)</span></span>
+<span id="cb10-257"><a href="#cb10-257" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">spNetwork documentation</span><span class="co">](https://jeremygelb.github.io/spNetwork/reference/index.html)</span></span>
+<span id="cb10-258"><a href="#cb10-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-259"><a href="#cb10-259" aria-hidden="true" tabindex="-1"></a><span class="fu">## AI-use declaration</span></span>
+<span id="cb10-260"><a href="#cb10-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-261"><a href="#cb10-261" aria-hidden="true" tabindex="-1"></a>Generative AI helped prepare the website navigation, document and presentation</span>
+<span id="cb10-262"><a href="#cb10-262" aria-hidden="true" tabindex="-1"></a>templates, learning notes, and source-acquisition records. It has not produced</span>
+<span id="cb10-263"><a href="#cb10-263" aria-hidden="true" tabindex="-1"></a>analytical code, results, interpretations, or conclusions for this exercise.</span>
+<span id="cb10-264"><a href="#cb10-264" aria-hidden="true" tabindex="-1"></a>The student must update this declaration to accurately describe the final work.</span>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

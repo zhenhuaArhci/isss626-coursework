@@ -24,3 +24,7 @@ Thumbs.db
 
 /.quarto/
 **/*.quarto_ipynb
+
+# Original take-home inputs are local; metadata and acquisition notes are tracked.
+/take home exercise1/data/raw/
+/take home exercise1/data/derived/

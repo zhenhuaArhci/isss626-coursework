@@ -1,0 +1,106 @@
+---
+title: "Road Traffic Accidents in Greater Bangkok"
+subtitle: "2022 · DRAFT TEMPLATE · analysis pending"
+author: "Zhenhua Liu"
+format: revealjs
+theme: simple
+css: slides.css
+slide-number: "c/t"
+show-slide-number: all
+slide-level: 2
+transition: none
+navigation-mode: linear
+controls: true
+progress: true
+center: false
+width: 1280
+height: 800
+margin: 0.08
+footer: "Draft template · not ready for submission"
+include-in-header:
+  text: '<meta name="robots" content="noindex, nofollow">'
+toc: false
+---
+
+## Contents {.unnumbered}
+
+1. Question and scope
+2. Data, quality, and methods
+3. Evidence, limitations, and implications
+
+**Template only:** replace prompts with your own completed work.
+
+[Exercise home](index.qmd) · [Technical report](technical-report.qmd)
+
+## 1. Research question
+
+::: {.slide-prompt}
+State your research question and explain why it matters to the intended audience.
+Identify the event, place, and time period.
+:::
+
+## 2. Study area and period
+
+::: {.slide-prompt}
+Insert your study-area map. Explain how you defined Greater Bangkok and restricted
+the incident records to 2022. Include boundary source and vintage.
+:::
+
+## 3. Data and event definition
+
+::: {.slide-prompt}
+Describe your sources, observation coverage, and definition of one event.
+Include the final event count only after running and checking your preparation.
+:::
+
+## 4. Data quality
+
+::: {.slide-prompt}
+Summarise your inclusion and exclusion counts. Explain the most consequential
+data-quality issue and how you treated it.
+:::
+
+## 5. Analytical approach
+
+::: {.slide-prompt}
+Explain your first- and second-order methods, the null model, key parameters,
+and the assumptions needed to interpret your results.
+:::
+
+## 6. First-order evidence
+
+::: {.slide-prompt}
+Insert your main intensity map or graphic with units and a readable legend.
+Add your interpretation, at most 150 words, and a limitation.
+:::
+
+## 7. Second-order evidence
+
+::: {.slide-prompt}
+Insert your second-order result with the null model and distance units clearly
+labelled. Add your interpretation, at most 150 words, and an inference caveat.
+:::
+
+## 8. Sensitivity and integrated findings
+
+::: {.slide-prompt}
+Show how a justified sensitivity check affects your conclusion. Connect this
+evidence to your first- and second-order findings.
+:::
+
+## 9. Limitations
+
+::: {.slide-prompt}
+Explain the limitations that matter most for your conclusions. Distinguish
+recorded event concentration from exposure-adjusted accident risk.
+:::
+
+## 10. Public-safety implications
+
+::: {.slide-prompt}
+Summarise your own evidence-supported implications and the additional information
+needed before action. Keep these consistent with the technical report.
+:::
+
+[Full report and references](technical-report.qmd) ·
+[Source repository](https://github.com/zhenhuaArhci/isss626-coursework/tree/codex/take-home-exercise1/take%20home%20exercise1)

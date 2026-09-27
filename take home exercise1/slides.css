@@ -1,0 +1,9 @@
+.reveal { font-family: "Segoe UI", Arial, sans-serif; color: #35455e; font-size: 30px; }
+.reveal .slides { text-align: left; }
+.reveal h1, .reveal h2 { color: #465d91; text-transform: none; }
+.reveal h1 { font-size: 1.9em; }
+.reveal h2 { font-size: 1.4em; }
+.reveal a { color: #344d79; text-decoration: underline; }
+.reveal .slide-prompt { background: #f8f3e8; border-left: 5px solid #a17728; padding: 1rem 1.4rem; }
+.reveal .footer { color: #64460e; font-size: 16px; }
+.reveal .slide-number { color: #35455e; }

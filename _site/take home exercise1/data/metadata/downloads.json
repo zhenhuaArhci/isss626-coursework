@@ -1,0 +1,26 @@
+[
+  {
+    "file": "geoBoundaries-THA-ADM1.geojson",
+    "bytes": 4032763,
+    "sha256": "145beb11e52785a42e16997c92a65426b3df8d009941db6b012ec8e411f3e33c",
+    "downloaded_utc": "2026-09-27T10:47:35.4161041Z"
+  },
+  {
+    "file": "thai_road_accident_2019_2022.csv",
+    "bytes": 23439316,
+    "sha256": "40131c32ad417aa3a8b642cc366a3876ace4e86d8a858ee25a8c04bda9fb629c",
+    "downloaded_utc": "2026-09-27T10:47:35.4497042Z"
+  },
+  {
+    "file": "thai_road_accident_2019_2022.parquet",
+    "bytes": 3930740,
+    "sha256": "a4ce2559acefe924749683293d6aac4dda119139821d7bb35fe18535e4559f05",
+    "downloaded_utc": "2026-09-27T10:47:35.4556765Z"
+  },
+  {
+    "file": "thailand-road-accident-2019-2022.zip",
+    "bytes": 7724573,
+    "sha256": "225158d012a604bdf14497bbe6edc3b75ff38893a30e42e9136290598cf7b9ce",
+    "downloaded_utc": "2026-09-27T10:47:35.4667351Z"
+  }
+]

@@ -1,0 +1,244 @@
+---
+title: "Road Traffic Accidents in Greater Bangkok, 2022"
+subtitle: "Technical report template · analysis pending"
+description: "Uncompleted technical report structure for Take-home Exercise 1."
+number-sections: true
+code-tools: true
+---
+
+```{r}
+#| label: thx-register-code
+#| include: false
+knitr::read_chunk("take home exercise1/R/prepare.R")
+knitr::read_chunk("take home exercise1/R/analysis.R")
+knitr::opts_chunk$set(fig.width = 9, fig.height = 6, dpi = 150)
+```
+
+::: {.callout-warning title="Draft — not ready for submission"}
+The student has not yet supplied analytical code, maps, results, or interpretations.
+The prompts below identify the work needed. Replace each prompt with your own
+completed work before final publication.
+:::
+
+[Exercise home](index.qmd) · [Executive summary](executive-summary.qmd) ·
+[Learning guide](learning-guide.qmd)
+
+## Introduction and study context
+
+::: {.th-prompt}
+**Your contribution:** Explain the public-safety problem and the audience for
+your report. Cite the evidence you use to establish context. Define the population
+represented by this dataset without assuming that it captures every crash.
+:::
+
+## Research question and objectives
+
+::: {.th-prompt}
+**Your contribution:** State your main question, its spatial and temporal scope,
+and what evidence would answer it. Distinguish the question about event intensity
+from the question about interaction among events.
+:::
+
+## Data and study design
+
+### Source inventory
+
+| Input | Source and coverage | Acquisition record |
+|---|---|---|
+| Accident records | [Kaggle, Thailand Road Accident 2019–2022](https://www.kaggle.com/datasets/thaweewatboy/thailand-road-accident-2019-2022); nationwide source, 2022 study restriction | Downloaded 27 September 2026; original CSV and Parquet retained locally |
+| Administrative boundaries | [geoBoundaries THA ADM1](https://www.geoboundaries.org/api/current/gbOpen/THA/ADM1/); 2017 vintage in source metadata | Boundary ID THA-ADM1-36821470; full-resolution GeoJSON retained locally |
+| Road network, if used | Not acquired or selected | Document provider, extract date, historical suitability, license, and road coverage |
+
+Checksums and original metadata are recorded in the [data notes](data/README.md).
+Acquisition is complete; analytical validation of these inputs is still pending.
+
+The RStudio workflow follows Exercise 2A. The report loads labelled sections of
+[`R/prepare.R`](R/prepare.R) and [`R/analysis.R`](R/analysis.R) with
+`knitr::read_chunk()`. Replace the corresponding script section with your own code,
+then remove `eval: false` from its report chunk to execute it during rendering.
+Do this in order so later sections can use objects created earlier.
+
+```{r}
+#| label: thx-packages
+#| eval: false
+```
+
+```{r}
+#| label: thx-import
+#| eval: false
+```
+
+### Event definition
+
+::: {.th-prompt}
+**Your contribution:** Define one event. Explain how accident IDs, casualties,
+repeated coordinates, and possible duplicate reports relate to that definition.
+Record the evidence supporting your treatment of each.
+:::
+
+### Spatial and temporal windows
+
+::: {.th-prompt}
+**Your contribution:** Operationalise the proposed six-area extent with the
+boundary dataset. Document the actual selected features and any boundary/name
+mismatches. Explain the boundary vintage, incident-date interpretation, the 2022
+filter, and any temporal grouping. Include your study-area map and caption.
+:::
+
+## Data preparation and quality assessment
+
+::: {.th-prompt}
+**Your contribution:** Insert your executed preparation code and explain each
+major step. Document coordinate validation, CRS transformation, geometry checks,
+temporal and spatial filters, and handling of missing or repeated records.
+:::
+
+| Check or transformation | Rule you applied | Removed or changed | Retained | Reason and consequence |
+|---|---|---|---|---|
+| Original import | Pending | — | — | Pending |
+| Incident dates and 2022 filter | Pending | — | — | Pending |
+| Duplicate reports | Pending | — | — | Pending |
+| Missing or invalid coordinates | Pending | — | — | Pending |
+| Study-area membership | Pending | — | — | Pending |
+| Road matching, if applicable | Pending | — | — | Pending |
+
+```{r}
+#| label: thx-quality
+#| eval: false
+```
+
+### Spatial preparation and study-area map
+
+```{r}
+#| label: thx-window
+#| eval: false
+```
+
+```{r}
+#| label: thx-study-map
+#| eval: false
+```
+
+### Network preparation, if applicable
+
+::: {.th-prompt}
+**Your contribution:** Document road selection, topology, disconnected components,
+grade-separated crossings, and how events were matched to roads. Report snapping
+distances and exclusions. Explain how a network extract from a different year
+might affect the study.
+:::
+
+```{r}
+#| label: thx-network
+#| eval: false
+```
+
+## Analytical assumptions and methodological decisions
+
+| Decision | Your setting | Your justification | Assumption or sensitivity check |
+|---|---|---|---|
+| CRS and distance units | Pending | Pending | Pending |
+| Event weights | Pending | Pending | Pending |
+| Temporal aggregation | Pending | Pending | Pending |
+| Kernel and bandwidth | Pending | Pending | Pending |
+| Sampling spacing, if applicable | Pending | Pending | Pending |
+| Distance range and step | Pending | Pending | Pending |
+| Edge treatment | Pending | Pending | Pending |
+| Reference/null model | Pending | Pending | Pending |
+| Simulations, seed, and envelope type | Pending | Pending | Pending |
+
+::: {.th-prompt}
+Explain which assumptions are reasonable for your data and what departures would
+mean. Cite methods you actually use. Parameters shown in a teaching example are
+not a justification for your own settings.
+:::
+
+## First-order point-pattern analysis
+
+::: {.th-prompt}
+**Your contribution:** State the question, justify the method, show the executed
+code and resulting maps or graphics, and explain their units. Discuss time where
+it helps answer your question.
+
+For each major visual, write your own interpretation of **no more than 150 words**:
+what it shows, the supporting evidence, and its main limitation.
+:::
+
+```{r}
+#| label: thx-first-order
+#| eval: false
+```
+
+## Second-order point-pattern analysis
+
+::: {.th-prompt}
+**Your contribution:** State the question and null model before presenting the
+result. Document assumptions, distance settings, edge treatment, simulation
+settings, and the type of envelope or statistical test. Explain the result
+relative to that model. Keep each major visual's interpretation within 150 words.
+:::
+
+```{r}
+#| label: thx-second-order
+#| eval: false
+```
+
+## Integrated findings and discussion
+
+::: {.th-prompt}
+**Your contribution:** Bring the first- and second-order findings together.
+Explain agreements, differences, alternative explanations, and how reporting
+coverage or exposure could affect conclusions. Insert your sensitivity results
+and discuss whether the substantive conclusions change.
+:::
+
+```{r}
+#| label: thx-sensitivity
+#| eval: false
+```
+
+## Public-safety planning and management
+
+::: {.th-prompt}
+**Your contribution — maximum 500 words:** Link each proposed action to your
+analytical evidence. Distinguish actions supported by the results from proposals
+requiring traffic volumes, field assessment, or other information. Avoid causal
+claims that your study cannot support.
+:::
+
+## Limitations
+
+::: {.th-prompt}
+**Your contribution:** Discuss the limitations actually relevant to your work,
+including observation coverage, location accuracy, study-window choices,
+network representation, parameter sensitivity, and inferential assumptions.
+Explain what the analysis can and cannot establish.
+:::
+
+## Reproducibility
+
+::: {.th-prompt}
+**Your contribution:** Provide the script execution order, input checksums,
+package versions, random seeds, and expected outputs. Include `sessionInfo()`
+from your analytical run. The environment checker in this folder verifies setup
+only; it does not establish that the analysis is reproducible.
+:::
+
+## References
+
+These are starting references. Retain the ones used and add the sources supporting
+your analytical choices and context.
+
+- [Course assignment](https://isss626-ay2026-27aug.netlify.app/take-home_ex01)
+- [Accident dataset](https://www.kaggle.com/datasets/thaweewatboy/thailand-road-accident-2019-2022)
+- [geoBoundaries](https://www.geoboundaries.org/)
+- [Bangkok and Vicinities definition](https://www.nso.go.th/public/e-book/Indicators-Environment/Environment-Indicators-2567/47/)
+- [Chapter 7](https://r4gdsa.netlify.app/chap07)
+- [spNetwork documentation](https://jeremygelb.github.io/spNetwork/reference/index.html)
+
+## AI-use declaration
+
+Generative AI helped prepare the website navigation, document and presentation
+templates, learning notes, and source-acquisition records. It has not produced
+analytical code, results, interpretations, or conclusions for this exercise.
+The student must update this declaration to accurately describe the final work.

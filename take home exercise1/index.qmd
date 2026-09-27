@@ -1,0 +1,75 @@
+---
+title: "Take-home Exercise 1"
+subtitle: "Road traffic accidents · Greater Bangkok · 2022"
+description: "Draft workspace for a student-authored geospatial investigation."
+toc: false
+---
+
+[Draft workspace · analysis pending]{.th-status}
+
+## Start here
+
+This workspace supports the Thailand option of Take-home Exercise 1. The report
+and presentation are structured templates. **No accident analysis, findings,
+or planning recommendations have been completed. These pages are not ready
+for submission.**
+
+::: {.th-links}
+[Technical report](technical-report.qmd)
+[Executive summary](executive-summary.qmd)
+[Learning guide](learning-guide.qmd)
+[GitHub exercise folder](https://github.com/zhenhuaArhci/isss626-coursework/tree/codex/take-home-exercise1/take%20home%20exercise1)
+:::
+
+## Study brief
+
+| Item | Working scope |
+|---|---|
+| Dataset | Thailand Road Accident [2019–2022], published by thaweewatboy on Kaggle |
+| Required year | 2022, using the incident date; timestamp interpretation needs checking |
+| Proposed extent | Bangkok, Nonthaburi, Pathum Thani, Samut Prakan, Samut Sakhon, Nakhon Pathom |
+| Boundary source | geoBoundaries Thailand ADM1; downloaded source represents 2017 |
+| Submission | Quarto HTML technical report and revealjs executive summary |
+
+The six-area extent follows Thailand's National Statistical Office grouping of
+[Bangkok and Vicinities](https://www.nso.go.th/public/e-book/Indicators-Environment/Environment-Indicators-2567/47/).
+The student still needs to document the actual boundary selection and assess
+the suitability of the boundary vintage for the 2022 study.
+
+## Progress
+
+| Stage | Current state | Next contribution |
+|---|---|---|
+| Source acquisition | Original accident and boundary files downloaded locally; metadata and checksums recorded | Review documentation and reporting coverage |
+| Study design | Year and proposed region identified | Write the research question and event definition |
+| Data preparation | Not started | Write and run the preparation code; document exclusions |
+| First-order analysis | Not started | Choose and justify the method; produce results |
+| Second-order analysis | Not started | Define a null model and complete the analysis |
+| Interpretation | Not started | Write the findings, limitations, and implications |
+| Report and slides | Draft structure ready | Insert and review student-authored content |
+| Final publication | Pending completed analysis | Validate, publish, and submit the verified links |
+
+## How to work
+
+Open `ISSS626-GAA.Rproj` in RStudio, then follow the
+[learning guide](learning-guide.qmd). Begin with its short study-design worksheet.
+Keep original data unchanged and store your scripts and figures in this exercise
+folder. The [data notes](data/README.md) explain where the downloads came from.
+
+For each major visual, write an interpretation of at most **150 words**. Keep the
+public-safety discussion within **500 words**. The presentation has ten content
+slide slots plus a cover and contents slide.
+
+## Assignment and references
+
+- [Assignment brief and AI-use requirements](https://isss626-ay2026-27aug.netlify.app/take-home_ex01)
+- [Selected accident dataset](https://www.kaggle.com/datasets/thaweewatboy/thailand-road-accident-2019-2022)
+- [Chapter 7: Network-constrained point-pattern analysis](https://r4gdsa.netlify.app/chap07)
+- [spNetwork function documentation](https://jeremygelb.github.io/spNetwork/reference/index.html)
+
+## Assistance disclosure
+
+Generative AI helped prepare the website navigation, document and presentation
+templates, learning notes, and source-acquisition records. It has not produced
+analytical code, results, interpretations, or conclusions for this exercise.
+Update this disclosure to reflect the assistance actually used in the final work.
