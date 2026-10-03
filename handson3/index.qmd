@@ -1,0 +1,225 @@
+---
+title: "Hands-on Exercise 3"
+subtitle: "Spatio-Temporal Point Patterns Analysis · MODIS detections in Bangka, 2023"
+author: "Zhenhua Liu"
+date: "2026-10-03"
+body-classes: exercise-page
+toc: true
+toc-location: right
+code-tools: true
+execute:
+  freeze: auto
+  error: false
+---
+
+```{r}
+#| label: h3-register
+#| include: false
+knitr::read_chunk("handson3/R/analysis.R")
+knitr::opts_chunk$set(fig.width = 10, fig.height = 6, dpi = 160)
+```
+
+## 1. Purpose and packages
+
+This exercise follows [Chapter 6: Spatio-Temporal Point Patterns Analysis](https://r4gdsa.netlify.app/chap06). I examine where and when MODIS fire detections concentrate during 2023, compare monthly and daily space-time kernel estimates, and compute a space-time K diagnostic. A supplementary permutation test checks whether the observed dates are associated with the detection locations.
+
+```{r}
+#| label: h3-packages
+```
+
+I use explicit packages instead of installing packages while rendering. The acquisition and analysis scripts can be run from the coursework project root. Heavy numerical results are cached with input hashes, package versions and calculation settings; changing those inputs triggers recomputation.
+
+```{r}
+#| label: h3-cache
+#| include: false
+```
+
+## 2. Obtain and validate the inputs
+
+The source datasets described in the chapter are NASA FIRMS MODIS detections and Indonesian administrative boundaries. The original course repository does not include its raw inputs, so I retrieve a [public classroom data mirror at a pinned revision](https://github.com/endurrus/IS415-GAA/tree/0f695aaacf44676f3d82aff6747873ce614168bb/In-Class_Ex/In-Class_Ex04/data/rawdata). Only CSV and shapefile data are used from that mirror. The download script and checksums are included in this project's own [data provenance notes](data/README.md).
+
+```{r}
+#| label: h3-data
+```
+
+::: {.callout-note}
+### Actual coverage of this teaching dataset
+
+Despite the filename **Kepulauan_Bangka_Belitung**, the supplied boundary covers the Bangka study area, with longitude approximately 105.11–106.85°E; it does not cover the full Bangka Belitung province or Belitung island. The mirror has **`r nrow(kbb)` boundary features**, compared with 297 in the chapter's displayed import output. Its dissolved main island, fire count and default KDE results match the teaching example.
+
+The observations are **satellite detections**, which can include repeated observations of a continuing fire. They are not a count of independently identified fire incidents, and the supplied data do not demonstrate that every detection occurs in forest land.
+:::
+
+All **`r nrow(fire)` detections** are inside the projected study window. The observations run from **`r format(min(fire$acq_date), "%d %B %Y")`** to **`r format(max(fire$acq_date), "%d %B %Y")`**. Missing detections outside those dates do not establish that no fires occurred there.
+
+The projection is **WGS 84 / UTM zone 48S (EPSG:32748)**. Coordinates and spatial bandwidths are in metres. I drop the redundant Z coordinate, dissolve internal administrative boundaries and retain the polygon study window for density estimation.
+
+## 3. Spatial and monthly distribution
+
+### Overall point map
+
+```{r}
+#| label: h3-overall
+#| fig-height: 7
+#| fig-cap: "All 2023 MODIS detections within the Bangka teaching study area."
+```
+
+### Monthly point maps
+
+Every panel uses the same spatial extent and point size. This allows comparison of geographic shifts without changes in scale.
+
+```{r}
+#| label: h3-monthly-map
+#| fig-height: 9
+#| fig-cap: "January–December point distributions on a common study window."
+```
+
+```{r}
+#| label: h3-monthly-chart
+#| fig-cap: "Monthly counts from the actual input CSV."
+```
+
+The highest recorded monthly count is **`r month.name[monthly_counts$Month_num[which.max(monthly_counts$detections)]]`**, with **`r max(monthly_counts$detections)` detections**. July–November account for **`r sum(monthly_counts$detections[monthly_counts$Month_num %in% 7:11])`**, or **`r sprintf("%.1f", 100 * sum(monthly_counts$detections[monthly_counts$Month_num %in% 7:11]) / nrow(fire))`%**, of all records. This describes the supplied detections; weather, land use, satellite coverage and repeated observations may all contribute.
+
+## 4. Prepare marked point patterns
+
+```{r}
+#| label: h3-ppp
+```
+
+The marks are numeric month numbers or integer days of year. The initial point-pattern rectangle is replaced by the actual polygon window. I verify that the window retains every observation and that there are no exact duplicate space-time records under either marking scheme. This does not rule out repeated satellite observations of the same fire at different times or coordinates.
+
+## 5. Space-time KDE by month
+
+```{r}
+#| label: h3-monthly-kde
+```
+
+The default spatial bandwidth is **`r sprintf("%.2f", st_kde$h / 1000)` km** and the temporal bandwidth is **`r sprintf("%.4f", st_kde$lambda)` months**. The result is a 128 × 128 spatial grid evaluated at all 12 month numbers. These are joint space-time densities with spatial and temporal edge correction.
+
+```{r}
+#| label: h3-monthly-kde-map
+#| fig-height: 8
+#| fig-cap: "Joint KDE slices for July–December, using one common colour range."
+```
+
+The extremely small monthly temporal bandwidth reflects smoothing on integer month marks. It leaves little smoothing between months. This monthly representation is useful for a classroom comparison, while day-of-year marks preserve more temporal detail.
+
+### Interactive monthly surface
+
+Use the month slider to compare all 12 surfaces and hover to inspect values. The colour scale stays fixed. Displayed values multiply the joint density by the observation count and 1,000,000, yielding a **smoothed detection intensity per km² per month**. It is a continuous density rate rather than an observed count in a map pixel.
+
+```{r}
+#| label: h3-monthly-interactive
+#| code-fold: true
+#| fig-height: 7
+```
+
+The [sparr density reference](https://tilmandavies.github.io/sparr/reference/spattemp.density.html) distinguishes joint density from density conditional on a time slice. Joint slices retain temporal variation in detection frequency; conditional slices instead normalise each spatial slice.
+
+## 6. Space-time KDE by day of year
+
+```{r}
+#| label: h3-daily-kde
+```
+
+The daily default retains the spatial bandwidth but uses **`r sprintf("%.2f", kde_day_default$lambda)` days** of temporal smoothing. All **`r length(kde_day_default$tgrid)` daily slices** between the first and last recorded day are computed. For a readable page, I display the fifteenth of July through December rather than hundreds of separate images.
+
+```{r}
+#| label: h3-daily-default-map
+#| fig-height: 8
+#| fig-cap: "Default daily KDE at six selected days of year, on a fixed colour scale."
+```
+
+Days `r paste(selected_days, collapse = ", ")` correspond to 15 July, 15 August, 15 September, 15 October, 15 November and 15 December 2023. Adjacent observations contribute smoothly to these slices; they are not maps of detections on those exact dates alone.
+
+## 7. Improve bandwidth selection
+
+```{r}
+#| label: h3-bootstrap
+```
+
+The actual bootstrap optimisation returns **h = `r sprintf("%.2f", boot_bw[1])` metres** and **lambda = `r sprintf("%.2f", boot_bw[2])` days**. These values are computed here rather than copied from the chapter. The [BOOT.spattemp reference](https://tilmandavies.github.io/sparr/reference/BOOT.spattemp.html) describes joint bandwidth optimisation using a bootstrap MISE criterion.
+
+```{r}
+#| label: h3-daily-improved
+```
+
+I execute both the chapter's rounded **9,000 m / 19 day** specification and the actual optimised pair. A smaller spatial bandwidth preserves finer geographic detail; a larger temporal bandwidth spreads the contribution of each observation over more days. Bandwidth selection affects the appearance and estimated density of local concentrations.
+
+### Chapter's rounded bandwidths
+
+```{r}
+#| label: h3-daily-guide-map
+#| fig-height: 8
+#| fig-cap: "Daily KDE using the chapter's 9,000 m spatial and 19 day temporal bandwidths."
+```
+
+### Actual bootstrap bandwidths
+
+```{r}
+#| label: h3-daily-bootstrap-map
+#| fig-height: 8
+#| fig-cap: "Daily KDE using the bandwidths optimised on these input data."
+```
+
+Each six-panel figure uses a common colour range internally. The ranges can differ between bandwidth specifications, so colours across separate figures are not a direct numerical comparison. Downloadable summaries report maxima for every computed daily slice.
+
+## 8. Prepare the stpp analysis
+
+```{r}
+#| label: h3-stpp
+```
+
+`as.3dpoints()` creates the stpp object from projected x, y and integer day-of-year values. Unlike the KDE window, `STIKhat()` takes one polygon ring. The dissolved data have two parts: the main island contains all 741 detections and the small offshore part contains none. I use the main island and simplify its outline by 100 m for the K calculation. All detections remain inside, and the area changes by only **`r sprintf("%.4f", boundary_audit$Area_change_percent)`%**. The KDE keeps the original unsimplified window.
+
+```{r}
+#| label: h3-space-time-map
+#| fig-height: 7
+#| fig-cap: "The projected observations coloured by day of year."
+```
+
+## 9. Space-time K function
+
+```{r}
+#| label: h3-stik
+```
+
+The calculation retains the chapter's **days 150–250** and **infectious = TRUE** settings. I explicitly restrict the input to these dates: **`r nrow(stik_df)` detections**, from 30 May through 7 September. October's seasonal peak is outside this analysis interval.
+
+“Infectious” selects a future-event form of the statistic; it does not establish that fires spread by contagion. Although the function is called `STIKhat`, omitting `lambda` uses a **homogeneous intensity estimate**, as documented in the [stpp reference](https://cran.r-project.org/web/packages/stpp/refman/stpp.html). The chart therefore does not remove all first-order spatial or seasonal variation.
+
+```{r}
+#| label: h3-stik-map
+#| fig-height: 7
+#| fig-cap: "Centred K estimates over spatial distance and future temporal lag."
+```
+
+The plotted quantity is **K̂(u,v) − πu²v**, matching the centred quantity requested by the guide's `plotK(..., L = TRUE)`. I draw it directly so it is captured reliably in Quarto; the installed `plotK()` replaces the active graphics device. Positive departures indicate more close space-time pairs than the homogeneous Poisson reference at those scales. A contour surface alone is not a significance test.
+
+### Supplementary association test
+
+```{r}
+#| label: h3-permutation
+```
+
+At the specified **10 km / 14 day** scale, there are **`r observed_pairs` close pairs**, compared with a permutation mean of **`r sprintf("%.1f", mean(permuted_pairs))`**. The upper-tail p-value is **`r sprintf("%.3f", association_p)`**. This `r if (association_p < 0.05) "provides evidence of excess space–time association at this chosen scale" else "does not provide sufficient evidence of excess space–time association at this chosen scale"` under random assignment of recorded dates to locations.
+
+The 199 permutations preserve the spatial locations and overall date distribution. This supplements the chapter's descriptive surfaces without assuming uniform spatial or seasonal detection rates. It tests one pre-specified scale, not every possible radius or lag, and repeated detections can contribute to the association.
+
+## 10. Interpretation and reproduction
+
+The supplied series is strongly seasonal and spatially uneven. KDE describes where detections concentrate, while the K diagnostic counts proximity over distance and time. Neither establishes a causal role for weather, land clearing or ignition mechanisms. MODIS coverage, cloud conditions and repeated detection of ongoing events limit interpretation of the records as independent fires.
+
+```{r}
+#| label: h3-export
+```
+
+From the project root, run the [data download script](R/download-data.R), then the [analysis script](R/analysis.R), and render this page. The input data and code are in GitHub; large numerical caches are regenerated locally. The analysis uses seed 1234, a 128 × 128 density grid, and the documented 64 × 64 × 64 bootstrap evaluation grid.
+
+- [Input data audit](results/data-audit.csv) and [monthly counts](results/monthly-counts.csv)
+- [Executed bandwidths](results/bandwidths.csv)
+- [All daily density summaries](results/daily-density-summary.csv)
+- [K-function grid](results/stik-grid.csv) and [boundary checks](results/stik-boundary-audit.csv)
+- [Association test](results/space-time-association.csv) and [permutation counts](results/permutation-counts.csv)
+- [Package versions](results/package-versions.csv) and [data provenance](data/README.md)

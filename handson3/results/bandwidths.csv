@@ -1,0 +1,5 @@
+Method,Spatial_metres,Temporal_bandwidth,Temporal_unit
+Monthly default,15102.469030057202,0.030430954380370693,months
+Daily default,15102.469030057202,6.319844457343766,days
+Chapter rounded,9000,19,days
+Actual bootstrap,9105.736114579304,18.857617311593184,days

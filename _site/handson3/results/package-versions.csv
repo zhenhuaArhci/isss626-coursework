@@ -1,0 +1,9 @@
+package,version
+R,4.5.3
+sf,1.1.3
+spatstat.geom,3.8.3
+spatstat.explore,3.8.2
+sparr,2.3.16
+stpp,2.0.8
+tmap,4.4.1
+plotly,4.12.1

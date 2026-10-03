@@ -3,6 +3,12 @@ project:
   output-dir: _site
   execute-dir: project
   resources:
+    - "/handson3/R/*.R"
+    - "/handson3/results/*.csv"
+    - "/handson3/data/README.md"
+    - "/handson3/data/input-checksums.csv"
+    - "!/handson3/data/raw/**"
+    - "!/handson3/data/derived/**"
     - "/in-class6/R/*.R"
     - "/in-class6/results/*.csv"
     - "/in-class6/data/README.md"
@@ -23,6 +29,7 @@ project:
     - hands-on-exercise-1b/index.qmd
     - handson2A/index.qmd
     - handson2B/index.qmd
+    - handson3/index.qmd
     - handson4/index.qmd
     - handson4A/index.qmd
     - handson4B/index.qmd
@@ -49,6 +56,8 @@ website:
             href: handson2A/index.qmd
           - text: "Hands-on Exercise 2B"
             href: handson2B/index.qmd
+          - text: "Hands-on Exercise 3"
+            href: handson3/index.qmd
           - text: "Hands-on Exercise 4"
             href: handson4/index.qmd
           - text: "Hands-on Exercise 5A"
