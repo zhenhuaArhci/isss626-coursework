@@ -31,8 +31,8 @@ project:
 website:
   title: "ISSS626-GAA"
   navbar:
-    background: "#faf7f0"
-    foreground: "#433b35"
+    background: "#8f3f2d"
+    foreground: "#fffaf2"
     left:
       - text: "Hands-on Exercise"
         menu:

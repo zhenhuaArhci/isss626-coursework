@@ -2,7 +2,8 @@
   --page-bg: #faf7f0;
   --text: #433b35;
   --heading: #8f3f2d;
-  --nav: #433b35;
+  --header-bg: #8f3f2d;
+  --header-text: #fffaf2;
   --accent: #9a432e;
   --muted: #71675e;
   --surface: #fffdf8;
@@ -23,16 +24,17 @@ body {
 }
 
 .navbar {
-  min-height: 60px;
-  background: var(--page-bg) !important;
+  min-height: 64px;
+  background: var(--header-bg) !important;
   border: 0;
-  box-shadow: none;
+  border-bottom: 1px solid #793624;
+  box-shadow: 0 2px 8px rgba(67, 59, 53, 0.12);
 }
 
 .navbar-brand,
 .navbar-nav .nav-link,
 .navbar .quarto-search-button {
-  color: var(--nav) !important;
+  color: var(--header-text) !important;
 }
 
 .navbar-brand {
@@ -46,7 +48,16 @@ body {
 
 .navbar-nav .nav-link:hover,
 .navbar-nav .nav-link.active {
-  color: var(--heading) !important;
+  color: #ffffff !important;
+}
+
+.navbar a:focus-visible,
+.navbar button:focus-visible {
+  outline-color: var(--header-text);
+}
+
+.navbar .dropdown-item:focus-visible {
+  outline-color: var(--accent);
 }
 
 main.content {
