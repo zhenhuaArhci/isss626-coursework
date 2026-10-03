@@ -1,0 +1,9 @@
+package,version
+R,4.5.3
+sf,1.1.3
+sfdep,0.2.5
+spdep,1.4.2
+tmap,4.4.1
+Kendall,2.2.2
+plotly,4.12.1
+dplyr,1.2.1

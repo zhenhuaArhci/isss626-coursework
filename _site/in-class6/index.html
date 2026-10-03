@@ -1,0 +1,1765 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Zhenhua Liu">
+<meta name="dcterms.date" content="2026-10-03">
+
+<title>in-class6 – ISSS626-GAA</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-b4bd764f1da01f45f24bf9152b33ca7a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<link href="../site_libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet">
+
+<script src="../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="../site_libs/plotly-binding-4.12.1/plotly.js"></script>
+
+<script src="../site_libs/typedarray-0.1/typedarray.min.js"></script>
+
+<script src="../site_libs/jquery-3.5.1/jquery.min.js"></script>
+
+<link href="../site_libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet">
+
+<script src="../site_libs/crosstalk-1.2.2/js/crosstalk.min.js"></script>
+
+<link href="../site_libs/plotly-htmlwidgets-css-2.25.2/plotly-htmlwidgets.css" rel="stylesheet">
+
+<script src="../site_libs/plotly-main-2.25.2/plotly-latest.min.js"></script>
+
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed exercise-page quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">ISSS626-GAA</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hands-on-exercise" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Hands-on Exercise</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-hands-on-exercise">    
+        <li>
+    <a class="dropdown-item" href="../hands-on-exercise-1a/index.html">
+ <span class="dropdown-text">Hands-on Exercise 1A</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../hands-on-exercise-1b/index.html">
+ <span class="dropdown-text">Hands-on Exercise 1B</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../handson2A/index.html">
+ <span class="dropdown-text">Hands-on Exercise 2A</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../handson2B/index.html">
+ <span class="dropdown-text">Hands-on Exercise 2B</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../handson4/index.html">
+ <span class="dropdown-text">Hands-on Exercise 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../handson4A/index.html">
+ <span class="dropdown-text">Hands-on Exercise 5A</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../handson4B/index.html">
+ <span class="dropdown-text">Hands-on Exercise 5B</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-in-class-exercise" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">In-class Exercise</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-in-class-exercise">    
+        <li>
+    <a class="dropdown-item" href="../inlcass4/index.html">
+ <span class="dropdown-text">inlcass4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../in-class6/index.html">
+ <span class="dropdown-text">in-class6</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-take-home-exercise" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Take-home Exercise</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-take-home-exercise">    
+        <li>
+    <a class="dropdown-item" href="../take home exercise1/index.html">
+ <span class="dropdown-text">Exercise 1 · Thailand road accidents</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../take home exercise1/technical-report.html">
+ <span class="dropdown-text">Technical Report</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../take home exercise1/executive-summary.html">
+ <span class="dropdown-text">Executive Summary</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#question-and-packages" id="toc-question-and-packages" class="nav-link active" data-scroll-target="#question-and-packages">1. Question and packages</a></li>
+  <li><a href="#import-and-validate-the-data" id="toc-import-and-validate-the-data" class="nav-link" data-scroll-target="#import-and-validate-the-data">2. Import and validate the data</a></li>
+  <li><a href="#create-the-space-time-cube" id="toc-create-the-space-time-cube" class="nav-link" data-scroll-target="#create-the-space-time-cube">3. Create the space-time cube</a></li>
+  <li><a href="#spatial-neighbours-and-annual-gi-calculation" id="toc-spatial-neighbours-and-annual-gi-calculation" class="nav-link" data-scroll-target="#spatial-neighbours-and-annual-gi-calculation">4. Spatial neighbours and annual Gi* calculation</a></li>
+  <li><a href="#changshas-local-clustering-trend" id="toc-changshas-local-clustering-trend" class="nav-link" data-scroll-target="#changshas-local-clustering-trend">5. Changsha’s local clustering trend</a>
+  <ul class="collapse">
+  <li><a href="#static-time-series" id="toc-static-time-series" class="nav-link" data-scroll-target="#static-time-series">Static time series</a></li>
+  <li><a href="#interactive-time-series" id="toc-interactive-time-series" class="nav-link" data-scroll-target="#interactive-time-series">Interactive time series</a></li>
+  <li><a href="#mannkendall-test" id="toc-mannkendall-test" class="nav-link" data-scroll-target="#mannkendall-test">Mann–Kendall test</a></li>
+  </ul></li>
+  <li><a href="#emerging-hot-spot-analysis" id="toc-emerging-hot-spot-analysis" class="nav-link" data-scroll-target="#emerging-hot-spot-analysis">6. Emerging hot spot analysis</a>
+  <ul class="collapse">
+  <li><a href="#distribution-of-classes" id="toc-distribution-of-classes" class="nav-link" data-scroll-target="#distribution-of-classes">Distribution of classes</a></li>
+  <li><a href="#full-classification-map" id="toc-full-classification-map" class="nav-link" data-scroll-target="#full-classification-map">Full classification map</a></li>
+  <li><a href="#map-filtered-by-significant-trends" id="toc-map-filtered-by-significant-trends" class="nav-link" data-scroll-target="#map-filtered-by-significant-trends">Map filtered by significant trends</a></li>
+  </ul></li>
+  <li><a href="#interpreting-the-classes" id="toc-interpreting-the-classes" class="nav-link" data-scroll-target="#interpreting-the-classes">7. Interpreting the classes</a></li>
+  <li><a href="#simulation-sensitivity-and-limitations" id="toc-simulation-sensitivity-and-limitations" class="nav-link" data-scroll-target="#simulation-sensitivity-and-limitations">8. Simulation sensitivity and limitations</a></li>
+  <li><a href="#results-and-reproduction" id="toc-results-and-reproduction" class="nav-link" data-scroll-target="#results-and-reproduction">9. Results and reproduction</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">in-class6</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<p class="subtitle lead">Emerging Hot Spot Analysis · Hunan GDP per capita, 2005–2021</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Zhenhua Liu </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 3, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="question-and-packages" class="level2">
+<h2 class="anchored" data-anchor-id="question-and-packages">1. Question and packages</h2>
+<p>How has the geography of high and low GDP per capita clustering changed across Hunan? This exercise follows <a href="https://r4gdsa.netlify.app/chap11#the-data">Chapter 11: Emerging Hot Spot Analysis</a>: build a space-time cube, calculate annual local statistics, test their trends, and map emerging hot spot classes. The inputs are the actual Hunan datasets supplied for this coursework.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sfdep)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tmap)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Kendall)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>spdep<span class="sc">::</span><span class="fu">set.coresOption</span>(<span class="cn">NULL</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">"plot"</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">scipen =</span> <span class="dv">5</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"#faf7f0"</span>, <span class="at">colour =</span> <span class="cn">NA</span>),</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">"#8f3f2d"</span>, <span class="at">face =</span> <span class="st">"bold"</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>I use a fixed random seed of <strong>1234</strong> and one worker. The annual calculation uses 499 permutations; the main EHSA calculation retains the chapter’s <strong>99 simulations</strong>. A separate 999-simulation run checks how stable the resulting classes are.</p>
+</section>
+<section id="import-and-validate-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="import-and-validate-the-data">2. Import and validate the data</h2>
+<p>The county polygons are shared with <a href="../handson4A/index.html">Hands-on Exercise 5A</a>. The time series is <strong>Hunan_GDPPC.csv</strong>, rather than the single-year Hunan_2012.csv used previously. I transform the polygons to <strong>WGS 84 / UTM zone 50N (EPSG:32650)</strong>, with distances in metres, and order counties before constructing the cube.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>hunan <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"handson4/data/geospatial"</span>, <span class="at">layer =</span> <span class="st">"Hunan"</span>, <span class="at">quiet =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="dv">32650</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(County)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>GDPPC <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"in-class6/data/aspatial/Hunan_GDPPC.csv"</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">Year =</span> <span class="fu">col_integer</span>(), <span class="at">County =</span> <span class="fu">col_character</span>(),</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">GDPPC =</span> <span class="fu">col_double</span>()))</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>years <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">unique</span>(GDPPC<span class="sc">$</span>Year))</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">nrow</span>(hunan) <span class="sc">==</span> <span class="dv">88</span>L, <span class="sc">!</span><span class="fu">anyDuplicated</span>(hunan<span class="sc">$</span>County),</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="sc">!</span><span class="fu">anyDuplicated</span>(GDPPC[<span class="fu">c</span>(<span class="st">"County"</span>, <span class="st">"Year"</span>)]),</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setequal</span>(hunan<span class="sc">$</span>County, GDPPC<span class="sc">$</span>County), <span class="fu">identical</span>(years, <span class="dv">2005</span><span class="sc">:</span><span class="dv">2021</span>),</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nrow</span>(GDPPC) <span class="sc">==</span> <span class="fu">nrow</span>(hunan) <span class="sc">*</span> <span class="fu">length</span>(years),</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="sc">!</span><span class="fu">anyNA</span>(GDPPC), <span class="fu">all</span>(<span class="fu">is.finite</span>(GDPPC<span class="sc">$</span>GDPPC)), <span class="fu">all</span>(GDPPC<span class="sc">$</span>GDPPC <span class="sc">&gt;</span> <span class="dv">0</span>),</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all</span>(<span class="fu">st_is_valid</span>(hunan)), <span class="fu">st_crs</span>(hunan)<span class="sc">$</span>epsg <span class="sc">==</span> <span class="dv">32650</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(GDPPC), <span class="at">caption =</span> <span class="st">"Actual Hunan GDP per capita observations"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Actual Hunan GDP per capita observations</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Year</th>
+<th style="text-align: left;">County</th>
+<th style="text-align: right;">GDPPC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">2005</td>
+<td style="text-align: left;">Longshan</td>
+<td style="text-align: right;">3469</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2005</td>
+<td style="text-align: left;">Changsha</td>
+<td style="text-align: right;">24612</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2005</td>
+<td style="text-align: left;">Wangcheng</td>
+<td style="text-align: right;">14659</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2005</td>
+<td style="text-align: left;">Ningxiang</td>
+<td style="text-align: right;">11687</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2005</td>
+<td style="text-align: left;">Liuyang</td>
+<td style="text-align: right;">13406</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2005</td>
+<td style="text-align: left;">Zhuzhou</td>
+<td style="text-align: right;">8546</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Validation checks unique county–year keys, matching county names, positive finite values, valid polygons, and a complete annual sequence. No observations are imputed or invented. The supplied boundaries are treated as fixed across years; the CSV does not document an inflation adjustment, so I do not treat the values as inflation-adjusted income.</p>
+</section>
+<section id="create-the-space-time-cube" class="level2">
+<h2 class="anchored" data-anchor-id="create-the-space-time-cube">3. Create the space-time cube</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>GDPPC_st <span class="ot">&lt;-</span> <span class="fu">spacetime</span>(GDPPC, hunan, <span class="at">.loc_col =</span> <span class="st">"County"</span>, <span class="at">.time_col =</span> <span class="st">"Year"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">is_spacetime_cube</span>(GDPPC_st))</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">is_spacetime_cube</span>(GDPPC_st)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>cube_summary <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">Counties =</span> <span class="fu">nrow</span>(hunan), <span class="at">Years =</span> <span class="fu">length</span>(years),</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">First_year =</span> <span class="fu">min</span>(years), <span class="at">Last_year =</span> <span class="fu">max</span>(years),</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Observations =</span> <span class="fu">nrow</span>(GDPPC))</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(cube_summary, <span class="at">caption =</span> <span class="st">"Validated, complete space-time cube"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Validated, complete space-time cube</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Counties</th>
+<th style="text-align: right;">Years</th>
+<th style="text-align: right;">First_year</th>
+<th style="text-align: right;">Last_year</th>
+<th style="text-align: right;">Observations</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">88</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">2005</td>
+<td style="text-align: right;">2021</td>
+<td style="text-align: right;">1496</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The cube contains <strong>88 counties × 17 years = 1,496 observations</strong>. Each county has one record for every year from 2005 to 2021. <code>is_spacetime_cube()</code> returns TRUE.</p>
+</section>
+<section id="spatial-neighbours-and-annual-gi-calculation" class="level2">
+<h2 class="anchored" data-anchor-id="spatial-neighbours-and-annual-gi-calculation">4. Spatial neighbours and annual Gi* calculation</h2>
+<p>The first calculation reproduces the chapter’s Queen-contiguity neighbour lists and inverse-distance weights. Queen neighbours share an edge or a vertex. After attaching neighbours and weights, I preserve their alignment with the polygon row order within every year.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>GDPPC_nb <span class="ot">&lt;-</span> GDPPC_st <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">activate</span>(<span class="st">"geometry"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">nb =</span> <span class="fu">include_self</span>(<span class="fu">st_contiguity</span>(geometry)),</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">wt =</span> <span class="fu">st_inverse_distance</span>(nb, geometry, <span class="at">scale =</span> <span class="dv">1</span>, <span class="at">alpha =</span> <span class="dv">1</span>),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">.before =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_nbs</span>(<span class="st">"nb"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_wts</span>(<span class="st">"wt"</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>geo_nb <span class="ot">&lt;-</span> <span class="fu">attr</span>(GDPPC_nb, <span class="st">"geometry"</span>)<span class="sc">$</span>nb</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>geo_wt <span class="ot">&lt;-</span> <span class="fu">attr</span>(GDPPC_nb, <span class="st">"geometry"</span>)<span class="sc">$</span>wt</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">all</span>(<span class="fu">vapply</span>(geo_wt, <span class="cf">function</span>(w) <span class="fu">all</span>(<span class="fu">is.finite</span>(w)), <span class="fu">logical</span>(<span class="dv">1</span>))),</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all</span>(<span class="fu">vapply</span>(<span class="fu">seq_along</span>(geo_nb), <span class="cf">function</span>(i) {</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    geo_wt[[i]][<span class="fu">match</span>(i, geo_nb[[i]])] <span class="sc">==</span> <span class="dv">0</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  }, <span class="fu">logical</span>(<span class="dv">1</span>))))</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(geo_nb)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Neighbour list object:
+Number of regions: 88 
+Number of nonzero links: 536 
+Percentage nonzero weights: 6.921488 
+Average number of links: 6.090909 
+Link number distribution:
+
+ 2  3  4  5  6  7  8  9 10 12 
+ 2  2 12 16 24 14 11  4  2  1 
+2 least connected regions:
+41 72 with 2 links
+1 most connected region:
+64 with 12 links</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Reading the two analyses correctly
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The installed <code>sfdep</code> inverse-distance function uses polygon points on surface and assigns <strong>zero weight to zero distances</strong>, including the focal county. I retain that behaviour for the chapter’s annual diagnostic. It therefore has a zero diagonal despite using <code>local_gstar_perm()</code>.</p>
+<p>The later EHSA call receives the original cube and constructs its own <strong>row-standardised Queen weights including the focal county</strong>, plus a one-year lag. The annual diagnostic and the full EHSA result use different neighbourhood definitions and should be interpreted separately.</p>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>gi_stars <span class="ot">&lt;-</span> GDPPC_nb <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Year) <span class="sc">|&gt;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">gi_star =</span> <span class="fu">local_gstar_perm</span>(GDPPC, nb, wt, <span class="at">nsim =</span> <span class="dv">499</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">iseed =</span> <span class="dv">1234</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(gi_star) <span class="sc">|&gt;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">nrow</span>(gi_stars) <span class="sc">==</span> <span class="fu">nrow</span>(GDPPC), <span class="fu">all</span>(<span class="fu">is.finite</span>(gi_stars<span class="sc">$</span>gi_star)))</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(gi_stars <span class="sc">|&gt;</span> <span class="fu">select</span>(County, Year, GDPPC, gi_star, p_sim) <span class="sc">|&gt;</span> <span class="fu">head</span>(),</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">digits =</span> <span class="dv">4</span>, <span class="at">caption =</span> <span class="st">"Annual local statistics; unadjusted permutation p-values"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Annual local statistics; unadjusted permutation p-values</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">County</th>
+<th style="text-align: right;">Year</th>
+<th style="text-align: right;">GDPPC</th>
+<th style="text-align: right;">gi_star</th>
+<th style="text-align: right;">p_sim</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Anhua</td>
+<td style="text-align: right;">2005</td>
+<td style="text-align: right;">4411</td>
+<td style="text-align: right;">-1.1495</td>
+<td style="text-align: right;">0.636</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Anren</td>
+<td style="text-align: right;">2005</td>
+<td style="text-align: right;">7423</td>
+<td style="text-align: right;">1.6667</td>
+<td style="text-align: right;">0.124</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Anxiang</td>
+<td style="text-align: right;">2005</td>
+<td style="text-align: right;">8184</td>
+<td style="text-align: right;">0.3981</td>
+<td style="text-align: right;">0.668</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Baojing</td>
+<td style="text-align: right;">2005</td>
+<td style="text-align: right;">4612</td>
+<td style="text-align: right;">-1.4449</td>
+<td style="text-align: right;">0.312</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Chaling</td>
+<td style="text-align: right;">2005</td>
+<td style="text-align: right;">8040</td>
+<td style="text-align: right;">0.5670</td>
+<td style="text-align: right;">0.576</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Changning</td>
+<td style="text-align: right;">2005</td>
+<td style="text-align: right;">7906</td>
+<td style="text-align: right;">0.5501</td>
+<td style="text-align: right;">0.484</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>These scores describe clustering relative to the other counties in each year. A change in a clustering score is different from a change in a county’s raw GDPPC. The displayed annual permutation p-values are unadjusted.</p>
+</section>
+<section id="changshas-local-clustering-trend" class="level2">
+<h2 class="anchored" data-anchor-id="changshas-local-clustering-trend">5. Changsha’s local clustering trend</h2>
+<section id="static-time-series" class="level3">
+<h3 class="anchored" data-anchor-id="static-time-series">Static time series</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>cbg <span class="ot">&lt;-</span> gi_stars <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(County <span class="sc">==</span> <span class="st">"Changsha"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Year) <span class="sc">|&gt;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(County, Year, gi_star)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>changsha_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cbg, <span class="fu">aes</span>(Year, gi_star)) <span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">colour =</span> <span class="st">"#9a432e"</span>, <span class="at">linewidth =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">colour =</span> <span class="st">"#9a432e"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">2005</span>, <span class="dv">2021</span>, <span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Changsha: annual local clustering statistic"</span>,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Year"</span>, <span class="at">y =</span> <span class="st">"Local Gi* score (guide's inverse-distance weights)"</span>)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>changsha_plot</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/c6-changsha-1.png" class="img-fluid figure-img" width="1600"></p>
+<figcaption>Changsha’s annual local score under the chapter’s inverse-distance specification.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="interactive-time-series" class="level3">
+<h3 class="anchored" data-anchor-id="interactive-time-series">Interactive time series</h3>
+<p>Hover over the points to inspect each year. Use the chart toolbar to zoom or reset the view.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplotly</span>(changsha_plot, <span class="at">tooltip =</span> <span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">layout</span>(<span class="at">paper_bgcolor =</span> <span class="st">"#faf7f0"</span>, <span class="at">plot_bgcolor =</span> <span class="st">"#faf7f0"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">config</span>(<span class="at">displaylogo =</span> <span class="cn">FALSE</span>, <span class="at">responsive =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-58b471fb514b0e5e771d" style="width:100%;height:390px;"></div>
+<script type="application/json" data-for="htmlwidget-58b471fb514b0e5e771d">{"x":{"data":[{"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021],"y":[5.0282995066289047,5.1692011079782345,5.2958892892912894,5.6039537096873993,6.2788862246004742,5.9357455762937326,5.7508709054298892,5.6942475830114576,5.7085054237054784,5.7608121561733521,6.097127241257188,6.0036547779673146,6.2028053540357906,6.0371816202738318,6.5794321718855278,5.7669155664195504,5.7486534794156494],"text":["Year: 2005<br />gi_star: 5.028300","Year: 2006<br />gi_star: 5.169201","Year: 2007<br />gi_star: 5.295889","Year: 2008<br />gi_star: 5.603954","Year: 2009<br />gi_star: 6.278886","Year: 2010<br />gi_star: 5.935746","Year: 2011<br />gi_star: 5.750871","Year: 2012<br />gi_star: 5.694248","Year: 2013<br />gi_star: 5.708505","Year: 2014<br />gi_star: 5.760812","Year: 2015<br />gi_star: 6.097127","Year: 2016<br />gi_star: 6.003655","Year: 2017<br />gi_star: 6.202805","Year: 2018<br />gi_star: 6.037182","Year: 2019<br />gi_star: 6.579432","Year: 2020<br />gi_star: 5.766916","Year: 2021<br />gi_star: 5.748653"],"type":"scatter","mode":"lines+markers","line":{"width":3.4015748031496069,"color":"rgba(154,67,46,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(154,67,46,1)","opacity":1,"size":7.559055118110237,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(154,67,46,1)"}},"frame":null}],"layout":{"margin":{"t":43.098381070983812,"r":7.9701120797011216,"b":40.647571606475722,"l":47.023661270236623},"paper_bgcolor":"#faf7f0","font":{"color":"rgba(0,0,0,1)","family":"","size":15.940224159402243},"title":{"text":"<b> Changsha: annual local clustering statistic <\/b>","font":{"color":"rgba(143,63,45,1)","family":"","size":19.128268991282692},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[2004.2,2021.8],"tickmode":"array","ticktext":["2005","2007","2009","2011","2013","2015","2017","2019","2021"],"tickvals":[2005,2007,2009,2011,2013,2015,2017,2019,2021],"categoryorder":"array","categoryarray":["2005","2007","2009","2011","2013","2015","2017","2019","2021"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.9850560398505608,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":12.7521793275218},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.72455564360919278,"zeroline":false,"anchor":"y","title":{"text":"Year","font":{"color":"rgba(0,0,0,1)","family":"","size":15.940224159402243}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[4.9507428733660737,6.6569888051483588],"tickmode":"array","ticktext":["5.0","5.5","6.0","6.5"],"tickvals":[5,5.5,6,6.5],"categoryorder":"array","categoryarray":["5.0","5.5","6.0","6.5"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.9850560398505608,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":12.7521793275218},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.72455564360919278,"zeroline":false,"anchor":"x","title":{"text":"Local Gi* score (guide's inverse-distance weights)","font":{"color":"rgba(0,0,0,1)","family":"","size":15.940224159402243}},"hoverformat":".2f"},"shapes":[],"showlegend":false,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":12.7521793275218}},"hovermode":"closest","barmode":"relative","plot_bgcolor":"#faf7f0"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false,"displaylogo":false,"responsive":true},"source":"A","attrs":{"1a6c46137806":{"x":{},"y":{},"type":"scatter"},"1a6c307c2558":{"x":{},"y":{}}},"cur_data":"1a6c46137806","visdat":{"1a6c46137806":["function (y) ","x"],"1a6c307c2558":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="mannkendall-test" class="level3">
+<h3 class="anchored" data-anchor-id="mannkendall-test">Mann–Kendall test</h3>
+<p>The null hypothesis is no monotonic trend in the annual score. Positive Kendall’s tau indicates an upward tendency; negative tau indicates a downward tendency. A trend in a positive score can mean strengthening high-value clustering, while an upward trend in a negative score can mean weakening low-value clustering.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>changsha_mk <span class="ot">&lt;-</span> cbg <span class="sc">|&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mk =</span> <span class="fu">list</span>(<span class="fu">unclass</span>(Kendall<span class="sc">::</span><span class="fu">MannKendall</span>(gi_star)))) <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_wider</span>(mk)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(changsha_mk, <span class="at">digits =</span> <span class="dv">6</span>, <span class="at">caption =</span> <span class="st">"Changsha Mann–Kendall test (sl is the p-value)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Changsha Mann–Kendall test (sl is the p-value)</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">tau</th>
+<th style="text-align: right;">sl</th>
+<th style="text-align: right;">S</th>
+<th style="text-align: right;">D</th>
+<th style="text-align: right;">varS</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.485294</td>
+<td style="text-align: right;">0.007417</td>
+<td style="text-align: right;">66</td>
+<td style="text-align: right;">136</td>
+<td style="text-align: right;">589.3333</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>county_mk <span class="ot">&lt;-</span> gi_stars <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(County, Year) <span class="sc">|&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(County) <span class="sc">|&gt;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mk =</span> <span class="fu">list</span>(<span class="fu">unclass</span>(Kendall<span class="sc">::</span><span class="fu">MannKendall</span>(gi_star))), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_wider</span>(mk) <span class="sc">|&gt;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">p_bh =</span> <span class="fu">p.adjust</span>(sl, <span class="at">method =</span> <span class="st">"BH"</span>))</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>top_trends <span class="ot">&lt;-</span> county_mk <span class="sc">|&gt;</span> <span class="fu">arrange</span>(sl, <span class="fu">desc</span>(<span class="fu">abs</span>(tau))) <span class="sc">|&gt;</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(top_trends, <span class="at">digits =</span> <span class="dv">6</span>, <span class="at">caption =</span> <span class="st">"Ten smallest trend p-values; BH adjustment across 88 counties"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Ten smallest trend p-values; BH adjustment across 88 counties</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">County</th>
+<th style="text-align: right;">tau</th>
+<th style="text-align: right;">sl</th>
+<th style="text-align: right;">S</th>
+<th style="text-align: right;">D</th>
+<th style="text-align: right;">varS</th>
+<th style="text-align: right;">p_bh</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Shuangfeng</td>
+<td style="text-align: right;">0.867647</td>
+<td style="text-align: right;">0.000001</td>
+<td style="text-align: right;">118</td>
+<td style="text-align: right;">136</td>
+<td style="text-align: right;">589.3333</td>
+<td style="text-align: right;">0.000042</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Xiangtan</td>
+<td style="text-align: right;">0.867647</td>
+<td style="text-align: right;">0.000001</td>
+<td style="text-align: right;">118</td>
+<td style="text-align: right;">136</td>
+<td style="text-align: right;">589.3333</td>
+<td style="text-align: right;">0.000042</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Xiangxiang</td>
+<td style="text-align: right;">0.867647</td>
+<td style="text-align: right;">0.000001</td>
+<td style="text-align: right;">118</td>
+<td style="text-align: right;">136</td>
+<td style="text-align: right;">589.3333</td>
+<td style="text-align: right;">0.000042</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Chengbu</td>
+<td style="text-align: right;">-0.823529</td>
+<td style="text-align: right;">0.000005</td>
+<td style="text-align: right;">-112</td>
+<td style="text-align: right;">136</td>
+<td style="text-align: right;">589.3333</td>
+<td style="text-align: right;">0.000085</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Dongan</td>
+<td style="text-align: right;">-0.823529</td>
+<td style="text-align: right;">0.000005</td>
+<td style="text-align: right;">-112</td>
+<td style="text-align: right;">136</td>
+<td style="text-align: right;">589.3333</td>
+<td style="text-align: right;">0.000085</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Wugang</td>
+<td style="text-align: right;">-0.808824</td>
+<td style="text-align: right;">0.000007</td>
+<td style="text-align: right;">-110</td>
+<td style="text-align: right;">136</td>
+<td style="text-align: right;">589.3333</td>
+<td style="text-align: right;">0.000104</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Huayuan</td>
+<td style="text-align: right;">-0.794118</td>
+<td style="text-align: right;">0.000010</td>
+<td style="text-align: right;">-108</td>
+<td style="text-align: right;">136</td>
+<td style="text-align: right;">589.3333</td>
+<td style="text-align: right;">0.000115</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Shaoshan</td>
+<td style="text-align: right;">0.794118</td>
+<td style="text-align: right;">0.000010</td>
+<td style="text-align: right;">108</td>
+<td style="text-align: right;">136</td>
+<td style="text-align: right;">589.3333</td>
+<td style="text-align: right;">0.000115</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Liuyang</td>
+<td style="text-align: right;">0.779412</td>
+<td style="text-align: right;">0.000015</td>
+<td style="text-align: right;">106</td>
+<td style="text-align: right;">136</td>
+<td style="text-align: right;">589.3333</td>
+<td style="text-align: right;">0.000149</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Zhuzhou</td>
+<td style="text-align: right;">0.764706</td>
+<td style="text-align: right;">0.000022</td>
+<td style="text-align: right;">104</td>
+<td style="text-align: right;">136</td>
+<td style="text-align: right;">589.3333</td>
+<td style="text-align: right;">0.000149</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>For Changsha, <strong>tau = 0.485</strong> and <strong>p = 0.00742</strong>. At the unadjusted 5% level, this supports a monotonic trend; the estimated direction is upward.</p>
+<p>Across all counties, <strong>42</strong> annual-score trends have raw p &lt; 0.05, and <strong>38</strong> remain below 0.05 after Benjamini–Hochberg adjustment across the 88 county tests. The top-ten table ranks by p-value, then decreasing absolute tau. These are trend rankings rather than EHSA classifications.</p>
+</section>
+</section>
+<section id="emerging-hot-spot-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="emerging-hot-spot-analysis">6. Emerging hot spot analysis</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>ehsa <span class="ot">&lt;-</span> <span class="fu">emerging_hotspot_analysis</span>(<span class="at">x =</span> GDPPC_st, <span class="at">.var =</span> <span class="st">"GDPPC"</span>,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">k =</span> <span class="dv">1</span>, <span class="at">nsim =</span> <span class="dv">99</span>, <span class="at">threshold =</span> <span class="fl">0.01</span>, <span class="at">include_gi =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Record the cube's geometry order when attaching per-bin statistics.</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>bin_results <span class="ot">&lt;-</span> <span class="fu">bind_cols</span>(</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">County =</span> <span class="fu">rep</span>(<span class="fu">attr</span>(GDPPC_st, <span class="st">"geometry"</span>)<span class="sc">$</span>County, <span class="at">times =</span> <span class="fu">length</span>(years)),</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">Year =</span> <span class="fu">rep</span>(years, <span class="at">each =</span> <span class="fu">nrow</span>(hunan))),</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>(<span class="fu">attr</span>(ehsa, <span class="st">"gi_star"</span>)))</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>bin_summary <span class="ot">&lt;-</span> bin_results <span class="sc">|&gt;</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(County) <span class="sc">|&gt;</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mk_tau =</span> <span class="fu">as.numeric</span>(<span class="fu">MannKendall</span>(gi_star)<span class="sc">$</span>tau),</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">mk_p =</span> <span class="fu">as.numeric</span>(<span class="fu">MannKendall</span>(gi_star)<span class="sc">$</span>sl),</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">hot_years =</span> <span class="fu">sum</span>(gi_star <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> p_sim <span class="sc">&lt;=</span> <span class="fl">0.01</span>),</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">cold_years =</span> <span class="fu">sum</span>(gi_star <span class="sc">&lt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> p_sim <span class="sc">&lt;=</span> <span class="fl">0.01</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>ehsa <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(ehsa) <span class="sc">|&gt;</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(bin_summary, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"location"</span> <span class="ot">=</span> <span class="st">"County"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">p_bh =</span> <span class="fu">p.adjust</span>(p_value, <span class="at">method =</span> <span class="st">"BH"</span>))</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">nrow</span>(ehsa) <span class="sc">==</span> <span class="dv">88</span>L, <span class="sc">!</span><span class="fu">anyNA</span>(ehsa),</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all</span>(<span class="fu">abs</span>(ehsa<span class="sc">$</span>tau <span class="sc">-</span> ehsa<span class="sc">$</span>mk_tau) <span class="sc">&lt;</span> <span class="fl">1e-7</span>),</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all</span>(<span class="fu">abs</span>(ehsa<span class="sc">$</span>p_value <span class="sc">-</span> ehsa<span class="sc">$</span>mk_p) <span class="sc">&lt;</span> <span class="fl">1e-7</span>))</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>class_counts <span class="ot">&lt;-</span> ehsa <span class="sc">|&gt;</span> <span class="fu">count</span>(classification, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(class_counts, <span class="at">caption =</span> <span class="st">"EHSA classes: 99 simulations, k = 1, threshold = 0.01"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>EHSA classes: 99 simulations, k = 1, threshold = 0.01</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">classification</th>
+<th style="text-align: right;">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">sporadic coldspot</td>
+<td style="text-align: right;">46</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sporadic hotspot</td>
+<td style="text-align: right;">22</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">oscilating hotspot</td>
+<td style="text-align: right;">13</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">no pattern detected</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">oscilating coldspot</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">consecutive hotspot</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The main analysis uses <strong>k = 1</strong>, so neighbourhoods incorporate the current year and the preceding year. The earliest year has no preceding observation. I make the package’s default <strong>classification threshold of 0.01</strong> explicit and retain the underlying bin statistics for inspection. I also verify that each reported county trend matches a Mann–Kendall test of its own ordered bin scores.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Significance and simulation resolution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In the installed <code>sfdep</code> implementation, classification uses unadjusted <code>p_sim</code> and Mann–Kendall p-values. It does <strong>not</strong> automatically apply the FDR correction mentioned in the chapter overview. Its bin <code>p_sim</code> is the smaller simulated tail probability. With 99 simulations the smallest attainable value is 0.01, exactly the classification threshold, making a simulation sensitivity check useful.</p>
+<p>The returned <code>p_value</code> is the county’s <strong>trend-test p-value</strong>, not a bin-level hot spot p-value. BH values reported here adjust county trend tests only. This classroom implementation should not be described as identical to ArcGIS EHSA.</p>
+</div>
+</div>
+<p>The <a href="https://search.r-project.org/CRAN/refmans/sfdep/html/emerging_hotspot_analysis.html">sfdep reference</a> documents the defaults and time-lag neighbourhoods. The behaviour above was additionally checked against the installed package functions.</p>
+<section id="distribution-of-classes" class="level3">
+<h3 class="anchored" data-anchor-id="distribution-of-classes">Distribution of classes</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(class_counts, <span class="fu">aes</span>(n, <span class="fu">reorder</span>(classification, n))) <span class="sc">+</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#9a432e"</span>, <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> n), <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.12</span>))) <span class="sc">+</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of emerging hot spot classes"</span>,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Number of counties"</span>, <span class="at">y =</span> <span class="cn">NULL</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/c6-distribution-1.png" class="img-fluid figure-img" width="1600"></p>
+<figcaption>County counts for the primary 99-simulation EHSA run.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The most frequent class in this run is <strong>sporadic coldspot</strong>, with <strong>46 counties</strong>. Counts reflect this dataset, seed, neighbourhood, threshold, and package version.</p>
+</section>
+<section id="full-classification-map" class="level3">
+<h3 class="anchored" data-anchor-id="full-classification-map">Full classification map</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>hunan_ehsa <span class="ot">&lt;-</span> hunan <span class="sc">|&gt;</span> <span class="fu">left_join</span>(ehsa, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"County"</span> <span class="ot">=</span> <span class="st">"location"</span>))</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>classes <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">unique</span>(ehsa<span class="sc">$</span>classification))</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>class_colours <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"consecutive coldspot"</span> <span class="ot">=</span> <span class="st">"#889d86"</span>,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"consecutive hotspot"</span> <span class="ot">=</span> <span class="st">"#bd6e38"</span>, <span class="st">"diminishing coldspot"</span> <span class="ot">=</span> <span class="st">"#b3bb9c"</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"diminishing hotspot"</span> <span class="ot">=</span> <span class="st">"#c99177"</span>, <span class="st">"historical coldspot"</span> <span class="ot">=</span> <span class="st">"#d6dbc8"</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"historical hotspot"</span> <span class="ot">=</span> <span class="st">"#e1c3b0"</span>, <span class="st">"intensifying coldspot"</span> <span class="ot">=</span> <span class="st">"#3f5f4b"</span>,</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"intensifying hotspot"</span> <span class="ot">=</span> <span class="st">"#742d24"</span>, <span class="st">"new coldspot"</span> <span class="ot">=</span> <span class="st">"#567a63"</span>,</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"new hotspot"</span> <span class="ot">=</span> <span class="st">"#b84328"</span>, <span class="st">"no pattern detected"</span> <span class="ot">=</span> <span class="st">"#ded9d0"</span>,</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"oscilating coldspot"</span> <span class="ot">=</span> <span class="st">"#8f8c5e"</span>, <span class="st">"oscilating hotspot"</span> <span class="ot">=</span> <span class="st">"#a07944"</span>,</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"persistent coldspot"</span> <span class="ot">=</span> <span class="st">"#607560"</span>, <span class="st">"persistent hotspot"</span> <span class="ot">=</span> <span class="st">"#934e36"</span>,</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"sporadic coldspot"</span> <span class="ot">=</span> <span class="st">"#a1b39a"</span>, <span class="st">"sporadic hotspot"</span> <span class="ot">=</span> <span class="st">"#dda17e"</span>)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>hunan_ehsa<span class="sc">$</span>classification <span class="ot">&lt;-</span> <span class="fu">factor</span>(hunan_ehsa<span class="sc">$</span>classification, <span class="at">levels =</span> classes)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>ehsa_map <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(hunan_ehsa) <span class="sc">+</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="at">fill =</span> <span class="st">"classification"</span>, <span class="at">col =</span> <span class="st">"#fffaf2"</span>, <span class="at">lwd =</span> <span class="fl">0.5</span>,</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill.scale =</span> <span class="fu">tm_scale_categorical</span>(<span class="at">values =</span> <span class="fu">unname</span>(class_colours[classes]),</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">levels =</span> classes, <span class="at">levels.drop =</span> <span class="cn">FALSE</span>),</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill.legend =</span> <span class="fu">tm_legend</span>(<span class="at">title =</span> <span class="st">"EHSA class"</span>, <span class="at">position =</span> <span class="fu">tm_pos_out</span>())) <span class="sc">+</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">bg.color =</span> <span class="st">"#faf7f0"</span>, <span class="at">frame =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_title</span>(<span class="st">"Hunan · All EHSA classifications"</span>)</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>ehsa_map</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/c6-map-1.png" class="img-fluid figure-img" width="1600"></p>
+<figcaption>All 88 county classifications. Terracotta tones denote hot spot classes; green tones denote cold spot classes; grey denotes no detected pattern.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="map-filtered-by-significant-trends" class="level3">
+<h3 class="anchored" data-anchor-id="map-filtered-by-significant-trends">Map filtered by significant trends</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>ehsa_sig <span class="ot">&lt;-</span> hunan_ehsa <span class="sc">|&gt;</span> <span class="fu">filter</span>(p_value <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(hunan_ehsa) <span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="at">fill =</span> <span class="st">"#ded9d0"</span>, <span class="at">col =</span> <span class="st">"#fffaf2"</span>, <span class="at">lwd =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(ehsa_sig) <span class="sc">+</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="at">fill =</span> <span class="st">"classification"</span>, <span class="at">col =</span> <span class="st">"#fffaf2"</span>, <span class="at">lwd =</span> <span class="fl">0.5</span>,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill.scale =</span> <span class="fu">tm_scale_categorical</span>(<span class="at">values =</span> <span class="fu">unname</span>(class_colours[classes]),</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">levels =</span> classes, <span class="at">levels.drop =</span> <span class="cn">FALSE</span>),</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill.legend =</span> <span class="fu">tm_legend</span>(<span class="at">title =</span> <span class="st">"Class (trend p &lt; 0.05)"</span>, <span class="at">position =</span> <span class="fu">tm_pos_out</span>())) <span class="sc">+</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">bg.color =</span> <span class="st">"#faf7f0"</span>, <span class="at">frame =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_title</span>(<span class="st">"Hunan · Counties with a significant Gi* trend"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/c6-filtered-map-1.png" class="img-fluid figure-img" width="1600"></p>
+<figcaption>The chapter’s additional filter: colour counties with an unadjusted Mann–Kendall trend p-value below 0.05.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>This filtered map colours <strong>44 counties</strong>. Grey counties fail the displayed trend filter; some may still have a persistent hot or cold spot classification in the full map. A persistent cluster can have no significant monotonic trend. <strong>36 counties</strong> pass a separate BH-adjusted 5% trend criterion.</p>
+</section>
+</section>
+<section id="interpreting-the-classes" class="level2">
+<h2 class="anchored" data-anchor-id="interpreting-the-classes">7. Interpreting the classes</h2>
+<p>The <a href="https://doc.esri.com/en/arcgis-pro/latest/tool-reference/space-time-pattern-mining/learnmoreemerging.html">ArcGIS classification reference</a> provides the conceptual taxonomy below. The maps retain the labels actually returned by <code>sfdep</code>; its detailed classification rules can differ from ArcGIS.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Family</th>
+<th>Conceptual meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>New</td>
+<td>Significant clustering appears at the final time step.</td>
+</tr>
+<tr class="even">
+<td>Consecutive</td>
+<td>Clustering occupies an uninterrupted final run.</td>
+</tr>
+<tr class="odd">
+<td>Intensifying</td>
+<td>Frequent clustering grows stronger with a significant trend.</td>
+</tr>
+<tr class="even">
+<td>Persistent</td>
+<td>Frequent clustering has no significant intensity trend.</td>
+</tr>
+<tr class="odd">
+<td>Diminishing</td>
+<td>Frequent clustering weakens with a significant trend.</td>
+</tr>
+<tr class="even">
+<td>Sporadic</td>
+<td>Intermittent clustering occurs on one side of the distribution.</td>
+</tr>
+<tr class="odd">
+<td>Oscillating</td>
+<td>The history contains both hot and cold clustering.</td>
+</tr>
+<tr class="even">
+<td>Historical</td>
+<td>Frequent past clustering is absent in the latest period.</td>
+</tr>
+<tr class="odd">
+<td>No pattern detected</td>
+<td>The classification rules identify no named pattern.</td>
+</tr>
+</tbody>
+</table>
+<p>Here “hot” refers to a neighbourhood of relatively high GDPPC, and “cold” to relatively low GDPPC. Neither label measures GDP growth directly. These county-level patterns do not establish a causal explanation for regional inequality or describe every household within a county.</p>
+</section>
+<section id="simulation-sensitivity-and-limitations" class="level2">
+<h2 class="anchored" data-anchor-id="simulation-sensitivity-and-limitations">8. Simulation sensitivity and limitations</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>ehsa_999 <span class="ot">&lt;-</span> <span class="fu">emerging_hotspot_analysis</span>(<span class="at">x =</span> GDPPC_st, <span class="at">.var =</span> <span class="st">"GDPPC"</span>,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">k =</span> <span class="dv">1</span>, <span class="at">nsim =</span> <span class="dv">999</span>, <span class="at">threshold =</span> <span class="fl">0.01</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>sensitivity <span class="ot">&lt;-</span> ehsa <span class="sc">|&gt;</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(location, <span class="at">class_99 =</span> classification) <span class="sc">|&gt;</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">as_tibble</span>(ehsa_999) <span class="sc">|&gt;</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(location, <span class="at">class_999 =</span> classification), <span class="at">by =</span> <span class="st">"location"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">changed =</span> class_99 <span class="sc">!=</span> class_999)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">nrow</span>(sensitivity) <span class="sc">==</span> <span class="dv">88</span>L, <span class="sc">!</span><span class="fu">anyNA</span>(sensitivity),</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all</span>(<span class="fu">abs</span>(ehsa<span class="sc">$</span>tau <span class="sc">-</span> ehsa_999<span class="sc">$</span>tau[<span class="fu">match</span>(ehsa<span class="sc">$</span>location, ehsa_999<span class="sc">$</span>location)]) <span class="sc">&lt;</span> <span class="fl">1e-7</span>))</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(sensitivity <span class="sc">|&gt;</span> <span class="fu">count</span>(class_99, class_999, changed, <span class="at">sort =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">"Class stability when increasing simulations from 99 to 999"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Class stability when increasing simulations from 99 to 999</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">class_99</th>
+<th style="text-align: left;">class_999</th>
+<th style="text-align: left;">changed</th>
+<th style="text-align: right;">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">sporadic coldspot</td>
+<td style="text-align: left;">sporadic coldspot</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">46</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sporadic hotspot</td>
+<td style="text-align: left;">sporadic hotspot</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">21</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">oscilating hotspot</td>
+<td style="text-align: left;">oscilating hotspot</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">no pattern detected</td>
+<td style="text-align: left;">oscilating coldspot</td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">oscilating coldspot</td>
+<td style="text-align: left;">oscilating coldspot</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">consecutive hotspot</td>
+<td style="text-align: left;">sporadic hotspot</td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">oscilating hotspot</td>
+<td style="text-align: left;">sporadic hotspot</td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sporadic hotspot</td>
+<td style="text-align: left;">consecutive hotspot</td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Increasing simulations from 99 to 999 changes <strong>7 of 88 classifications</strong>; <strong>81</strong> remain unchanged. The observed scores and their trend statistics remain the same because only the simulated bin-level evidence changes. The main maps continue to show the chapter’s 99-simulation run.</p>
+<p>Neighbour definitions, threshold choices, multiple testing and the treatment of temporal dependence all affect interpretation. The standard Mann–Kendall test used here does not correct for serial correlation. With only 17 annual observations, these results are an exploratory description of the supplied series.</p>
+</section>
+<section id="results-and-reproduction" class="level2">
+<h2 class="anchored" data-anchor-id="results-and-reproduction">9. Results and reproduction</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">"in-class6/results"</span>, <span class="at">recursive =</span> <span class="cn">TRUE</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(gi_stars <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>nb, <span class="sc">-</span>wt), <span class="st">"in-class6/results/annual-gi.csv"</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(county_mk, <span class="st">"in-class6/results/annual-mann-kendall.csv"</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(ehsa, <span class="st">"in-class6/results/ehsa-99.csv"</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(bin_results, <span class="st">"in-class6/results/ehsa-bin-statistics.csv"</span>)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(sensitivity, <span class="st">"in-class6/results/class-sensitivity.csv"</span>)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>package_versions <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">package =</span> <span class="fu">c</span>(<span class="st">"R"</span>, <span class="st">"sf"</span>, <span class="st">"sfdep"</span>, <span class="st">"spdep"</span>, <span class="st">"tmap"</span>,</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Kendall"</span>, <span class="st">"plotly"</span>, <span class="st">"dplyr"</span>), <span class="at">version =</span> <span class="fu">c</span>(<span class="fu">as.character</span>(<span class="fu">getRversion</span>()),</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vapply</span>(<span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"sfdep"</span>, <span class="st">"spdep"</span>, <span class="st">"tmap"</span>, <span class="st">"Kendall"</span>, <span class="st">"plotly"</span>, <span class="st">"dplyr"</span>),</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>         <span class="cf">function</span>(p) <span class="fu">as.character</span>(<span class="fu">packageVersion</span>(p)), <span class="fu">character</span>(<span class="dv">1</span>))))</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(package_versions, <span class="st">"in-class6/results/package-versions.csv"</span>)</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(package_versions, <span class="at">caption =</span> <span class="st">"Reproduction environment"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Reproduction environment</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">package</th>
+<th style="text-align: left;">version</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">4.5.3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sf</td>
+<td style="text-align: left;">1.1.3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sfdep</td>
+<td style="text-align: left;">0.2.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">spdep</td>
+<td style="text-align: left;">1.4.2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tmap</td>
+<td style="text-align: left;">4.4.1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Kendall</td>
+<td style="text-align: left;">2.2.2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">plotly</td>
+<td style="text-align: left;">4.12.1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">dplyr</td>
+<td style="text-align: left;">1.2.1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Run <code>source("in-class6/R/analysis.R")</code> from the project root, then render this page. Package versions and the seed are recorded so the analysis can be checked independently.</p>
+<ul>
+<li><a href="R/analysis.R">Analysis script</a></li>
+<li><a href="data/aspatial/Hunan_GDPPC.csv">Input time series</a> and <a href="data/README.md">data provenance</a></li>
+<li><a href="results/annual-gi.csv">Annual Gi* results</a></li>
+<li><a href="results/annual-mann-kendall.csv">Annual-score Mann–Kendall tests</a></li>
+<li><a href="results/ehsa-99.csv">Primary EHSA classes and trends</a></li>
+<li><a href="results/ehsa-bin-statistics.csv">EHSA bin statistics</a></li>
+<li><a href="results/class-sensitivity.csv">99 versus 999 simulation comparison</a></li>
+<li><a href="results/package-versions.csv">Package versions</a></li>
+</ul>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const cellDetails = window.document.querySelectorAll(".cell details.code-fold");
+        for (let i=0; i<cellDetails.length; i++) {
+          const details = cellDetails[i];
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell div.sourceCode.cell-code");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "in-class6"</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Emerging Hot Spot Analysis · Hunan GDP per capita, 2005–2021"</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Zhenhua Liu"</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2026-10-03"</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="an">body-classes:</span><span class="co"> exercise-page</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="an">toc:</span><span class="co"> true</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="an">toc-location:</span><span class="co"> right</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="an">code-tools:</span><span class="co"> true</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="co">  freeze: auto</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co">  error: false</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: c6-register</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">read_chunk</span>(<span class="st">"in-class6/R/analysis.R"</span>)</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">fig.width =</span> <span class="dv">10</span>, <span class="at">fig.height =</span> <span class="dv">6</span>, <span class="at">dpi =</span> <span class="dv">160</span>)</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## 1. Question and packages</span></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>How has the geography of high and low GDP per capita clustering changed across Hunan? This exercise follows <span class="co">[</span><span class="ot">Chapter 11: Emerging Hot Spot Analysis</span><span class="co">](https://r4gdsa.netlify.app/chap11#the-data)</span>: build a space-time cube, calculate annual local statistics, test their trends, and map emerging hot spot classes. The inputs are the actual Hunan datasets supplied for this coursework.</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: c6-packages</span></span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>I use a fixed random seed of **1234** and one worker. The annual calculation uses 499 permutations; the main EHSA calculation retains the chapter's **99 simulations**. A separate 999-simulation run checks how stable the resulting classes are.</span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a><span class="fu">## 2. Import and validate the data</span></span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>The county polygons are shared with <span class="co">[</span><span class="ot">Hands-on Exercise 5A</span><span class="co">](../handson4A/index.qmd)</span>. The time series is **Hunan_GDPPC.csv**, rather than the single-year Hunan_2012.csv used previously. I transform the polygons to **WGS 84 / UTM zone 50N (EPSG:32650)**, with distances in metres, and order counties before constructing the cube.</span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: c6-data</span></span>
+<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a>Validation checks unique county–year keys, matching county names, positive finite values, valid polygons, and a complete annual sequence. No observations are imputed or invented. The supplied boundaries are treated as fixed across years; the CSV does not document an inflation adjustment, so I do not treat the values as inflation-adjusted income.</span>
+<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a><span class="fu">## 3. Create the space-time cube</span></span>
+<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-52"><a href="#cb19-52" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-53"><a href="#cb19-53" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: c6-cube</span></span>
+<span id="cb19-54"><a href="#cb19-54" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-55"><a href="#cb19-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-56"><a href="#cb19-56" aria-hidden="true" tabindex="-1"></a>The cube contains **`r nrow(hunan)` counties × `r length(years)` years = `r format(nrow(GDPPC), big.mark = ",")` observations**. Each county has one record for every year from <span class="in">`r min(years)`</span> to <span class="in">`r max(years)`</span>. <span class="in">`is_spacetime_cube()`</span> returns TRUE.</span>
+<span id="cb19-57"><a href="#cb19-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-58"><a href="#cb19-58" aria-hidden="true" tabindex="-1"></a><span class="fu">## 4. Spatial neighbours and annual Gi* calculation</span></span>
+<span id="cb19-59"><a href="#cb19-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-60"><a href="#cb19-60" aria-hidden="true" tabindex="-1"></a>The first calculation reproduces the chapter's Queen-contiguity neighbour lists and inverse-distance weights. Queen neighbours share an edge or a vertex. After attaching neighbours and weights, I preserve their alignment with the polygon row order within every year.</span>
+<span id="cb19-61"><a href="#cb19-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-64"><a href="#cb19-64" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-65"><a href="#cb19-65" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: c6-weights</span></span>
+<span id="cb19-66"><a href="#cb19-66" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-67"><a href="#cb19-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-68"><a href="#cb19-68" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb19-69"><a href="#cb19-69" aria-hidden="true" tabindex="-1"></a><span class="fu">### Reading the two analyses correctly</span></span>
+<span id="cb19-70"><a href="#cb19-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-71"><a href="#cb19-71" aria-hidden="true" tabindex="-1"></a>The installed <span class="in">`sfdep`</span> inverse-distance function uses polygon points on surface and assigns **zero weight to zero distances**, including the focal county. I retain that behaviour for the chapter's annual diagnostic. It therefore has a zero diagonal despite using <span class="in">`local_gstar_perm()`</span>.</span>
+<span id="cb19-72"><a href="#cb19-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-73"><a href="#cb19-73" aria-hidden="true" tabindex="-1"></a>The later EHSA call receives the original cube and constructs its own **row-standardised Queen weights including the focal county**, plus a one-year lag. The annual diagnostic and the full EHSA result use different neighbourhood definitions and should be interpreted separately.</span>
+<span id="cb19-74"><a href="#cb19-74" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb19-75"><a href="#cb19-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-78"><a href="#cb19-78" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-79"><a href="#cb19-79" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: c6-gi</span></span>
+<span id="cb19-80"><a href="#cb19-80" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-81"><a href="#cb19-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-82"><a href="#cb19-82" aria-hidden="true" tabindex="-1"></a>These scores describe clustering relative to the other counties in each year. A change in a clustering score is different from a change in a county's raw GDPPC. The displayed annual permutation p-values are unadjusted.</span>
+<span id="cb19-83"><a href="#cb19-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-84"><a href="#cb19-84" aria-hidden="true" tabindex="-1"></a><span class="fu">## 5. Changsha's local clustering trend</span></span>
+<span id="cb19-85"><a href="#cb19-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-86"><a href="#cb19-86" aria-hidden="true" tabindex="-1"></a><span class="fu">### Static time series</span></span>
+<span id="cb19-87"><a href="#cb19-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-90"><a href="#cb19-90" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-91"><a href="#cb19-91" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: c6-changsha</span></span>
+<span id="cb19-92"><a href="#cb19-92" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Changsha's annual local score under the chapter's inverse-distance specification."</span></span>
+<span id="cb19-93"><a href="#cb19-93" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-94"><a href="#cb19-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-95"><a href="#cb19-95" aria-hidden="true" tabindex="-1"></a><span class="fu">### Interactive time series</span></span>
+<span id="cb19-96"><a href="#cb19-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-97"><a href="#cb19-97" aria-hidden="true" tabindex="-1"></a>Hover over the points to inspect each year. Use the chart toolbar to zoom or reset the view.</span>
+<span id="cb19-98"><a href="#cb19-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-101"><a href="#cb19-101" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-102"><a href="#cb19-102" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: c6-interactive</span></span>
+<span id="cb19-103"><a href="#cb19-103" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-104"><a href="#cb19-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-105"><a href="#cb19-105" aria-hidden="true" tabindex="-1"></a><span class="fu">### Mann–Kendall test</span></span>
+<span id="cb19-106"><a href="#cb19-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-107"><a href="#cb19-107" aria-hidden="true" tabindex="-1"></a>The null hypothesis is no monotonic trend in the annual score. Positive Kendall's tau indicates an upward tendency; negative tau indicates a downward tendency. A trend in a positive score can mean strengthening high-value clustering, while an upward trend in a negative score can mean weakening low-value clustering.</span>
+<span id="cb19-108"><a href="#cb19-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-111"><a href="#cb19-111" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-112"><a href="#cb19-112" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: c6-mk</span></span>
+<span id="cb19-113"><a href="#cb19-113" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-114"><a href="#cb19-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-115"><a href="#cb19-115" aria-hidden="true" tabindex="-1"></a>For Changsha, **tau = `r sprintf("%.3f", changsha_mk$tau)`** and **p = `r sprintf("%.5f", changsha_mk$sl)`**. At the unadjusted 5% level, this <span class="in">`r if (changsha_mk$sl &lt; 0.05) "supports a monotonic trend" else "does not provide sufficient evidence of a monotonic trend"`</span>; the estimated direction is <span class="in">`r if (changsha_mk$tau &gt; 0) "upward" else "downward"`</span>.</span>
+<span id="cb19-116"><a href="#cb19-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-117"><a href="#cb19-117" aria-hidden="true" tabindex="-1"></a>Across all counties, **`r sum(county_mk$sl &lt; 0.05)`** annual-score trends have raw p &lt; 0.05, and **`r sum(county_mk$p_bh &lt; 0.05)`** remain below 0.05 after Benjamini–Hochberg adjustment across the 88 county tests. The top-ten table ranks by p-value, then decreasing absolute tau. These are trend rankings rather than EHSA classifications.</span>
+<span id="cb19-118"><a href="#cb19-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-119"><a href="#cb19-119" aria-hidden="true" tabindex="-1"></a><span class="fu">## 6. Emerging hot spot analysis</span></span>
+<span id="cb19-120"><a href="#cb19-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-123"><a href="#cb19-123" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-124"><a href="#cb19-124" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: c6-ehsa</span></span>
+<span id="cb19-125"><a href="#cb19-125" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-126"><a href="#cb19-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-127"><a href="#cb19-127" aria-hidden="true" tabindex="-1"></a>The main analysis uses **k = 1**, so neighbourhoods incorporate the current year and the preceding year. The earliest year has no preceding observation. I make the package's default **classification threshold of 0.01** explicit and retain the underlying bin statistics for inspection. I also verify that each reported county trend matches a Mann–Kendall test of its own ordered bin scores.</span>
+<span id="cb19-128"><a href="#cb19-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-129"><a href="#cb19-129" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb19-130"><a href="#cb19-130" aria-hidden="true" tabindex="-1"></a><span class="fu">### Significance and simulation resolution</span></span>
+<span id="cb19-131"><a href="#cb19-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-132"><a href="#cb19-132" aria-hidden="true" tabindex="-1"></a>In the installed <span class="in">`sfdep`</span> implementation, classification uses unadjusted <span class="in">`p_sim`</span> and Mann–Kendall p-values. It does **not** automatically apply the FDR correction mentioned in the chapter overview. Its bin <span class="in">`p_sim`</span> is the smaller simulated tail probability. With 99 simulations the smallest attainable value is 0.01, exactly the classification threshold, making a simulation sensitivity check useful.</span>
+<span id="cb19-133"><a href="#cb19-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-134"><a href="#cb19-134" aria-hidden="true" tabindex="-1"></a>The returned <span class="in">`p_value`</span> is the county's **trend-test p-value**, not a bin-level hot spot p-value. BH values reported here adjust county trend tests only. This classroom implementation should not be described as identical to ArcGIS EHSA.</span>
+<span id="cb19-135"><a href="#cb19-135" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb19-136"><a href="#cb19-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-137"><a href="#cb19-137" aria-hidden="true" tabindex="-1"></a>The <span class="co">[</span><span class="ot">sfdep reference</span><span class="co">](https://search.r-project.org/CRAN/refmans/sfdep/html/emerging_hotspot_analysis.html)</span> documents the defaults and time-lag neighbourhoods. The behaviour above was additionally checked against the installed package functions.</span>
+<span id="cb19-138"><a href="#cb19-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-139"><a href="#cb19-139" aria-hidden="true" tabindex="-1"></a><span class="fu">### Distribution of classes</span></span>
+<span id="cb19-140"><a href="#cb19-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-143"><a href="#cb19-143" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-144"><a href="#cb19-144" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: c6-distribution</span></span>
+<span id="cb19-145"><a href="#cb19-145" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "County counts for the primary 99-simulation EHSA run."</span></span>
+<span id="cb19-146"><a href="#cb19-146" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-147"><a href="#cb19-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-148"><a href="#cb19-148" aria-hidden="true" tabindex="-1"></a>The most frequent class in this run is **`r class_counts$classification[1]`**, with **`r class_counts$n[1]` counties**. Counts reflect this dataset, seed, neighbourhood, threshold, and package version.</span>
+<span id="cb19-149"><a href="#cb19-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-150"><a href="#cb19-150" aria-hidden="true" tabindex="-1"></a><span class="fu">### Full classification map</span></span>
+<span id="cb19-151"><a href="#cb19-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-154"><a href="#cb19-154" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-155"><a href="#cb19-155" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: c6-map</span></span>
+<span id="cb19-156"><a href="#cb19-156" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 8</span></span>
+<span id="cb19-157"><a href="#cb19-157" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "All 88 county classifications. Terracotta tones denote hot spot classes; green tones denote cold spot classes; grey denotes no detected pattern."</span></span>
+<span id="cb19-158"><a href="#cb19-158" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-159"><a href="#cb19-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-160"><a href="#cb19-160" aria-hidden="true" tabindex="-1"></a><span class="fu">### Map filtered by significant trends</span></span>
+<span id="cb19-161"><a href="#cb19-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-164"><a href="#cb19-164" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-165"><a href="#cb19-165" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: c6-filtered-map</span></span>
+<span id="cb19-166"><a href="#cb19-166" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 8</span></span>
+<span id="cb19-167"><a href="#cb19-167" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "The chapter's additional filter: colour counties with an unadjusted Mann–Kendall trend p-value below 0.05."</span></span>
+<span id="cb19-168"><a href="#cb19-168" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-169"><a href="#cb19-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-170"><a href="#cb19-170" aria-hidden="true" tabindex="-1"></a>This filtered map colours **`r nrow(ehsa_sig)` counties**. Grey counties fail the displayed trend filter; some may still have a persistent hot or cold spot classification in the full map. A persistent cluster can have no significant monotonic trend. **`r sum(ehsa$p_bh &lt; 0.05)` counties** pass a separate BH-adjusted 5% trend criterion.</span>
+<span id="cb19-171"><a href="#cb19-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-172"><a href="#cb19-172" aria-hidden="true" tabindex="-1"></a><span class="fu">## 7. Interpreting the classes</span></span>
+<span id="cb19-173"><a href="#cb19-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-174"><a href="#cb19-174" aria-hidden="true" tabindex="-1"></a>The <span class="co">[</span><span class="ot">ArcGIS classification reference</span><span class="co">](https://doc.esri.com/en/arcgis-pro/latest/tool-reference/space-time-pattern-mining/learnmoreemerging.html)</span> provides the conceptual taxonomy below. The maps retain the labels actually returned by <span class="in">`sfdep`</span>; its detailed classification rules can differ from ArcGIS.</span>
+<span id="cb19-175"><a href="#cb19-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-176"><a href="#cb19-176" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Family <span class="pp">|</span> Conceptual meaning <span class="pp">|</span></span>
+<span id="cb19-177"><a href="#cb19-177" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|</span></span>
+<span id="cb19-178"><a href="#cb19-178" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> New <span class="pp">|</span> Significant clustering appears at the final time step. <span class="pp">|</span></span>
+<span id="cb19-179"><a href="#cb19-179" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Consecutive <span class="pp">|</span> Clustering occupies an uninterrupted final run. <span class="pp">|</span></span>
+<span id="cb19-180"><a href="#cb19-180" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Intensifying <span class="pp">|</span> Frequent clustering grows stronger with a significant trend. <span class="pp">|</span></span>
+<span id="cb19-181"><a href="#cb19-181" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Persistent <span class="pp">|</span> Frequent clustering has no significant intensity trend. <span class="pp">|</span></span>
+<span id="cb19-182"><a href="#cb19-182" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Diminishing <span class="pp">|</span> Frequent clustering weakens with a significant trend. <span class="pp">|</span></span>
+<span id="cb19-183"><a href="#cb19-183" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Sporadic <span class="pp">|</span> Intermittent clustering occurs on one side of the distribution. <span class="pp">|</span></span>
+<span id="cb19-184"><a href="#cb19-184" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Oscillating <span class="pp">|</span> The history contains both hot and cold clustering. <span class="pp">|</span></span>
+<span id="cb19-185"><a href="#cb19-185" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Historical <span class="pp">|</span> Frequent past clustering is absent in the latest period. <span class="pp">|</span></span>
+<span id="cb19-186"><a href="#cb19-186" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> No pattern detected <span class="pp">|</span> The classification rules identify no named pattern. <span class="pp">|</span></span>
+<span id="cb19-187"><a href="#cb19-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-188"><a href="#cb19-188" aria-hidden="true" tabindex="-1"></a>Here “hot” refers to a neighbourhood of relatively high GDPPC, and “cold” to relatively low GDPPC. Neither label measures GDP growth directly. These county-level patterns do not establish a causal explanation for regional inequality or describe every household within a county.</span>
+<span id="cb19-189"><a href="#cb19-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-190"><a href="#cb19-190" aria-hidden="true" tabindex="-1"></a><span class="fu">## 8. Simulation sensitivity and limitations</span></span>
+<span id="cb19-191"><a href="#cb19-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-194"><a href="#cb19-194" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-195"><a href="#cb19-195" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: c6-sensitivity</span></span>
+<span id="cb19-196"><a href="#cb19-196" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-197"><a href="#cb19-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-198"><a href="#cb19-198" aria-hidden="true" tabindex="-1"></a>Increasing simulations from 99 to 999 changes **`r sum(sensitivity$changed)` of 88 classifications**; **`r sum(!sensitivity$changed)`** remain unchanged. The observed scores and their trend statistics remain the same because only the simulated bin-level evidence changes. The main maps continue to show the chapter's 99-simulation run.</span>
+<span id="cb19-199"><a href="#cb19-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-200"><a href="#cb19-200" aria-hidden="true" tabindex="-1"></a>Neighbour definitions, threshold choices, multiple testing and the treatment of temporal dependence all affect interpretation. The standard Mann–Kendall test used here does not correct for serial correlation. With only 17 annual observations, these results are an exploratory description of the supplied series.</span>
+<span id="cb19-201"><a href="#cb19-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-202"><a href="#cb19-202" aria-hidden="true" tabindex="-1"></a><span class="fu">## 9. Results and reproduction</span></span>
+<span id="cb19-203"><a href="#cb19-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-206"><a href="#cb19-206" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-207"><a href="#cb19-207" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: c6-export</span></span>
+<span id="cb19-208"><a href="#cb19-208" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-209"><a href="#cb19-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-210"><a href="#cb19-210" aria-hidden="true" tabindex="-1"></a>Run <span class="in">`source("in-class6/R/analysis.R")`</span> from the project root, then render this page. Package versions and the seed are recorded so the analysis can be checked independently.</span>
+<span id="cb19-211"><a href="#cb19-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-212"><a href="#cb19-212" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Analysis script</span><span class="co">](R/analysis.R)</span></span>
+<span id="cb19-213"><a href="#cb19-213" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Input time series</span><span class="co">](data/aspatial/Hunan_GDPPC.csv)</span> and <span class="co">[</span><span class="ot">data provenance</span><span class="co">](data/README.md)</span></span>
+<span id="cb19-214"><a href="#cb19-214" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Annual Gi* results</span><span class="co">](results/annual-gi.csv)</span></span>
+<span id="cb19-215"><a href="#cb19-215" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Annual-score Mann–Kendall tests</span><span class="co">](results/annual-mann-kendall.csv)</span></span>
+<span id="cb19-216"><a href="#cb19-216" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Primary EHSA classes and trends</span><span class="co">](results/ehsa-99.csv)</span></span>
+<span id="cb19-217"><a href="#cb19-217" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">EHSA bin statistics</span><span class="co">](results/ehsa-bin-statistics.csv)</span></span>
+<span id="cb19-218"><a href="#cb19-218" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">99 versus 999 simulation comparison</span><span class="co">](results/class-sensitivity.csv)</span></span>
+<span id="cb19-219"><a href="#cb19-219" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Package versions</span><span class="co">](results/package-versions.csv)</span></span>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

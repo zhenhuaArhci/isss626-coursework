@@ -3,6 +3,10 @@ project:
   output-dir: _site
   execute-dir: project
   resources:
+    - "/in-class6/R/*.R"
+    - "/in-class6/results/*.csv"
+    - "/in-class6/data/README.md"
+    - "/in-class6/data/aspatial/*.csv"
     - "/handson4A/R/*.R"
     - "/handson4A/results/*.csv"
     - "/handson4B/R/*.R"
@@ -23,6 +27,7 @@ project:
     - handson4A/index.qmd
     - handson4B/index.qmd
     - inlcass4/index.qmd
+    - in-class6/index.qmd
     - "take home exercise1/index.qmd"
     - "take home exercise1/technical-report.qmd"
     - "take home exercise1/executive-summary.qmd"
@@ -54,6 +59,8 @@ website:
         menu:
           - text: "inlcass4"
             href: inlcass4/index.qmd
+          - text: "in-class6"
+            href: in-class6/index.qmd
       - text: "Take-home Exercise"
         menu:
           - text: "Exercise 1 · Thailand road accidents"

@@ -1,0 +1,189 @@
+---
+title: "in-class6"
+subtitle: "Emerging Hot Spot Analysis · Hunan GDP per capita, 2005–2021"
+author: "Zhenhua Liu"
+date: "2026-10-03"
+body-classes: exercise-page
+toc: true
+toc-location: right
+code-tools: true
+execute:
+  freeze: auto
+  error: false
+---
+
+```{r}
+#| label: c6-register
+#| include: false
+knitr::read_chunk("in-class6/R/analysis.R")
+knitr::opts_chunk$set(fig.width = 10, fig.height = 6, dpi = 160)
+```
+
+## 1. Question and packages
+
+How has the geography of high and low GDP per capita clustering changed across Hunan? This exercise follows [Chapter 11: Emerging Hot Spot Analysis](https://r4gdsa.netlify.app/chap11#the-data): build a space-time cube, calculate annual local statistics, test their trends, and map emerging hot spot classes. The inputs are the actual Hunan datasets supplied for this coursework.
+
+```{r}
+#| label: c6-packages
+```
+
+I use a fixed random seed of **1234** and one worker. The annual calculation uses 499 permutations; the main EHSA calculation retains the chapter's **99 simulations**. A separate 999-simulation run checks how stable the resulting classes are.
+
+## 2. Import and validate the data
+
+The county polygons are shared with [Hands-on Exercise 5A](../handson4A/index.qmd). The time series is **Hunan_GDPPC.csv**, rather than the single-year Hunan_2012.csv used previously. I transform the polygons to **WGS 84 / UTM zone 50N (EPSG:32650)**, with distances in metres, and order counties before constructing the cube.
+
+```{r}
+#| label: c6-data
+```
+
+Validation checks unique county–year keys, matching county names, positive finite values, valid polygons, and a complete annual sequence. No observations are imputed or invented. The supplied boundaries are treated as fixed across years; the CSV does not document an inflation adjustment, so I do not treat the values as inflation-adjusted income.
+
+## 3. Create the space-time cube
+
+```{r}
+#| label: c6-cube
+```
+
+The cube contains **`r nrow(hunan)` counties × `r length(years)` years = `r format(nrow(GDPPC), big.mark = ",")` observations**. Each county has one record for every year from `r min(years)` to `r max(years)`. `is_spacetime_cube()` returns TRUE.
+
+## 4. Spatial neighbours and annual Gi* calculation
+
+The first calculation reproduces the chapter's Queen-contiguity neighbour lists and inverse-distance weights. Queen neighbours share an edge or a vertex. After attaching neighbours and weights, I preserve their alignment with the polygon row order within every year.
+
+```{r}
+#| label: c6-weights
+```
+
+::: {.callout-note}
+### Reading the two analyses correctly
+
+The installed `sfdep` inverse-distance function uses polygon points on surface and assigns **zero weight to zero distances**, including the focal county. I retain that behaviour for the chapter's annual diagnostic. It therefore has a zero diagonal despite using `local_gstar_perm()`.
+
+The later EHSA call receives the original cube and constructs its own **row-standardised Queen weights including the focal county**, plus a one-year lag. The annual diagnostic and the full EHSA result use different neighbourhood definitions and should be interpreted separately.
+:::
+
+```{r}
+#| label: c6-gi
+```
+
+These scores describe clustering relative to the other counties in each year. A change in a clustering score is different from a change in a county's raw GDPPC. The displayed annual permutation p-values are unadjusted.
+
+## 5. Changsha's local clustering trend
+
+### Static time series
+
+```{r}
+#| label: c6-changsha
+#| fig-cap: "Changsha's annual local score under the chapter's inverse-distance specification."
+```
+
+### Interactive time series
+
+Hover over the points to inspect each year. Use the chart toolbar to zoom or reset the view.
+
+```{r}
+#| label: c6-interactive
+```
+
+### Mann–Kendall test
+
+The null hypothesis is no monotonic trend in the annual score. Positive Kendall's tau indicates an upward tendency; negative tau indicates a downward tendency. A trend in a positive score can mean strengthening high-value clustering, while an upward trend in a negative score can mean weakening low-value clustering.
+
+```{r}
+#| label: c6-mk
+```
+
+For Changsha, **tau = `r sprintf("%.3f", changsha_mk$tau)`** and **p = `r sprintf("%.5f", changsha_mk$sl)`**. At the unadjusted 5% level, this `r if (changsha_mk$sl < 0.05) "supports a monotonic trend" else "does not provide sufficient evidence of a monotonic trend"`; the estimated direction is `r if (changsha_mk$tau > 0) "upward" else "downward"`.
+
+Across all counties, **`r sum(county_mk$sl < 0.05)`** annual-score trends have raw p < 0.05, and **`r sum(county_mk$p_bh < 0.05)`** remain below 0.05 after Benjamini–Hochberg adjustment across the 88 county tests. The top-ten table ranks by p-value, then decreasing absolute tau. These are trend rankings rather than EHSA classifications.
+
+## 6. Emerging hot spot analysis
+
+```{r}
+#| label: c6-ehsa
+```
+
+The main analysis uses **k = 1**, so neighbourhoods incorporate the current year and the preceding year. The earliest year has no preceding observation. I make the package's default **classification threshold of 0.01** explicit and retain the underlying bin statistics for inspection. I also verify that each reported county trend matches a Mann–Kendall test of its own ordered bin scores.
+
+::: {.callout-note}
+### Significance and simulation resolution
+
+In the installed `sfdep` implementation, classification uses unadjusted `p_sim` and Mann–Kendall p-values. It does **not** automatically apply the FDR correction mentioned in the chapter overview. Its bin `p_sim` is the smaller simulated tail probability. With 99 simulations the smallest attainable value is 0.01, exactly the classification threshold, making a simulation sensitivity check useful.
+
+The returned `p_value` is the county's **trend-test p-value**, not a bin-level hot spot p-value. BH values reported here adjust county trend tests only. This classroom implementation should not be described as identical to ArcGIS EHSA.
+:::
+
+The [sfdep reference](https://search.r-project.org/CRAN/refmans/sfdep/html/emerging_hotspot_analysis.html) documents the defaults and time-lag neighbourhoods. The behaviour above was additionally checked against the installed package functions.
+
+### Distribution of classes
+
+```{r}
+#| label: c6-distribution
+#| fig-cap: "County counts for the primary 99-simulation EHSA run."
+```
+
+The most frequent class in this run is **`r class_counts$classification[1]`**, with **`r class_counts$n[1]` counties**. Counts reflect this dataset, seed, neighbourhood, threshold, and package version.
+
+### Full classification map
+
+```{r}
+#| label: c6-map
+#| fig-height: 8
+#| fig-cap: "All 88 county classifications. Terracotta tones denote hot spot classes; green tones denote cold spot classes; grey denotes no detected pattern."
+```
+
+### Map filtered by significant trends
+
+```{r}
+#| label: c6-filtered-map
+#| fig-height: 8
+#| fig-cap: "The chapter's additional filter: colour counties with an unadjusted Mann–Kendall trend p-value below 0.05."
+```
+
+This filtered map colours **`r nrow(ehsa_sig)` counties**. Grey counties fail the displayed trend filter; some may still have a persistent hot or cold spot classification in the full map. A persistent cluster can have no significant monotonic trend. **`r sum(ehsa$p_bh < 0.05)` counties** pass a separate BH-adjusted 5% trend criterion.
+
+## 7. Interpreting the classes
+
+The [ArcGIS classification reference](https://doc.esri.com/en/arcgis-pro/latest/tool-reference/space-time-pattern-mining/learnmoreemerging.html) provides the conceptual taxonomy below. The maps retain the labels actually returned by `sfdep`; its detailed classification rules can differ from ArcGIS.
+
+| Family | Conceptual meaning |
+|---|---|
+| New | Significant clustering appears at the final time step. |
+| Consecutive | Clustering occupies an uninterrupted final run. |
+| Intensifying | Frequent clustering grows stronger with a significant trend. |
+| Persistent | Frequent clustering has no significant intensity trend. |
+| Diminishing | Frequent clustering weakens with a significant trend. |
+| Sporadic | Intermittent clustering occurs on one side of the distribution. |
+| Oscillating | The history contains both hot and cold clustering. |
+| Historical | Frequent past clustering is absent in the latest period. |
+| No pattern detected | The classification rules identify no named pattern. |
+
+Here “hot” refers to a neighbourhood of relatively high GDPPC, and “cold” to relatively low GDPPC. Neither label measures GDP growth directly. These county-level patterns do not establish a causal explanation for regional inequality or describe every household within a county.
+
+## 8. Simulation sensitivity and limitations
+
+```{r}
+#| label: c6-sensitivity
+```
+
+Increasing simulations from 99 to 999 changes **`r sum(sensitivity$changed)` of 88 classifications**; **`r sum(!sensitivity$changed)`** remain unchanged. The observed scores and their trend statistics remain the same because only the simulated bin-level evidence changes. The main maps continue to show the chapter's 99-simulation run.
+
+Neighbour definitions, threshold choices, multiple testing and the treatment of temporal dependence all affect interpretation. The standard Mann–Kendall test used here does not correct for serial correlation. With only 17 annual observations, these results are an exploratory description of the supplied series.
+
+## 9. Results and reproduction
+
+```{r}
+#| label: c6-export
+```
+
+Run `source("in-class6/R/analysis.R")` from the project root, then render this page. Package versions and the seed are recorded so the analysis can be checked independently.
+
+- [Analysis script](R/analysis.R)
+- [Input time series](data/aspatial/Hunan_GDPPC.csv) and [data provenance](data/README.md)
+- [Annual Gi* results](results/annual-gi.csv)
+- [Annual-score Mann–Kendall tests](results/annual-mann-kendall.csv)
+- [Primary EHSA classes and trends](results/ehsa-99.csv)
+- [EHSA bin statistics](results/ehsa-bin-statistics.csv)
+- [99 versus 999 simulation comparison](results/class-sensitivity.csv)
+- [Package versions](results/package-versions.csv)
