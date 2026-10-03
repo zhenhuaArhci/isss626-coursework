@@ -3,6 +3,10 @@ project:
   output-dir: _site
   execute-dir: project
   resources:
+    - "/handson4A/R/*.R"
+    - "/handson4A/results/*.csv"
+    - "/handson4B/R/*.R"
+    - "/handson4B/results/*.csv"
     - "/take home exercise1/data/metadata/**"
     - "/take home exercise1/R/*.R"
     - "!/take home exercise1/data/raw/**"
@@ -16,6 +20,8 @@ project:
     - handson2A/index.qmd
     - handson2B/index.qmd
     - handson4/index.qmd
+    - handson4A/index.qmd
+    - handson4B/index.qmd
     - inlcass4/index.qmd
     - "take home exercise1/index.qmd"
     - "take home exercise1/technical-report.qmd"
@@ -40,6 +46,10 @@ website:
             href: handson2B/index.qmd
           - text: "Hands-on Exercise 4"
             href: handson4/index.qmd
+          - text: "Hands-on Exercise 5A"
+            href: handson4A/index.qmd
+          - text: "Hands-on Exercise 5B"
+            href: handson4B/index.qmd
       - text: "In-class Exercise"
         menu:
           - text: "inlcass4"

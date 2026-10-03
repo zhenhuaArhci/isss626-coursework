@@ -1,0 +1,158 @@
+---
+title: "Hands-on Exercise 5A"
+subtitle: "Global spatial autocorrelation of Hunan GDP per capita"
+author: "Zhenhua Liu"
+date: "2026-10-03"
+body-classes: exercise-page
+toc: true
+toc-location: right
+code-tools: true
+execute:
+  freeze: auto
+  error: false
+---
+
+```{r}
+#| label: a-register
+#| include: false
+knitr::read_chunk("handson4A/R/analysis.R")
+knitr::opts_chunk$set(fig.width = 10, fig.height = 6, dpi = 160)
+```
+
+## 1. Purpose and workflow
+
+Does GDP per capita show a province-wide spatial pattern among Hunan's counties in 2012? I follow [Chapter 9: Global Measures of Spatial Autocorrelation](https://r4gdsa.netlify.app/chap09.html) to compare Moran's I and Geary's C, check their significance through permutation, and examine how association changes across neighbour orders.
+
+This page builds on [Hands-on Exercise 4](../handson4/index.qmd), which introduced spatial weights. [Exercise 5B](../handson4B/index.qmd) then locates clusters and spatial outliers. A province-wide statistic establishes evidence of association; local methods are needed to identify where that association occurs.
+
+```{r}
+#| label: a-packages
+```
+
+## 2. Import, join and validate the inputs
+
+The county shapefile and `Hunan_2012.csv` are stored in `handson4/data`. They match the shapefile and 2012 CSV supplied at `C:/zhenhuaArhci/my_Project/data` (SHA-256 checked on 3 October 2026). I reuse these tracked inputs so the exercise also runs from a GitHub checkout. The data provenance is documented in [the existing data notes](../handson4/data/README.md).
+
+Joining explicitly on `County` prevents unintended matching on other fields. The checks require unique county keys, complete matches, valid geometry and finite GDPPC. The original geographic CRS is retained for this chapter's contiguity analysis; drawing the neighbour graph uses a projected copy.
+
+```{r}
+#| label: a-data
+```
+
+GDPPC varies from `r min(hunan$GDPPC)` to `r max(hunan$GDPPC)`, with a county mean of `r round(mean(hunan$GDPPC), 2)`. This mean treats every county equally and is not a population-weighted provincial estimate.
+
+## 3. Visualise the development indicator
+
+```{r}
+#| label: a-baseline
+#| fig-height: 7
+#| fig-cap: "Two classifications of the same 2012 GDPPC values."
+#| fig-alt: "Hunan county GDPPC maps using equal intervals and quantiles."
+```
+
+Equal intervals retain a common numerical width, while quantiles place approximately the same number of counties in each class. Their different appearance is a classification effect. Neither map alone tests spatial association, and a quantile class should not be read as an equally spaced income band.
+
+## 4. Define Queen neighbours and row-standardised weights
+
+Queen contiguity links counties that share an edge or vertex. `style = "W"` assigns each neighbour the reciprocal of the county's neighbour count, so each nonempty row sums to one. Self-neighbours are excluded. County order must remain aligned with the weights throughout the analysis.
+
+```{r}
+#| label: a-weights
+#| fig-height: 7
+#| fig-cap: "Queen neighbour links drawn between projected county centroids."
+```
+
+There are `r nrow(hunan)` counties and `r sum(card(wm_q))` directed links, with an average of `r round(mean(card(wm_q)), 2)` neighbours. The neighbour count ranges from `r min(card(wm_q))` to `r max(card(wm_q))`; no county is isolated. Edge counties have fewer neighbours, so their spatial averages describe a smaller surrounding set.
+
+## 5. Moran's I: global similarity
+
+### Analytical and permutation tests
+
+The null is that GDPPC labels are spatially exchangeable over the fixed county neighbourhood graph. The one-sided alternative seeks positive association. A positive I indicates that similar GDPPC values tend to be neighbours; it does not establish the cause of this arrangement.
+
+```{r}
+#| label: a-moran
+```
+
+The observed I is **`r round(unname(moran_result$estimate[1]), 5)`**, against a null expectation of **`r round(unname(moran_result$estimate[2]), 5)`**. The analytical p-value is `r format.pval(moran_result$p.value, digits = 3)` and the 999-permutation p-value is `r format.pval(moran_perm$p.value, digits = 3)`. `r if (moran_perm$p.value < 0.05) "At the 5% level, the permutation test supports positive global spatial association." else "The permutation test does not establish positive association at the 5% level."`
+
+### Moran scatterplot
+
+```{r}
+#| label: a-moran-scatter
+#| fig-cap: "Standardised GDPPC against its weighted spatial lag."
+```
+
+The regression slope equals Moran's I for these row-standardised weights. Points in the upper-right and lower-left quadrants contribute to positive association; opposite quadrants suggest spatial contrasts. Quadrants alone do not establish a statistically significant local cluster.
+
+### Monte Carlo distribution and the ggplot2 challenge
+
+```{r}
+#| label: a-moran-permutation
+#| fig-cap: "Permutation reference distribution, excluding the observed statistic from the histogram."
+```
+
+The observed statistic is compared with a distribution generated by reassigning GDPPC values to counties while retaining the neighbourhood structure. The dashed reference is the exact null expectation, −1/(n−1), rather than zero. The histogram and summary use only the 999 simulated statistics; the final observed value in the simulation object is excluded.
+
+## 6. Geary's C: differences between neighbours
+
+### Analytical and permutation tests
+
+Geary's C focuses on squared differences between neighbouring values. Its null expectation is one: C below one suggests positive association, while C above one suggests negative association. In `spdep`, `alternative = "greater"` tests the positive-association direction through the deviate (expectation minus observed C), so this alternative seeks **a C smaller than one**.
+
+```{r}
+#| label: a-geary
+```
+
+The observed C is **`r round(unname(geary_result$estimate[1]), 5)`**. The analytical p-value is `r format.pval(geary_result$p.value, digits = 3)` and the permutation p-value is `r format.pval(geary_perm$p.value, digits = 3)`. `r if (geary_perm$p.value < 0.05) "The permutation test also supports similarity between neighbouring counties." else "The permutation test does not establish similarity between neighbours at the 5% level."`
+
+### Simulated values
+
+```{r}
+#| label: a-geary-permutation
+#| fig-cap: "Geary's C permutation distribution with its observed and null reference lines."
+```
+
+The reference distribution is centred close to one. Comparing both statistics is useful because Moran's I measures covariance, while Geary's C gives greater emphasis to neighbour-to-neighbour differences. Agreement strengthens the description of the pattern; it does not remove dependence on the chosen weights.
+
+## 7. Spatial correlograms
+
+These lags are **graph orders**, not kilometre bands. Order two links counties reached in two steps, excluding counties already linked at a shorter order; subsequent orders extend this graph distance. Each estimate describes a different neighbourhood relation.
+
+### Moran's I over six orders
+
+```{r}
+#| label: a-moran-correlogram
+#| fig-cap: "Moran's I correlogram over six Queen neighbour orders."
+```
+
+### Geary's C over six orders
+
+```{r}
+#| label: a-geary-correlogram
+#| fig-cap: "Geary's C correlogram over the same neighbour orders."
+```
+
+The printed reports provide two-sided p-values, whereas the earlier global tests deliberately used one-sided positive-association alternatives. I also report Benjamini–Hochberg (BH) adjusted p-values within each set of six correlogram tests, to distinguish exploratory lag comparisons from a single test.
+
+```{r}
+#| label: a-export
+```
+
+For Moran's I, the nominally significant orders are `r paste(correlogram_results$Order[correlogram_results$Statistic == "Moran's I" & correlogram_results$P_two_sided < 0.05], collapse = ", ")`; after BH adjustment they are `r paste(correlogram_results$Order[correlogram_results$Statistic == "Moran's I" & correlogram_results$P_BH < 0.05], collapse = ", ")`. Positive estimates at short orders and negative estimates at some longer orders describe similarity nearby and contrast across broader parts of the province. A nonsignificant order does not prove spatial independence.
+
+## 8. Reflection and reproducibility
+
+Global measures provide evidence about the arrangement of county GDPPC values, rather than a test of equal development or a causal explanation. Raw GDPPC contains unusually high values, and the result could change with a transformation, another indicator, or a different neighbourhood definition. The analysis refers to the 2012 snapshot and these 88 administrative units.
+
+Next, [Exercise 5B](../handson4B/index.qmd) examines the locations of local clusters, outliers, hot spots and cold spots.
+
+- [Download the R analysis](R/analysis.R)
+- [Download global test results](results/global-tests.csv)
+- [Download correlogram results](results/correlograms.csv)
+
+Open `ISSS626-GAA.Rproj` and run `source("handson4A/R/analysis.R")` from the project root. To regenerate the page with fresh computation, run `quarto render handson4A/index.qmd`. The script uses seed 1234 and 999 permutations for each global Monte Carlo test.
+
+```{r}
+#| label: a-session
+```

@@ -1,0 +1,169 @@
+---
+title: "Hands-on Exercise 5B"
+subtitle: "Local spatial clusters, outliers, hot spots and cold spots in Hunan"
+author: "Zhenhua Liu"
+date: "2026-10-03"
+body-classes: exercise-page
+toc: true
+toc-location: right
+code-tools: true
+execute:
+  freeze: auto
+  error: false
+---
+
+```{r}
+#| label: b-register
+#| include: false
+knitr::read_chunk("handson4B/R/analysis.R")
+knitr::opts_chunk$set(fig.width = 10, fig.height = 6, dpi = 160)
+```
+
+## 1. Purpose and setup
+
+[Exercise 5A](../handson4A/index.qmd) examined global association. Here I ask where Hunan's 2012 GDPPC values form local clusters or contrast with their neighbours. Following [Chapter 10: Local Measures of Spatial Autocorrelation](https://r4gdsa.netlify.app/chap10.html), I calculate local Moran's I using Queen contiguity and Getis–Ord Gi* using fixed-distance weights. I also execute the chapter's six-neighbour alternative and examine multiple-testing sensitivity.
+
+```{r}
+#| label: b-packages
+```
+
+The chapter uses 99 simulations for its local calculations. I retain that setting for the classroom maps, explicitly set seed 1234 and use one worker for reproducibility. A separate final section uses 999 permutations and BH adjustment; its maps are labelled independently.
+
+## 2. Import and project the county data
+
+The inputs are shared with Exercises 4 and 5A in `handson4/data`. They match the user-supplied shapefile and 2012 CSV checked on 3 October 2026. Both county keys and geometry are validated before analysis. I join by the named key and select named fields instead of relying on column positions.
+
+```{r}
+#| label: b-data
+```
+
+This chapter projects Hunan to **WGS 84 / UTM zone 50N (EPSG:32650)** before computing distance neighbours. The units are metres. Polygon representative points for the `sfdep` distance functions are **points on surface**, following the installed package's implementation; they are not interchangeable with polygon centroids. The projection follows the guide and is not an equal-area representation of all Hunan.
+
+```{r}
+#| label: b-baseline
+#| fig-height: 7
+#| fig-cap: "Equal-interval and quantile GDPPC maps before local testing."
+```
+
+The maps show variation in raw county GDPPC. They are descriptive and do not establish statistical significance. A quantile classification expresses rank groups rather than equal numerical gaps.
+
+## 3. Local Moran's I with Queen weights
+
+`st_contiguity()` identifies counties that share an edge or vertex. Each neighbour receives equal row-standardised weight, and the focal county is excluded. I retain the polygon row order after attaching the neighbour and weight lists.
+
+```{r}
+#| label: b-lisa
+```
+
+The output separates the observed local statistic (`ii`), a normal-approximation p-value based on permutation moments (`p_ii`), and the two-sided permutation rank p-value (`p_ii_sim`). They are different measures of evidence. To reproduce the chapter's LISA rule, the main map uses **unadjusted `p_ii < 0.05`**. The sensitivity section uses `p_ii_sim` with 999 permutations.
+
+### Statistic and significance maps
+
+```{r}
+#| label: b-lisa-diagnostics
+#| fig-height: 7
+#| fig-cap: "Local Moran's I and the unadjusted normal-approximation p-value."
+```
+
+Large positive local I indicates similarity to surrounding values; negative local I indicates contrast. The statistic's sign alone cannot distinguish a high-value cluster from a low-value cluster. Significance and quadrant membership need to be considered together.
+
+## 4. Moran scatterplots and LISA quadrants
+
+### GDPPC against its spatial lag
+
+```{r}
+#| label: b-scatter
+#| fig-cap: "Raw GDPPC and its weighted neighbourhood average, coloured by the mean quadrant."
+```
+
+The dashed lines separate high and low values using the corresponding county and lag means. High–High and Low–Low describe similarity; High–Low and Low–High describe spatial outliers. All points receive a quadrant colour, including those with nonsignificant local tests.
+
+### Standardised coordinates
+
+```{r}
+#| label: b-standard-scatter
+#| fig-cap: "The chapter's separately standardised GDPPC and spatial-lag axes."
+```
+
+Here the original lag is scaled separately, as in the chapter. Its regression slope is therefore not Moran's I. The conventional Moran scatterplot in [5A](../handson4A/index.qmd#moran-scatterplot) instead uses the spatial lag of standardised GDPPC, for which the slope equals I. I retain both `z_lag_GDPPC` and `lag_z` to keep these operations distinct.
+
+### Significant LISA clusters
+
+```{r}
+#| label: b-lisa-clusters
+#| fig-height: 7
+#| fig-cap: "Local Moran classifications using the chapter's unadjusted normal p < 0.05 rule."
+```
+
+Of `r nrow(lisa)` counties, **`r sum(lisa$LISA_cluster != "Insignificant")`** meet the classroom significance rule. High–High identifies above-average counties surrounded by above-average GDPPC; Low–Low identifies the corresponding low-value pattern. High–Low and Low–High identify local contrasts. Grey counties did not meet this rule; they are not proven spatially independent.
+
+## 5. Distance weights for Gi*
+
+The fixed-distance threshold is the largest nearest-neighbour distance between representative points, ensuring every county has at least one other neighbour. Gi* includes the focal county, unlike the preceding local Moran calculation. The adaptive alternative uses six nearest other counties plus the focal county, and its directed neighbour relation need not be symmetric.
+
+```{r}
+#| label: b-distance-weights
+```
+
+The computed threshold is **`r format(round(ct, 2), big.mark = ",")` metres** (`r round(ct / 1000, 2)` km). Fixed-distance windows include different numbers of counties; six-neighbour windows adapt their radius to the local spacing of representative points. Both use row-standardised weights.
+
+## 6. Getis–Ord Gi* and hot/cold spots
+
+```{r}
+#| label: b-gistar
+```
+
+`gi_star` is the standardised Gi* statistic returned by `spdep`, while `std_dev` standardises using conditional-permutation moments. The main significance field, `p_sim`, is the two-sided permutation rank p-value, following the chapter. With only 99 simulations, the tails have coarse resolution, so values near 0.05 should not be treated as precise.
+
+```{r}
+#| label: b-gistar-diagnostics
+#| fig-height: 7
+#| fig-cap: "Fixed-distance Gi* z-scores and two-sided permutation p-values."
+```
+
+### Classify and compare the neighbourhoods
+
+```{r}
+#| label: b-hcsa-clusters
+#| fig-height: 7
+#| fig-cap: "Significant hot/cold spots using fixed-distance and six-neighbour weights."
+```
+
+The hot/cold rule uses **the sign of Gi*** among counties with `p_sim <= 0.05`: positive values indicate hot spots and negative values indicate cold spots. The chapter's `cluster` field describes the focal county's GDPPC relative to its mean, rather than the sign of the neighbourhood statistic. In these fixed-distance results, **`r focal_sign_disagreement`** counties have a focal high/low flag that differs from the Gi* sign, so using the sign directly avoids confusing a focal value with a neighbourhood concentration.
+
+Changing from fixed distance to six nearest neighbours changes the classroom hot/cold classification of **`r classification_changes`** counties. This illustrates why a hot spot is conditional on the spatial question and the weight definition.
+
+## 7. Additional sensitivity check: 999 permutations and multiple testing
+
+The preceding classroom maps test many counties separately. I repeat the local tests using 999 permutations, then apply Benjamini–Hochberg adjustment independently to the 88 local Moran p-values and the 88 fixed-distance Gi* p-values. This is an exploratory false-discovery-rate adjustment; dependence between spatial tests still matters.
+
+```{r}
+#| label: b-sensitivity
+#| fig-height: 7
+#| fig-cap: "Local Moran and fixed-distance Gi* classes after 999 permutations and separate BH adjustment."
+```
+
+Local Moran's I retains **`r sum(lisa$p_BH < 0.05)`** counties after this adjustment; fixed-distance Gi* retains **`r sum(HCSA_fdw$p_BH <= 0.05)`**. The table distinguishes changes due to more permutations and a different LISA inference field from changes due to multiple-testing correction. A county that loses significance has weaker evidence under the revised rule, not necessarily an absence of spatial structure.
+
+```{r}
+#| label: b-export
+#| include: false
+```
+
+## 8. Reflection and reproducibility
+
+Local Moran and Gi* answer related but different questions. Local Moran can identify a county that contrasts with its surrounding counties; Gi* evaluates the concentration of high or low values in a neighbourhood including the focal county. Consequently their maps need not select the same places.
+
+These results describe a 2012 county snapshot. They do not explain the mechanisms behind development differences, establish individual household outcomes, or describe current conditions. Neighbourhood choice, outlying GDPPC values, administrative boundaries and the significance procedure all affect the interpretation.
+
+- [Download the R analysis](R/analysis.R)
+- [Download local Moran results](results/local-moran.csv)
+- [Download fixed-distance Gi* results](results/gistar-fixed.csv)
+- [Download six-neighbour Gi* results](results/gistar-knn.csv)
+- [Download the sensitivity summary](results/sensitivity.csv)
+
+Open `ISSS626-GAA.Rproj` and run `source("handson4B/R/analysis.R")` from the project root. Run `quarto render handson4B/index.qmd` to recompute and regenerate this page. The R source is the code shown in this page and writes the downloadable result tables.
+
+```{r}
+#| label: b-session
+```
