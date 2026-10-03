@@ -1,8 +1,13 @@
 :root {
-  --page-bg: #dce7f3;
-  --text: #6f82aa;
-  --heading: #465d91;
-  --nav: #4b5d7a;
+  --page-bg: #faf7f0;
+  --text: #433b35;
+  --heading: #8f3f2d;
+  --nav: #433b35;
+  --accent: #9a432e;
+  --muted: #71675e;
+  --surface: #fffdf8;
+  --surface-muted: #f4e8df;
+  --border: #d9cbbd;
 }
 
 html,
@@ -92,7 +97,17 @@ main.content p {
 }
 
 a {
-  color: var(--heading);
+  color: var(--accent);
+}
+
+a:hover {
+  color: #723121;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
 }
 
 @media (max-width: 820px) {

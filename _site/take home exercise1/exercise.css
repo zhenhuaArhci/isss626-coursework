@@ -1,6 +1,6 @@
-.take-home-page { color: #35455e; }
+.take-home-page { color: var(--text); }
 .take-home-page main.content { max-width: 980px; }
-.take-home-page .subtitle { color: #465775; }
+.take-home-page .subtitle { color: var(--muted); }
 .take-home-page .th-status {
   display: inline-block;
   padding: .25rem .7rem;
@@ -19,10 +19,10 @@
 }
 .take-home-page .th-links a {
   padding: .55rem .9rem;
-  border: 1px solid #526e97;
+  border: 1px solid var(--border);
   border-radius: .35rem;
-  background: #f4f7fc;
-  color: #344d79;
+  background: var(--surface);
+  color: var(--accent);
   text-decoration: none;
 }
 .take-home-page .th-links a:hover,
@@ -42,6 +42,6 @@
   .take-home-page .th-links { flex-direction: column; }
   .take-home-page .th-links a { text-align: center; }
 }
-.take-home-page .visual-interpretation { border-left: 3px solid #217c91; padding: .2rem 1rem; margin: 1rem 0 1.7rem; background: #f2f7fa; }
+.take-home-page .visual-interpretation { border-left: 3px solid var(--accent); padding: .2rem 1rem; margin: 1rem 0 1.7rem; background: var(--surface-muted); }
 .take-home-page .planning-discussion { line-height: 1.7; }
 .take-home-page img { max-width: 100%; height: auto; }

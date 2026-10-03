@@ -31,8 +31,8 @@ project:
 website:
   title: "ISSS626-GAA"
   navbar:
-    background: "#dce7f3"
-    foreground: "#4c5e7e"
+    background: "#faf7f0"
+    foreground: "#433b35"
     left:
       - text: "Hands-on Exercise"
         menu:
@@ -73,7 +73,7 @@ website:
 
 format:
   html:
-    theme: cosmo
+    theme: [cosmo, theme.scss]
     css: styles.css
     toc: false
     smooth-scroll: true
