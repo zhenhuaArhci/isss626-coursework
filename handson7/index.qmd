@@ -1,0 +1,191 @@
+---
+title: "Hands-on Exercise 7"
+subtitle: "Modelling Geographical Accessibility · Eldercare services in Singapore"
+author: "Zhenhua Liu"
+date: "2026-10-17"
+body-classes: exercise-page
+toc: true
+toc-location: right
+code-tools: true
+execute:
+  freeze: auto
+  error: false
+---
+
+```{r}
+#| label: h7-register
+#| include: false
+knitr::read_chunk("handson7/R/analysis.R")
+knitr::opts_chunk$set(fig.width = 11, fig.height = 7, dpi = 160)
+```
+
+## 1. Introduction
+
+This exercise follows [Chapter 17: Modelling Geographical Accessibility](https://r4gdsa.netlify.app/chap17.html#introduction). I compare three ways of measuring access to eldercare services in Singapore: Hansen potential, kernel-density two-step floating catchment area (KD2SFCA), and the Spatial Accessibility Measure (SAM). The question is how the choice of distance decay and treatment of competing demand changes the pattern of access.
+
+The workflow imports and validates spatial layers, aligns a road-network distance matrix to feature IDs, calculates accessibility, maps the results, and compares their distributions across planning regions. All results below are calculated from the downloaded teaching inputs.
+
+```{r}
+#| label: h7-packages
+```
+
+## 2. Data and study assumptions
+
+I use the [instructor's original teaching data at a pinned Git revision](https://github.com/tskam/IS415/tree/acaa1f9995d3d778a02a09c6bbdd5ef4f4eae773/Hands-on_Ex/Hands-on_EX11/data). The inputs comprise 2014 subzone boundaries, a hexagonal study grid, historical eldercare locations, and an origin–destination road-distance table. [Data provenance and acquisition notes](data/README.md) and [file checksums](data/input-checksums.csv) accompany this exercise.
+
+To reproduce the work from the coursework project root:
+
+```{r}
+#| eval: false
+source("handson7/R/download-data.R")
+system2("quarto", c("render", "handson7/index.qmd"))
+```
+
+Alternatively, run `quarto render handson7/index.qmd` in a terminal after downloading the inputs. The render requires the packages loaded above, plus knitr and rmarkdown; it does not install packages automatically.
+
+::: {.callout-note}
+### Illustrative access, with historical inputs
+
+Each hexagon is assigned demand **100**, and every facility capacity **100**. These are modelling assumptions, not measurements of older residents or available places. The facility layer contains records dated 2016; the exercise therefore describes a historical teaching scenario and cannot identify current service shortages. The road network date and routing settings are not supplied. The course handout describes conditions on reuse of its specially prepared datasets; the raw files remain local.
+:::
+
+### Import, project and check the spatial layers
+
+All layers are transformed to **SVY21 / Singapore TM (EPSG:3414)**, with coordinates in metres. Invalid polygon geometries are repaired before spatial operations. I retain stable feature IDs and verify uniqueness and expected counts.
+
+```{r}
+#| label: h7-inputs
+```
+
+### Study area and facility locations
+
+```{r}
+#| label: h7-overview
+#| fig-cap: "Hexagons and historical eldercare locations over the 2014 subzone boundaries. Red dots indicate facilities."
+```
+
+## 3. Prepare the road-distance matrix
+
+The OD table has one row per origin–destination pair. Its total cost combines entry distance to the road, travel along the network, and exit distance to the facility. I check that these components sum to the total, that every pair occurs exactly once, and that every cost is finite and positive.
+
+`pivot_wider()` creates the matrix, followed by explicit ID matching. This prevents a numerically valid calculation from silently assigning accessibility values to the wrong hexagons. Distances are divided by 1,000 to obtain kilometres; model settings must use these same units.
+
+```{r}
+#| label: h7-matrix
+```
+
+## 4. Hansen potential accessibility
+
+I inspect the installed `SpatialAcc::ac()` implementation as well as the [package documentation](https://search.r-project.org/CRAN/refmans/SpatialAcc/html/ac.html). For the Hansen family, the package applies **exponential decay**, so this exercise uses
+
+$$
+A_i^{H}=\sum_j S_j\exp(-\beta d_{ij}),\qquad \beta=2\ \mathrm{km}^{-1}.
+$$
+
+A nearby facility contributes more than a distant facility. This measure does not subtract the demand of other origins competing for the same facility. Despite the argument name `power`, the Hansen branch uses it as the exponential decay coefficient. I use 2 consistently for the main result; the handout also includes an alternative 0.5 setting, which I compare later.
+
+```{r}
+#| label: h7-hansen
+#| fig-cap: "Hansen potential with exponential decay coefficient 2 per kilometre; darker cells have higher accessibility."
+```
+
+Maps use ten quantile classes for positive-only scores. KD2SFCA displays zero access separately, with nine quantile classes for positive scores. Scientific notation keeps tiny positive values distinct from zero (for example, `1e-6` means 0.000001). Colours show relative positions **within each method**; the numeric class boundaries differ between methods and do not establish a shared service standard.
+
+### Compare planning regions
+
+A hexagon may intersect several subzones or regions. A plain intersection join can duplicate the cell and distort a boxplot. I dissolve subzones into planning regions, then assign each hexagon once to its region of largest polygon overlap.
+
+```{r}
+#| label: h7-regions
+#| fig-cap: "Regional distribution of log Hansen potential. The red point marks the mean of the logged cell values."
+```
+
+The join leaves **`r unmatched` cells without a planning-region overlap**. Any such cells retain an explicit outside-boundary label. Each cell has equal statistical weight; these distributions are not population-weighted estimates. Logging the positive Hansen values makes small peripheral values visible without changing their rank.
+
+## 5. KD2SFCA: access with competition
+
+KD2SFCA uses two steps. First, each facility's capacity is divided by its distance-weighted competing demand. Second, each origin sums the weighted supply-to-demand ratios of facilities it can reach. Here the catchment is **5 km**, and the kernel is $w_{ij}=\exp(-d_{ij}^{2})$ within that catchment, zero outside it.
+
+$$
+R_j=\frac{S_j}{\sum_k P_k w_{kj}},\qquad
+A_i^{K}=\sum_j R_jw_{ij}.
+$$
+
+I verify the package output against an independent matrix calculation. As an additional numerical check, demand-weighted accessibility sums to total supplied capacity when every facility has positive weighted demand.
+
+```{r}
+#| label: h7-kd2sfca
+#| fig-cap: "KD2SFCA accessibility with a 5 km catchment and squared-distance exponential kernel."
+```
+
+```{r}
+#| label: h7-kd-region
+#| fig-cap: "KD2SFCA values by planning region, with one observation per hexagon."
+```
+
+Relative to Hansen, the key change is competition: a facility surrounded by many nearby origins shares its supply across more demand. Because demand is held constant per cell, this competition reflects the grid geometry and routing distances rather than actual population density.
+
+## 6. Spatial Accessibility Measure (SAM)
+
+SAM scales inverse-square potential by the demand of the origin:
+
+$$
+A_i^{S}=\frac{1}{P_i}\sum_j\frac{S_j}{d_{ij}^{2}}.
+$$
+
+The installed package's SAM branch **does not use `d0`**. I omit that argument and verify that adding `d0 = 5` produces identical values. Thus SAM here includes all facilities, whereas KD2SFCA excludes those beyond its catchment. Very small distances can strongly influence SAM, so I check for zero distances before calculating it.
+
+```{r}
+#| label: h7-sam
+#| fig-cap: "SAM accessibility with inverse-square decay, using all supplied origin–destination distances."
+```
+
+```{r}
+#| label: h7-sam-region
+#| fig-cap: "SAM distribution by planning region. Extreme values reflect strong inverse-square weighting at short distances."
+```
+
+SAM's demand adjustment is local to the origin; it does not represent the same shared-facility competition as KD2SFCA. Equal demand and capacity make the SAM calculation equivalent to summing inverse-square distances, which makes this a useful distance-decay comparison.
+
+## 7. Compare the results
+
+### Regional summaries and ranking agreement
+
+```{r}
+#| label: h7-comparison
+```
+
+By regional **median**, the highest-scoring regions are **`r paste(paste(best_regions$method, best_regions$REGION_N, sep = ": "), collapse = "; ")`**. The lowest are **`r paste(paste(worst_regions$method, worst_regions$REGION_N, sep = ": "), collapse = "; ")`**. These statements describe this executed scenario and its equal-cell weighting.
+
+The rank correlations compare the ordering of cells without treating the three score scales as interchangeable. A high correlation means the methods identify broadly similar relative patterns, while differences show the effects of decay and competition. Means and medians need not agree when a few cells lie very close to facilities.
+
+### Sensitivity to catchment and decay
+
+```{r}
+#| label: h7-sensitivity
+```
+
+At the 5 km KD2SFCA catchment, **`r sensitivity$zero_access_cells[sensitivity$catchment_km == 5]` cells have zero modelled access**. This means no supplied facility falls inside that road-distance catchment; it does not prove residents have no real-world service options. Increasing a catchment changes both reachable supply and competing demand, so an individual score need not increase monotonically.
+
+The Spearman correlation between Hansen decay settings 0.5 and 2 is **`r sprintf("%.3f", hansen_rank_cor)`**. The kernel in the KD2SFCA calculation already downweights distances rapidly before the 5 km boundary, which helps interpret whether the catchment sensitivity table shows large or small changes.
+
+## 8. Reflection and limitations
+
+Accessibility depends on the question being asked. Hansen measures nearby opportunity, SAM adjusts inverse-distance opportunity for local demand, and KD2SFCA explicitly shares facilities across competing origins. Their absolute scores have different meanings, so I compare maps and rankings alongside regional summaries.
+
+The strongest methodological lessons are to align matrix IDs explicitly, check projected units before choosing decay parameters, and avoid duplicate polygon assignments when summarising regions. Inspecting the actual package also prevents an unused argument from being mistaken for a model restriction.
+
+For a practical eldercare study, I would replace the constant demand with older-resident counts, replace capacity with observed service availability, refresh the facility inventory, and use travel times appropriate to the transport options of older residents. Operating hours, affordability, eligibility and barriers within a hexagon also affect access. The current maps support learning the methods, rather than a recommendation to relocate or close facilities.
+
+## 9. Reproducible outputs
+
+- [Download and verify inputs](R/download-data.R)
+- [Executed analysis code](R/analysis.R)
+- [Hexagon accessibility values](results/accessibility-by-hexagon.csv)
+- [Regional summaries](results/regional-summary.csv)
+- [Catchment sensitivity](results/catchment-sensitivity.csv)
+- [Rank correlations](results/rank-correlations.csv)
+
+```{r}
+#| label: h7-session
+```

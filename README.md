@@ -99,3 +99,20 @@ The pages require `sf`, `dplyr`, `readr`, `tmap` (version 4), `knitr`, `spdep`
 and `GWmodel`. Use `quarto render . --use-freezer` to reuse unchanged results
 from earlier exercises. To recalculate an Exercise 4 page, render its
 `index.qmd` explicitly. Both pages include their executed `sessionInfo()`.
+
+## Hands-on Exercise 7
+
+`handson7/` follows Chapter 17 on geographical accessibility, with executed
+Hansen, KD2SFCA and SAM maps, regional distributions, model checks and
+catchment sensitivity. Original inputs are retrieved from Prof. Kam's pinned
+`tskam/IS415` repository and kept locally; checksums and acquisition instructions
+are tracked. From the project root, run:
+
+```r
+source("handson7/R/download-data.R")
+```
+
+Then run `quarto render handson7/index.qmd` to refresh its results or
+`quarto render . --use-freezer` to rebuild the site navigation with existing
+exercise results. Required analysis packages are sf, dplyr, readr, tidyr,
+SpatialAcc, tmap, ggplot2 and knitr. The page records the installed versions.
