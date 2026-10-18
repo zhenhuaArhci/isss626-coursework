@@ -116,3 +116,23 @@ Then run `quarto render handson7/index.qmd` to refresh its results or
 `quarto render . --use-freezer` to rebuild the site navigation with existing
 exercise results. Required analysis packages are sf, dplyr, readr, tidyr,
 SpatialAcc, tmap, ggplot2 and knitr. The page records the installed versions.
+
+## In-class Exercise 7
+
+`in-class7/` completes the classroom catchment exercise: nearest eldercare
+distance, 2SFCA, E2SFCA, Gaussian KD2SFCA, 3SFCA and M2SFCA. It includes
+six accessibility maps, a model distribution chart, regional summaries,
+independent numerical validation and 3/5/8 km catchment sensitivity.
+The navigation label is `in-class7`.
+
+Run these scripts from the RStudio project root:
+
+```r
+source("in-class7/R/install-packages.R") # first use; catchment is pinned
+source("in-class7/R/download-data.R")
+```
+
+Then run `quarto render in-class7/index.qmd` for fresh results, or
+`quarto render . --use-freezer` to rebuild all navigation from executed
+results. Raw data is excluded from Git and the published site. Source
+scripts, provenance, checksums and result CSVs are available on the page.
