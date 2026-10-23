@@ -1,0 +1,30 @@
+---
+title: "take-home exercise2"
+subtitle: "Geospatial Analytics for Peace · Myanmar, 2021–2025"
+author: "Zhenhua Liu"
+date: 2026-10-23
+---
+
+This exercise examines where recorded armed conflict clusters across Myanmar's **330 townships**, and how those patterns evolve over **57 months**, from January 2021 to September 2025.
+
+## Submission links
+
+- **[Technical report](technical-report.qmd)** — data audit, complete R workflow, township counts, Local Moran's I, Gi*, emerging hotspot analysis and a conditional spatial scan.
+- **[Executive summary](executive-summary.qmd)** — a Quarto revealjs presentation with nine substantive slides, plus a cover and contents slide.
+- **[GitHub project](https://github.com/zhenhuaArhci/isss626-coursework/tree/main/take-home%20exercise2)** — Quarto sources, modular R scripts, aggregated results and reproduction instructions.
+
+## Research questions
+
+1. Which townships form statistically significant concentrations or spatial outliers in recorded armed events and violence against civilians?
+2. Where is the relative concentration of conflict intensifying, diminishing or changing intermittently?
+3. Which spatial clusters gained a larger share of events in January–September 2025 compared with the same months of 2024?
+
+![](figures/01-township-counts.png){fig-alt="Two township choropleth maps showing total armed events and violence-against-civilians events."}
+
+## Data and interpretation
+
+The analysis uses the supplied **ACLED Myanmar January 2021–September 2025** extract and the specified **MIMU township boundaries v9.4**. Raw records, vector boundaries and event-level intermediates remain local. The website publishes analytical figures and township aggregates.
+
+A hotspot is a relative concentration of **recorded events**. A cold spot does not establish safety, and a zero is no recorded included event in that cell. These historical results support contextual humanitarian assessment; they do not establish current access conditions or predict individual incidents.
+
+[Assignment brief](https://isss626-ay2026-27aug.netlify.app/take-home_ex02.html) · [Reproduction guide](README.md) · [Data provenance](data/README.md)

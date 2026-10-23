@@ -31,3 +31,7 @@ Thumbs.db
 # Original take-home inputs are local; metadata and acquisition notes are tracked.
 /take home exercise1/data/raw/
 /take home exercise1/data/derived/
+
+# Exercise 2 source archives and event-level/geometric intermediates stay local.
+/take-home exercise2/data/raw/
+/take-home exercise2/data/derived/

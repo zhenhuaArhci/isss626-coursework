@@ -3,6 +3,13 @@ project:
   output-dir: _site
   execute-dir: project
   resources:
+    - "/take-home exercise2/R/*.R"
+    - "/take-home exercise2/results/**"
+    - "/take-home exercise2/README.md"
+    - "/take-home exercise2/data/README.md"
+    - "/take-home exercise2/data/input-checksums.csv"
+    - "!/take-home exercise2/data/raw/**"
+    - "!/take-home exercise2/data/derived/**"
     - "/in-class7/R/*.R"
     - "/in-class7/results/*.csv"
     - "/in-class7/data/README.md"
@@ -51,6 +58,9 @@ project:
     - "take home exercise1/technical-report.qmd"
     - "take home exercise1/executive-summary.qmd"
     - "take home exercise1/learning-guide.qmd"
+    - "take-home exercise2/index.qmd"
+    - "take-home exercise2/technical-report.qmd"
+    - "take-home exercise2/executive-summary.qmd"
 
 website:
   title: "ISSS626-GAA"
@@ -88,6 +98,8 @@ website:
             href: in-class7/index.qmd
       - text: "Take-home Exercise"
         menu:
+          - text: "take-home exercise2"
+            href: "take-home exercise2/index.qmd"
           - text: "Exercise 1 · Thailand road accidents"
             href: "take home exercise1/index.qmd"
           - text: "Technical Report"

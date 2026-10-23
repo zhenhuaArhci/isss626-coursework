@@ -1,0 +1,11 @@
+{
+  "analysis_date": "2026-10-23",
+  "seed": 20261023,
+  "permutation_replicates": 999,
+  "block_replicates": 499,
+  "alpha": 0.05,
+  "spatial_weights": "Queen contiguity, 1 metre snap; symmetric nearest representative-point bridge for each island",
+  "time_neighbourhood": "Current and previous month; first month current only",
+  "variables": ["armed_events", "civilian_events"],
+  "fingerprint": "d67e111730159723849702ad39e51676460adf30260ec23665191591ac028e2b"
+}

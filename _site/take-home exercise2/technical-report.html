@@ -1,0 +1,1778 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Zhenhua Liu">
+<meta name="dcterms.date" content="2026-10-23">
+<meta name="description" content="A reproducible township-level analysis of Myanmar conflict using Local Moran’s I, Gi*, EHSA and a conditional spatial scan.">
+
+<title>Geospatial Analytics for Peace in Myanmar – ISSS626-GAA</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-ea35252d53ad9e99f5c90af792562de1.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">ISSS626-GAA</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hands-on-exercise" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Hands-on Exercise</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-hands-on-exercise">    
+        <li>
+    <a class="dropdown-item" href="../hands-on-exercise-1a/index.html">
+ <span class="dropdown-text">Hands-on Exercise 1A</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../hands-on-exercise-1b/index.html">
+ <span class="dropdown-text">Hands-on Exercise 1B</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../handson2A/index.html">
+ <span class="dropdown-text">Hands-on Exercise 2A</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../handson2B/index.html">
+ <span class="dropdown-text">Hands-on Exercise 2B</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../handson3/index.html">
+ <span class="dropdown-text">Hands-on Exercise 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../handson4/index.html">
+ <span class="dropdown-text">Hands-on Exercise 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../handson4A/index.html">
+ <span class="dropdown-text">Hands-on Exercise 5A</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../handson4B/index.html">
+ <span class="dropdown-text">Hands-on Exercise 5B</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../handson7/index.html">
+ <span class="dropdown-text">Hands-on Exercise 7</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-in-class-exercise" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">In-class Exercise</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-in-class-exercise">    
+        <li>
+    <a class="dropdown-item" href="../inlcass4/index.html">
+ <span class="dropdown-text">inlcass4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../in-class6/index.html">
+ <span class="dropdown-text">in-class6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../in-class7/index.html">
+ <span class="dropdown-text">in-class7</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-take-home-exercise" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Take-home Exercise</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-take-home-exercise">    
+        <li>
+    <a class="dropdown-item" href="../take-home exercise2/index.html">
+ <span class="dropdown-text">take-home exercise2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../take home exercise1/index.html">
+ <span class="dropdown-text">Exercise 1 · Thailand road accidents</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../take home exercise1/technical-report.html">
+ <span class="dropdown-text">Technical Report</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../take home exercise1/executive-summary.html">
+ <span class="dropdown-text">Executive Summary</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#context-and-research-design" id="toc-context-and-research-design" class="nav-link active" data-scroll-target="#context-and-research-design">1. Context and research design</a></li>
+  <li><a href="#sources-preparation-and-quality-assessment" id="toc-sources-preparation-and-quality-assessment" class="nav-link" data-scroll-target="#sources-preparation-and-quality-assessment">2. Sources, preparation and quality assessment</a>
+  <ul class="collapse">
+  <li><a href="#exact-sources-and-reproducible-environment" id="toc-exact-sources-and-reproducible-environment" class="nav-link" data-scroll-target="#exact-sources-and-reproducible-environment">2.1 Exact sources and reproducible environment</a></li>
+  <li><a href="#data-quality-decisions" id="toc-data-quality-decisions" class="nav-link" data-scroll-target="#data-quality-decisions">2.2 Data-quality decisions</a></li>
+  <li><a href="#data-preparation-code" id="toc-data-preparation-code" class="nav-link" data-scroll-target="#data-preparation-code">2.3 Data preparation code</a></li>
+  <li><a href="#complete-space-time-cube" id="toc-complete-space-time-cube" class="nav-link" data-scroll-target="#complete-space-time-cube">2.4 Complete space-time cube</a></li>
+  </ul></li>
+  <li><a href="#geographical-and-temporal-distribution" id="toc-geographical-and-temporal-distribution" class="nav-link" data-scroll-target="#geographical-and-temporal-distribution">3. Geographical and temporal distribution</a></li>
+  <li><a href="#spatial-weights-and-statistical-assumptions" id="toc-spatial-weights-and-statistical-assumptions" class="nav-link" data-scroll-target="#spatial-weights-and-statistical-assumptions">4. Spatial weights and statistical assumptions</a></li>
+  <li><a href="#local-measures-of-spatial-association" id="toc-local-measures-of-spatial-association" class="nav-link" data-scroll-target="#local-measures-of-spatial-association">5. Local measures of spatial association</a>
+  <ul class="collapse">
+  <li><a href="#global-context-and-local-morans-i" id="toc-global-context-and-local-morans-i" class="nav-link" data-scroll-target="#global-context-and-local-morans-i">5.1 Global context and Local Moran’s I</a></li>
+  <li><a href="#local-gi-and-multiple-comparisons" id="toc-local-gi-and-multiple-comparisons" class="nav-link" data-scroll-target="#local-gi-and-multiple-comparisons">5.2 Local Gi* and multiple comparisons</a></li>
+  </ul></li>
+  <li><a href="#emerging-hotspot-analysis" id="toc-emerging-hotspot-analysis" class="nav-link" data-scroll-target="#emerging-hotspot-analysis">6. Emerging hotspot analysis</a>
+  <ul class="collapse">
+  <li><a href="#a-genuinely-spatiotemporal-gi-neighbourhood" id="toc-a-genuinely-spatiotemporal-gi-neighbourhood" class="nav-link" data-scroll-target="#a-genuinely-spatiotemporal-gi-neighbourhood">6.1 A genuinely spatiotemporal Gi* neighbourhood</a></li>
+  <li><a href="#mannkendall-dependence-and-classification" id="toc-mannkendall-dependence-and-classification" class="nav-link" data-scroll-target="#mannkendall-dependence-and-classification">6.2 Mann–Kendall, dependence and classification</a></li>
+  </ul></li>
+  <li><a href="#robustness-and-scale" id="toc-robustness-and-scale" class="nav-link" data-scroll-target="#robustness-and-scale">7. Robustness and scale</a></li>
+  <li><a href="#value-added-a-conditional-spatial-scan-of-redistribution" id="toc-value-added-a-conditional-spatial-scan-of-redistribution" class="nav-link" data-scroll-target="#value-added-a-conditional-spatial-scan-of-redistribution">8. Value added: a conditional spatial scan of redistribution</a>
+  <ul class="collapse">
+  <li><a href="#the-extra-analytical-question" id="toc-the-extra-analytical-question" class="nav-link" data-scroll-target="#the-extra-analytical-question">8.1 The extra analytical question</a></li>
+  </ul></li>
+  <li><a href="#integrated-findings-and-peace-building-implications" id="toc-integrated-findings-and-peace-building-implications" class="nav-link" data-scroll-target="#integrated-findings-and-peace-building-implications">9. Integrated findings and peace-building implications</a></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations">10. Limitations</a></li>
+  <li><a href="#reproduce-and-inspect" id="toc-reproduce-and-inspect" class="nav-link" data-scroll-target="#reproduce-and-inspect">11. Reproduce and inspect</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Geospatial Analytics for Peace in Myanmar</h1>
+<p class="subtitle lead">Township clusters, emerging patterns and spatial redistribution · January 2021–September 2025</p>
+</div>
+
+<div>
+  <div class="description">
+    A reproducible township-level analysis of Myanmar conflict using Local Moran’s I, Gi*, EHSA and a conditional spatial scan.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Zhenhua Liu </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 23, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><a href="../take-home exercise2/index.html">Exercise entry</a> · <a href="../take-home exercise2/executive-summary.html">Executive summary</a> · <a href="https://github.com/zhenhuaArhci/isss626-coursework/tree/main/take-home%20exercise2">GitHub sources</a></p>
+<section id="context-and-research-design" class="level2">
+<h2 class="anchored" data-anchor-id="context-and-research-design">1. Context and research design</h2>
+<p>Myanmar’s conflict presents a spatially uneven humanitarian problem. National totals cannot show whether high event counts are isolated, shared with neighbouring townships, or shifting over time. This report answers three questions: <strong>where do recorded armed events cluster, how do those clusters evolve, and where did the geographic share of conflict increase most recently within the observation window?</strong></p>
+<p>The unit of analysis is the <strong>township</strong> under MIMU v9.4, held fixed for all dates. Time bins are calendar months from <strong>1 January 2021 through 30 September 2025</strong>, inclusive. The analytical universe contains 330 townships and 57 months, producing <strong>18,810 cells</strong>. Zero cells are retained.</p>
+<p>Two outcomes are analysed separately:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Outcome</th>
+<th>Definition</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Armed events</td>
+<td>Battles + Explosions/Remote violence + Violence against civilians</td>
+<td>Geographic burden of the three armed-event categories</td>
+</tr>
+<tr class="even">
+<td>Violence against civilians</td>
+<td>The ACLED event type with that name</td>
+<td>A narrower measure of direct violence against unarmed non-combatants</td>
+</tr>
+</tbody>
+</table>
+<p>The second measure is a subset of the first. It excludes civilians harmed within other event types, so it must not be interpreted as all civilian harm. Protests, riots and strategic developments are excluded from the primary definition, including protests coded as excessive force: this is an explicit <strong>armed-event-category</strong> definition rather than a claim to include all ACLED political violence. See the <a href="https://acleddata.com/methodology/acled-codebook">ACLED codebook</a>.</p>
+<p>Counts measure recorded event burden. They are neither population-normalised risk nor fatalities. Fatalities are retained as a descriptive aggregate, but their uncertainty and extreme values make them unsuitable as the principal clustering outcome here. Reporting access, media visibility and conflict conditions can affect observed counts.</p>
+</section>
+<section id="sources-preparation-and-quality-assessment" class="level2">
+<h2 class="anchored" data-anchor-id="sources-preparation-and-quality-assessment">2. Sources, preparation and quality assessment</h2>
+<section id="exact-sources-and-reproducible-environment" class="level3">
+<h3 class="anchored" data-anchor-id="exact-sources-and-reproducible-environment">2.1 Exact sources and reproducible environment</h3>
+<p>The ACLED archive is the course-provided <code>ACLED_Data_Myanmar_Jan2021-Sep2025.zip</code>. The geospatial source is <strong>Myanmar Township Boundaries_MIMU_PCodev9.4</strong>, downloaded on 23 October 2026 from the <a href="https://data.themimu.info/en/dataset/myanmar-administrative-boundary">MIMU Data Portal</a>, the current official distribution alongside the <a href="https://geonode.themimu.info/layers/geonode%3Ammr_polbnda_adm3_250k_mimu_1">GeoNode layer</a>. The layer actually contains 330 township polygons, <code>TS_PCODE</code> identifiers and <code>PCode_V = 9.4</code>. The archive’s <code>Metadata.txt</code> incorrectly calls it a district layer; geometry attributes and version were therefore checked directly.</p>
+<p>Raw ACLED records and MIMU vectors are excluded from Git and the hosted resource paths. Obtain authorized inputs from eLearn and MIMU, retain source attribution and review <a href="https://themimu.info/mimu-terms-conditions">MIMU’s terms</a>. The project supplies acquisition instructions, exact archive checksums and a source audit; the analysis publishes static figures and aggregate tables.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 34%">
+<col style="width: 7%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">file</th>
+<th style="text-align: right;">bytes</th>
+<th style="text-align: left;">sha256</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">ACLED_Data_Myanmar_Jan2021-Sep2025.zip</td>
+<td style="text-align: right;">10071306</td>
+<td style="text-align: left;">0aeb1f9a409a40aa68264f668725d68e3a9972c7d7d5fcf893312b6caab315d6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mimu-v94.zip</td>
+<td style="text-align: right;">3509493</td>
+<td style="text-align: left;">e2b374de465b7450d61b947773320fa807c9fc1328a72e720579f4a18bc58570</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The workflow uses <code>sf</code> for geometries, <code>readr</code> for schema-aware import, <code>dplyr</code>/<code>tidyr</code> for aggregation, <code>spdep</code> for spatial inference, <code>Kendall</code> for Mann–Kendall, <code>Matrix</code> for scan-window aggregation, and <code>ggplot2</code> for figures. Exact versions are in <a href="results/session-info.txt">session-info.txt</a>. The random seed is <strong>20261023</strong>; spatial tests and scan calibration use <strong>999 replicates</strong>.</p>
+</section>
+<section id="data-quality-decisions" class="level3">
+<h3 class="anchored" data-anchor-id="data-quality-decisions">2.2 Data-quality decisions</h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">step</th>
+<th style="text-align: right;">records</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Source records</td>
+<td style="text-align: right;">87109</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Unique event IDs</td>
+<td style="text-align: right;">87109</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Myanmar in date range</td>
+<td style="text-align: right;">87103</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Three armed event types</td>
+<td style="text-align: right;">54000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Valid coordinates</td>
+<td style="text-align: right;">54000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Precision 1 or 2</td>
+<td style="text-align: right;">53907</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Inside township polygons</td>
+<td style="text-align: right;">53797</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Violence against civilians</td>
+<td style="text-align: right;">9886</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Precise location (code 1)</td>
+<td style="text-align: right;">29502</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Multiple polygon hits</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Township-label disagreements</td>
+<td style="text-align: right;">530</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Valid input polygons</td>
+<td style="text-align: right;">330</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Import checks cover required fields, parsing failures, missing IDs, duplicate event IDs, valid dates, finite coordinate ranges and non-negative fatalities. There are <strong>0 duplicate IDs</strong>. The period filter removes 6 out-of-scope records before event-type selection; the filename alone is not treated as evidence of the dates.</p>
+<p>Coordinate precision codes <strong>1 and 2</strong> are retained. Code 2 represents an approximate location rather than a precise incident point, but remains useful at township scale with caution. Code 3 is excluded because township attribution is too uncertain. Restricting to code 1 is a sensitivity analysis. Events with missing or invalid coordinates would be excluded explicitly; none pass silently through the checks.</p>
+<p>Points enter as WGS84 (<code>EPSG:4326</code>). Both points and polygons are transformed to a Myanmar-centred Lambert azimuthal equal-area CRS (<code>+proj=laea +lat_0=21 +lon_0=96 +datum=WGS84 +units=m</code>) before spatial matching. This avoids metre-versus-degree errors. <code>st_make_valid()</code> standardises polygon validity. <strong>330 of 330 source geometries were already valid.</strong></p>
+<p><code>st_intersects()</code> assigns points by polygon containment. No unmatched point is snapped onto a nearby township. Of the precision-eligible events, <strong>110</strong> fall outside the polygons; they are excluded, with event-level details retained locally. <strong>530</strong> matched events disagree with the ACLED <code>admin3</code> text. Geometric assignment is authoritative to avoid unverifiable name crosswalks. This is a diagnostic, not proof that either source is wrong; approximate coordinates and boundary vintages can both matter. Multiple-polygon ties number <strong>0</strong>; the code resolves any future tie using a unique matching township name, then stable PCode order.</p>
+<p>The included data contain <strong>53,797 armed events</strong> and <strong>9,886 violence-against-civilians events</strong>. A reported zero is an observation in this filtered extract, not evidence that conflict was absent.</p>
+</section>
+<section id="data-preparation-code" class="level3">
+<h3 class="anchored" data-anchor-id="data-preparation-code">2.3 Data preparation code</h3>
+<p>The code below is loaded from the same scripts executed by the pipeline. <code>find_input()</code> accepts local archives or environment-variable overrides; downloading or manually editing paths is not needed when the supplied archives are in <code>data/raw</code> or Downloads. The end-to-end runner rehashes inputs and code before reusing results.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spdep)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"take-home exercise2/R/methods.R"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>base_dir <span class="ot">&lt;-</span> <span class="st">"take-home exercise2"</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (p <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"data/raw"</span>, <span class="st">"data/derived"</span>, <span class="st">"results"</span>, <span class="st">"figures"</span>))</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dir.create</span>(<span class="fu">file.path</span>(base_dir,p), <span class="at">recursive =</span> <span class="cn">TRUE</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For an authorized ACLED copy, set ACLED_MYANMAR_FILE to a CSV or ZIP,</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># or leave the supplied archive in data/raw or your Downloads folder.</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>find_input <span class="ot">&lt;-</span> <span class="cf">function</span>(env_name, filename, <span class="at">local_name =</span> filename) {</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  candidates <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">Sys.getenv</span>(env_name), <span class="fu">file.path</span>(base_dir,<span class="st">"data/raw"</span>,local_name),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">file.path</span>(<span class="fu">path.expand</span>(<span class="st">"~"</span>),<span class="st">"Downloads"</span>,filename),</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">file.path</span>(<span class="fu">Sys.getenv</span>(<span class="st">"USERPROFILE"</span>),<span class="st">"Downloads"</span>,filename))</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  ok <span class="ot">&lt;-</span> candidates[<span class="fu">nzchar</span>(candidates) <span class="sc">&amp;</span> <span class="fu">file.exists</span>(candidates)]</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">length</span>(ok)) <span class="fu">stop</span>(<span class="st">"Missing input "</span>, filename, <span class="st">". See data/README.md."</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">normalizePath</span>(ok[<span class="dv">1</span>], <span class="at">winslash=</span><span class="st">"/"</span>, <span class="at">mustWork=</span><span class="cn">TRUE</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>acled_file <span class="ot">&lt;-</span> <span class="fu">find_input</span>(<span class="st">"ACLED_MYANMAR_FILE"</span>, <span class="st">"ACLED_Data_Myanmar_Jan2021-Sep2025.zip"</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>boundary_file <span class="ot">&lt;-</span> <span class="fu">find_input</span>(<span class="st">"MIMU_TOWNSHIP_FILE"</span>, <span class="st">"Myanmar Township Boundaries_MIMU_PCodev9.4.zip"</span>, <span class="st">"mimu-v94.zip"</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>inputs <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">file=</span><span class="fu">c</span>(<span class="fu">basename</span>(acled_file),<span class="fu">basename</span>(boundary_file)),</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">bytes=</span><span class="fu">file.info</span>(<span class="fu">c</span>(acled_file,boundary_file))<span class="sc">$</span>size,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>                 <span class="at">sha256=</span><span class="fu">vapply</span>(<span class="fu">c</span>(acled_file,boundary_file),digest<span class="sc">::</span>digest,<span class="fu">character</span>(<span class="dv">1</span>),<span class="at">algo=</span><span class="st">"sha256"</span>,<span class="at">file=</span><span class="cn">TRUE</span>))</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(inputs,<span class="fu">file.path</span>(base_dir,<span class="st">"data/input-checksums.csv"</span>))</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">grepl</span>(<span class="st">"[.]zip$"</span>,acled_file,<span class="at">ignore.case=</span><span class="cn">TRUE</span>)) {</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  csv_name <span class="ot">&lt;-</span> <span class="fu">unzip</span>(acled_file,<span class="at">list=</span><span class="cn">TRUE</span>)<span class="sc">$</span>Name</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  csv_name <span class="ot">&lt;-</span> csv_name[<span class="fu">grepl</span>(<span class="st">"[.]csv$"</span>,csv_name,<span class="at">ignore.case=</span><span class="cn">TRUE</span>)]</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(<span class="fu">length</span>(csv_name)<span class="sc">==</span><span class="dv">1</span>L)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unzip</span>(acled_file,<span class="at">files=</span>csv_name,<span class="at">exdir=</span><span class="fu">file.path</span>(base_dir,<span class="st">"data/raw/acled"</span>))</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  acled_csv <span class="ot">&lt;-</span> <span class="fu">file.path</span>(base_dir,<span class="st">"data/raw/acled"</span>,csv_name)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> acled_csv <span class="ot">&lt;-</span> acled_file</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span>(boundary_file,<span class="at">exdir=</span><span class="fu">file.path</span>(base_dir,<span class="st">"data/raw/boundaries"</span>))</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>shape <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="fu">file.path</span>(base_dir,<span class="st">"data/raw/boundaries"</span>),<span class="at">pattern=</span><span class="st">"[.]shp$"</span>,<span class="at">recursive=</span><span class="cn">TRUE</span>,<span class="at">full.names=</span><span class="cn">TRUE</span>)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">length</span>(shape)<span class="sc">==</span><span class="dv">1</span>L)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>townships_raw <span class="ot">&lt;-</span> <span class="fu">st_read</span>(shape,<span class="at">quiet=</span><span class="cn">TRUE</span>)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">nrow</span>(townships_raw)<span class="sc">==</span><span class="dv">330</span>L, <span class="sc">!</span><span class="fu">anyDuplicated</span>(townships_raw<span class="sc">$</span>TS_PCODE),</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>          <span class="fu">all</span>(<span class="fu">abs</span>(townships_raw<span class="sc">$</span>PCode_V<span class="fl">-9.4</span>)<span class="sc">&lt;</span>.<span class="dv">001</span>))</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>valid_before <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">st_is_valid</span>(townships_raw))</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="co"># A national equal-area projection: metres for topology checks and area summaries.</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>mmr_crs <span class="ot">&lt;-</span> <span class="st">"+proj=laea +lat_0=21 +lon_0=96 +datum=WGS84 +units=m +no_defs"</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>townships <span class="ot">&lt;-</span> townships_raw <span class="sc">|&gt;</span> <span class="fu">select</span>(TS_PCODE,TS,ST,DT) <span class="sc">|&gt;</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(TS_PCODE) <span class="sc">|&gt;</span> <span class="fu">st_transform</span>(mmr_crs) <span class="sc">|&gt;</span> <span class="fu">st_make_valid</span>()</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">all</span>(<span class="fu">st_is_valid</span>(townships)),<span class="sc">!</span><span class="fu">any</span>(<span class="fu">st_is_empty</span>(townships)))</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>raw <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(acled_csv,<span class="at">show_col_types=</span><span class="cn">FALSE</span>,<span class="at">guess_max=</span><span class="dv">100000</span>,</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">col_types=</span><span class="fu">cols</span>(<span class="at">event_id_cnty=</span><span class="fu">col_character</span>(),<span class="at">event_date=</span><span class="fu">col_date</span>(),<span class="at">.default=</span><span class="fu">col_guess</span>()))</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">nrow</span>(<span class="fu">problems</span>(raw))<span class="sc">==</span><span class="dv">0</span>L)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>required <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"event_id_cnty"</span>,<span class="st">"event_date"</span>,<span class="st">"event_type"</span>,<span class="st">"latitude"</span>,<span class="st">"longitude"</span>,<span class="st">"geo_precision"</span>,<span class="st">"fatalities"</span>,<span class="st">"admin3"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">all</span>(required <span class="sc">%in%</span> <span class="fu">names</span>(raw)), <span class="sc">!</span><span class="fu">anyNA</span>(raw<span class="sc">$</span>event_id_cnty))</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>duplicate_ids <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">duplicated</span>(raw<span class="sc">$</span>event_id_cnty))</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (duplicate_ids) <span class="fu">stop</span>(<span class="st">"Duplicate event IDs require an explicit resolution before analysis."</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>period <span class="ot">&lt;-</span> raw <span class="sc">|&gt;</span> <span class="fu">filter</span>(country<span class="sc">==</span><span class="st">"Myanmar"</span>,event_date<span class="sc">&gt;=</span><span class="fu">as.Date</span>(<span class="st">"2021-01-01"</span>),event_date<span class="sc">&lt;=</span><span class="fu">as.Date</span>(<span class="st">"2025-09-30"</span>))</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>armed_types <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Battles"</span>,<span class="st">"Explosions/Remote violence"</span>,<span class="st">"Violence against civilians"</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>armed <span class="ot">&lt;-</span> period <span class="sc">|&gt;</span> <span class="fu">filter</span>(event_type <span class="sc">%in%</span> armed_types)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="sc">!</span><span class="fu">anyNA</span>(armed<span class="sc">$</span>fatalities),<span class="fu">all</span>(armed<span class="sc">$</span>fatalities<span class="sc">&gt;=</span><span class="dv">0</span>))</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>coordinate_ok <span class="ot">&lt;-</span> <span class="fu">with</span>(armed,<span class="fu">is.finite</span>(latitude)<span class="sc">&amp;</span><span class="fu">is.finite</span>(longitude)<span class="sc">&amp;</span>latitude<span class="sc">&gt;=-</span><span class="dv">90</span><span class="sc">&amp;</span>latitude<span class="sc">&lt;=</span><span class="dv">90</span><span class="sc">&amp;</span>longitude<span class="sc">&gt;=-</span><span class="dv">180</span><span class="sc">&amp;</span>longitude<span class="sc">&lt;=</span><span class="dv">180</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>coord <span class="ot">&lt;-</span> armed[coordinate_ok,]</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>precise <span class="ot">&lt;-</span> coord <span class="sc">|&gt;</span> <span class="fu">filter</span>(geo_precision <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>points <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(precise,<span class="at">coords=</span><span class="fu">c</span>(<span class="st">"longitude"</span>,<span class="st">"latitude"</span>),<span class="at">crs=</span><span class="dv">4326</span>,<span class="at">remove=</span><span class="cn">FALSE</span>) <span class="sc">|&gt;</span> <span class="fu">st_transform</span>(mmr_crs)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Geometric containment is authoritative; no offshore event is snapped onshore.</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>hits <span class="ot">&lt;-</span> <span class="fu">st_intersects</span>(points,townships)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>nhits <span class="ot">&lt;-</span> <span class="fu">lengths</span>(hits)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># A boundary tie uses the matching ACLED township name if unique, then stable PCode.</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>picked <span class="ot">&lt;-</span> <span class="fu">vapply</span>(<span class="fu">seq_along</span>(hits),<span class="cf">function</span>(i) {</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  h <span class="ot">&lt;-</span> hits[[i]]</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">length</span>(h)) <span class="fu">return</span>(<span class="cn">NA_integer_</span>)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  named <span class="ot">&lt;-</span> h[<span class="fu">tolower</span>(townships<span class="sc">$</span>TS[h])<span class="sc">==</span><span class="fu">tolower</span>(precise<span class="sc">$</span>admin3[i])]</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(named)<span class="sc">==</span><span class="dv">1</span>L) named <span class="cf">else</span> h[<span class="dv">1</span>]</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>},<span class="fu">integer</span>(<span class="dv">1</span>))</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>precise<span class="sc">$</span>TS_PCODE <span class="ot">&lt;-</span> townships<span class="sc">$</span>TS_PCODE[picked]</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>precise<span class="sc">$</span>polygon_TS <span class="ot">&lt;-</span> townships<span class="sc">$</span>TS[picked]</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>precise<span class="sc">$</span>spatial_hits <span class="ot">&lt;-</span> nhits</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>unmatched <span class="ot">&lt;-</span> precise <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">is.na</span>(TS_PCODE))</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="co"># A local audit contains event IDs and coordinates and is never published.</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(unmatched <span class="sc">|&gt;</span> <span class="fu">select</span>(event_id_cnty,admin1,admin3,latitude,longitude,event_type),</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>          <span class="fu">file.path</span>(base_dir,<span class="st">"data/derived/unmatched-events.csv"</span>))</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>events <span class="ot">&lt;-</span> precise <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(TS_PCODE)) <span class="sc">|&gt;</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">month=</span><span class="fu">as.Date</span>(<span class="fu">format</span>(event_date,<span class="st">"%Y-%m-01"</span>)),</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>         <span class="at">civilian=</span><span class="fu">as.integer</span>(event_type<span class="sc">==</span><span class="st">"Violence against civilians"</span>),</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>         <span class="at">label_match=</span><span class="fu">tolower</span>(admin3)<span class="sc">==</span><span class="fu">tolower</span>(polygon_TS))</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>audit <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">step=</span><span class="fu">c</span>(<span class="st">"Source records"</span>,<span class="st">"Unique event IDs"</span>,<span class="st">"Myanmar in date range"</span>,<span class="st">"Three armed event types"</span>,</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Valid coordinates"</span>,<span class="st">"Precision 1 or 2"</span>,<span class="st">"Inside township polygons"</span>,<span class="st">"Violence against civilians"</span>,</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Precise location (code 1)"</span>,<span class="st">"Multiple polygon hits"</span>,<span class="st">"Township-label disagreements"</span>,<span class="st">"Valid input polygons"</span>),</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">records=</span><span class="fu">c</span>(<span class="fu">nrow</span>(raw),<span class="fu">n_distinct</span>(raw<span class="sc">$</span>event_id_cnty),<span class="fu">nrow</span>(period),<span class="fu">nrow</span>(armed),<span class="fu">nrow</span>(coord),<span class="fu">nrow</span>(precise),</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">nrow</span>(events),<span class="fu">sum</span>(events<span class="sc">$</span>civilian),<span class="fu">sum</span>(events<span class="sc">$</span>geo_precision<span class="sc">==</span><span class="dv">1</span>),<span class="fu">sum</span>(nhits<span class="sc">&gt;</span><span class="dv">1</span>),</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(<span class="sc">!</span>events<span class="sc">$</span>label_match,<span class="at">na.rm=</span><span class="cn">TRUE</span>),valid_before))</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(audit,<span class="fu">file.path</span>(base_dir,<span class="st">"results/data-audit.csv"</span>))</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(period <span class="sc">|&gt;</span> <span class="fu">count</span>(event_type,disorder_type,<span class="at">name=</span><span class="st">"records"</span>),<span class="fu">file.path</span>(base_dir,<span class="st">"results/event-types.csv"</span>))</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(armed <span class="sc">|&gt;</span> <span class="fu">count</span>(geo_precision,<span class="at">name=</span><span class="st">"records"</span>),<span class="fu">file.path</span>(base_dir,<span class="st">"results/location-precision.csv"</span>))</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(precise <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">matched=</span><span class="sc">!</span><span class="fu">is.na</span>(TS_PCODE)) <span class="sc">|&gt;</span> <span class="fu">count</span>(matched,geo_precision,event_type,<span class="at">name=</span><span class="st">"records"</span>),</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>          <span class="fu">file.path</span>(base_dir,<span class="st">"results/spatial-match-audit.csv"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="complete-space-time-cube" class="level3">
+<h3 class="anchored" data-anchor-id="complete-space-time-cube">2.4 Complete space-time cube</h3>
+<p>Counts are grouped by <code>TS_PCODE</code> and month, then joined to an explicit Cartesian product of every township and all 57 months. Missing combinations receive integer zero. Assertions enforce one row per cell, 330 rows per month, date coverage, non-negative counts, civilian-count nesting and conservation of event totals. There are <strong>9,555 armed-event zero cells</strong> (50.8%).</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>months <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">as.Date</span>(<span class="st">"2021-01-01"</span>),<span class="fu">as.Date</span>(<span class="st">"2025-09-01"</span>),<span class="at">by=</span><span class="st">"month"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>counted <span class="ot">&lt;-</span> events <span class="sc">|&gt;</span> <span class="fu">group_by</span>(TS_PCODE,month) <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="at">armed_events=</span><span class="fu">n</span>(),</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">civilian_events=</span><span class="fu">sum</span>(civilian),<span class="at">fatalities=</span><span class="fu">sum</span>(fatalities),<span class="at">precise_events=</span><span class="fu">sum</span>(geo_precision<span class="sc">==</span><span class="dv">1</span>),<span class="at">.groups=</span><span class="st">"drop"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>cube <span class="ot">&lt;-</span> <span class="fu">expand_grid</span>(<span class="at">month=</span>months,<span class="at">TS_PCODE=</span>townships<span class="sc">$</span>TS_PCODE) <span class="sc">|&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(counted,<span class="at">by=</span><span class="fu">c</span>(<span class="st">"TS_PCODE"</span>,<span class="st">"month"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(armed_events,civilian_events,fatalities,precise_events),<span class="sc">~</span><span class="fu">replace_na</span>(.x,<span class="dv">0</span>L))) <span class="sc">|&gt;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">st_drop_geometry</span>(townships),<span class="at">by=</span><span class="st">"TS_PCODE"</span>) <span class="sc">|&gt;</span> <span class="fu">arrange</span>(month,TS_PCODE)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">nrow</span>(cube)<span class="sc">==</span><span class="dv">330</span>L<span class="sc">*</span><span class="dv">57</span>L,<span class="sc">!</span><span class="fu">anyDuplicated</span>(cube[<span class="fu">c</span>(<span class="st">"TS_PCODE"</span>,<span class="st">"month"</span>)]),</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>          <span class="fu">sum</span>(cube<span class="sc">$</span>armed_events)<span class="sc">==</span><span class="fu">nrow</span>(events),<span class="fu">sum</span>(cube<span class="sc">$</span>civilian_events)<span class="sc">==</span><span class="fu">sum</span>(events<span class="sc">$</span>civilian),</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>          <span class="fu">all</span>(cube<span class="sc">$</span>civilian_events<span class="sc">&lt;=</span>cube<span class="sc">$</span>armed_events),<span class="sc">!</span><span class="fu">anyNA</span>(cube))</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>totals <span class="ot">&lt;-</span> cube <span class="sc">|&gt;</span> <span class="fu">group_by</span>(TS_PCODE) <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">c</span>(armed_events,civilian_events,fatalities,precise_events),sum),<span class="at">.groups=</span><span class="st">"drop"</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>townships <span class="ot">&lt;-</span> townships <span class="sc">|&gt;</span> <span class="fu">left_join</span>(totals,<span class="at">by=</span><span class="st">"TS_PCODE"</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(cube,<span class="fu">file.path</span>(base_dir,<span class="st">"results/township-month-cube.csv"</span>))</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(<span class="fu">st_drop_geometry</span>(townships),<span class="fu">file.path</span>(base_dir,<span class="st">"results/township-totals.csv"</span>))</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(cube <span class="sc">|&gt;</span> <span class="fu">group_by</span>(month) <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">c</span>(armed_events,civilian_events,fatalities),sum)),</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>          <span class="fu">file.path</span>(base_dir,<span class="st">"results/monthly-totals.csv"</span>))</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(<span class="fu">list</span>(<span class="at">townships=</span>townships,<span class="at">events=</span>events,<span class="at">cube=</span>cube,<span class="at">audit=</span>audit),<span class="fu">file.path</span>(base_dir,<span class="st">"data/derived/prepared.rds"</span>))</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">"Prepared "</span>,<span class="fu">nrow</span>(events),<span class="st">" armed events; "</span>,<span class="fu">nrow</span>(cube),<span class="st">" complete township-month cells."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p><a href="results/township-month-cube.csv">Download the complete township-month cube</a>. Township names and counts use the same fixed PCode order throughout the cube, neighbour graph and statistics.</p>
+</section>
+</section>
+<section id="geographical-and-temporal-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="geographical-and-temporal-distribution">3. Geographical and temporal distribution</h2>
+<p><img src="figures/01-township-counts.png" class="img-fluid" alt="Faceted choropleth maps of armed-event totals and violence-against-civilians totals by township."></p>
+<p><strong>Interpretation.</strong> Monywa has the largest included armed-event total, <strong>1,039</strong>, followed by Kawkareik and Myaing. The ten highest-count townships account for <strong>15.9%</strong> of included armed events. This concentration warrants attention to neighbouring areas as well as individual townships. Logarithmic colour scaling keeps low and moderate counts visible without changing the underlying counts. Large polygon size does not imply high event burden, and a count is not a per-person risk. The civilian-event pattern should be assessed separately because event composition varies across the country.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Township</th>
+<th style="text-align: left;">State</th>
+<th style="text-align: right;">Armed_events</th>
+<th style="text-align: right;">Civilian_events</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Monywa</td>
+<td style="text-align: left;">Sagaing</td>
+<td style="text-align: right;">1039</td>
+<td style="text-align: right;">213</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Kawkareik</td>
+<td style="text-align: left;">Kayin</td>
+<td style="text-align: right;">946</td>
+<td style="text-align: right;">36</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Myaing</td>
+<td style="text-align: left;">Magway</td>
+<td style="text-align: right;">934</td>
+<td style="text-align: right;">110</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Kale</td>
+<td style="text-align: left;">Sagaing</td>
+<td style="text-align: right;">886</td>
+<td style="text-align: right;">175</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Hpakant</td>
+<td style="text-align: left;">Kachin</td>
+<td style="text-align: right;">854</td>
+<td style="text-align: right;">169</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Shwebo</td>
+<td style="text-align: left;">Sagaing</td>
+<td style="text-align: right;">806</td>
+<td style="text-align: right;">141</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Madaya</td>
+<td style="text-align: left;">Mandalay</td>
+<td style="text-align: right;">789</td>
+<td style="text-align: right;">162</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Nawnghkio</td>
+<td style="text-align: left;">Shan (North)</td>
+<td style="text-align: right;">788</td>
+<td style="text-align: right;">34</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Kyaukkyi</td>
+<td style="text-align: left;">Bago (East)</td>
+<td style="text-align: right;">777</td>
+<td style="text-align: right;">35</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Yesagyo</td>
+<td style="text-align: left;">Magway</td>
+<td style="text-align: right;">760</td>
+<td style="text-align: right;">143</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figures/02-monthly-trend.png" class="img-fluid" alt="Monthly national totals of armed events and violence against civilians across 57 months."></p>
+<p><strong>Interpretation.</strong> The highest national monthly armed-event total is <strong>1,465 in November 2023</strong>. The matched January–September comparison contains 9,961 events in 2024 and 8,727 in 2025, a <strong>-12.4%</strong> change. This equal-season comparison avoids comparing nine months against twelve. National changes can coexist with local increases and decreases; the scan below asks about redistribution after controlling the overall event totals.</p>
+<p><img src="figures/03-cube-heatmap.png" class="img-fluid" alt="Monthly event-count heatmap for the twelve townships with the highest cumulative armed-event totals."></p>
+<p><strong>Interpretation.</strong> The leading townships do not contribute evenly in every month. The heatmap retains quiet months and displays local timing that cumulative maps conceal. It is a descriptive view of the twelve largest totals, not an unbiased selection for trend testing. Statistical tests use <strong>all 330 townships and all 57 months</strong>. Repeated high counts can motivate persistent-cluster investigation, while late concentrations can motivate emerging-pattern analysis; colour alone does not establish either classification.</p>
+</section>
+<section id="spatial-weights-and-statistical-assumptions" class="level2">
+<h2 class="anchored" data-anchor-id="spatial-weights-and-statistical-assumptions">4. Spatial weights and statistical assumptions</h2>
+<p>The main graph uses <strong>queen contiguity</strong>, with a 1-metre topology snap tolerance. Neighbourhoods do not follow roads or territorial control. There are 3 isolated polygons in the original graph; each is connected to its nearest representative-point neighbour, and the link is made symmetric. This keeps every township in inference but introduces a modelling assumption, especially for remote islands.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">item</th>
+<th style="text-align: right;">value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Original connected components</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Original isolated townships</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Final connected components</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Minimum neighbours</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Maximum neighbours</td>
+<td style="text-align: right;">11</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">from</th>
+<th style="text-align: left;">to</th>
+<th style="text-align: right;">distance_km</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">MMR011003</td>
+<td style="text-align: left;">MMR011001</td>
+<td style="text-align: right;">15.694</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MMR012012</td>
+<td style="text-align: left;">MMR012013</td>
+<td style="text-align: right;">42.760</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MMR013032</td>
+<td style="text-align: left;">MMR017004</td>
+<td style="text-align: right;">184.225</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The longest added link is <strong>184.2 km</strong>. These links describe an analytical graph, not access or interaction. Island-specific findings require particular caution. Local Moran’s I uses row-standardised queen weights with the focal township excluded. Gi* includes the focal township and binary weights; scaling an entire row by a constant leaves Gi* unchanged. The six-nearest-neighbour sensitivity provides a distinct geography with variable distance ranges.</p>
+<p>Local Moran tests a focal township’s deviation from the overall mean together with the weighted neighbour deviation. Positive association can be high–high or low–low; negative association can be high–low or low–high. Gi* tests the concentration of high or low counts around the township. These are complementary questions, so their significant sets need not coincide.</p>
+<p>Conditional permutation tests hold the focal value fixed and permute the remaining values under a spatial-exchangeability null. <code>localmoran_perm()</code> and <code>localG_perm()</code> use 999 simulations, two-sided alternatives and no repeated draw within a simulated neighbourhood. We use their <strong>two-sided rank permutation p-values</strong>, not the half-tail <code>Pr(folded) Sim</code> column. Gi* signs and trends use the conventional analytical Gi* z-score returned by <code>localG_perm()</code>, which matches <code>localG()</code>. The conditional permutation distribution supplies the p-value; its separately standardised <code>StdDev.Gi</code> internal column is not used as the time series. Conditional inference asks whether the neighbourhood is unusual given the focal count.</p>
+<p>Maps colour only <strong>p &lt; 0.05</strong> features. This nominal threshold follows the assignment. It is exploratory across many tests: Benjamini–Hochberg q-values are exported per outcome, and q &lt; 0.05 hotspot maps provide a more cautious comparison. FDR adjustment does not remove reporting bias or prove causation.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">exists</span>(<span class="st">"cube"</span>)) <span class="fu">source</span>(<span class="st">"take-home exercise2/R/prepare.R"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">20261023</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(townships); nt <span class="ot">&lt;-</span> <span class="fu">length</span>(months)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>graph_warnings <span class="ot">&lt;-</span> <span class="fu">character</span>()</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>queen_original <span class="ot">&lt;-</span> <span class="fu">withCallingHandlers</span>(</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">poly2nb</span>(townships,<span class="at">queen=</span><span class="cn">TRUE</span>,<span class="at">snap=</span><span class="dv">1</span>,<span class="at">row.names=</span>townships<span class="sc">$</span>TS_PCODE),</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">warning=</span><span class="cf">function</span>(w) {</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">grepl</span>(<span class="st">"no neighbours|sub-graphs"</span>,<span class="fu">conditionMessage</span>(w))) {</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>      graph_warnings <span class="ot">&lt;&lt;-</span> <span class="fu">c</span>(graph_warnings,<span class="fu">conditionMessage</span>(w)); <span class="fu">invokeRestart</span>(<span class="st">"muffleWarning"</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>queen <span class="ot">&lt;-</span> queen_original</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>isolated <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">card</span>(queen)<span class="sc">==</span><span class="dv">0</span>L)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>centres <span class="ot">&lt;-</span> <span class="fu">st_coordinates</span>(<span class="fu">st_point_on_surface</span>(<span class="fu">st_geometry</span>(townships)))</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>distance_m <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">dist</span>(centres))</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="fu">diag</span>(distance_m) <span class="ot">&lt;-</span> <span class="cn">Inf</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>bridges <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">from=</span><span class="fu">character</span>(),<span class="at">to=</span><span class="fu">character</span>(),<span class="at">distance_km=</span><span class="fu">double</span>())</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(isolated)) <span class="cf">for</span> (i <span class="cf">in</span> isolated) {</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  j <span class="ot">&lt;-</span> <span class="fu">which.min</span>(distance_m[i,])</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  queen[[i]] <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(j)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  queen[[j]] <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">sort</span>(<span class="fu">unique</span>(<span class="fu">c</span>(queen[[j]],i))))</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  bridges <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(bridges,<span class="fu">tibble</span>(<span class="at">from=</span>townships<span class="sc">$</span>TS_PCODE[i],<span class="at">to=</span>townships<span class="sc">$</span>TS_PCODE[j],<span class="at">distance_km=</span>distance_m[i,j]<span class="sc">/</span><span class="dv">1000</span>))</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(queen,<span class="st">"sym"</span>) <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(<span class="fu">tibble</span>(<span class="at">item=</span><span class="fu">c</span>(<span class="st">"Original connected components"</span>,<span class="st">"Original isolated townships"</span>,</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Final connected components"</span>,<span class="st">"Minimum neighbours"</span>,<span class="st">"Maximum neighbours"</span>),</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">value=</span><span class="fu">c</span>(<span class="fu">n.comp.nb</span>(queen_original)<span class="sc">$</span>nc,<span class="fu">length</span>(isolated),<span class="fu">n.comp.nb</span>(queen)<span class="sc">$</span>nc,<span class="fu">min</span>(<span class="fu">card</span>(queen)),<span class="fu">max</span>(<span class="fu">card</span>(queen)))),</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.path</span>(base_dir,<span class="st">"results/graph-diagnostics.csv"</span>))</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>lw <span class="ot">&lt;-</span> <span class="fu">nb2listw</span>(queen,<span class="at">style=</span><span class="st">"W"</span>,<span class="at">zero.policy=</span><span class="cn">TRUE</span>)</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>self_nb <span class="ot">&lt;-</span> <span class="fu">include.self</span>(queen)</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>lw_star <span class="ot">&lt;-</span> <span class="fu">nb2listw</span>(self_nb,<span class="at">style=</span><span class="st">"B"</span>,<span class="at">zero.policy=</span><span class="cn">TRUE</span>)</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(bridges,<span class="fu">file.path</span>(base_dir,<span class="st">"results/island-bridges.csv"</span>))</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>edges <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(<span class="fu">lapply</span>(<span class="fu">seq_len</span>(n),<span class="cf">function</span>(i) <span class="fu">tibble</span>(<span class="at">from=</span>townships<span class="sc">$</span>TS_PCODE[i],<span class="at">to=</span>townships<span class="sc">$</span>TS_PCODE[queen[[i]]])))</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(edges,<span class="fu">file.path</span>(base_dir,<span class="st">"results/neighbour-edges.csv"</span>))</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>variables <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"armed_events"</span>,<span class="st">"civilian_events"</span>)</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>labels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">armed_events=</span><span class="st">"Armed events"</span>,<span class="at">civilian_events=</span><span class="st">"Violence against civilians"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="local-measures-of-spatial-association" class="level2">
+<h2 class="anchored" data-anchor-id="local-measures-of-spatial-association">5. Local measures of spatial association</h2>
+<section id="global-context-and-local-morans-i" class="level3">
+<h3 class="anchored" data-anchor-id="global-context-and-local-morans-i">5.1 Global context and Local Moran’s I</h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">variable</th>
+<th style="text-align: right;">moran_i</th>
+<th style="text-align: right;">permutation_p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Armed events</td>
+<td style="text-align: right;">0.491</td>
+<td style="text-align: right;">0.001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Violence against civilians</td>
+<td style="text-align: right;">0.473</td>
+<td style="text-align: right;">0.001</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The global permutation test is one-sided for positive association and provides context. It cannot identify the contributing townships; that requires the local tests below.</p>
+<p><img src="figures/04-local-moran.png" class="img-fluid" alt="Local Moran cluster and outlier maps, with only nominally significant townships coloured."></p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">variable</th>
+<th style="text-align: left;">moran_class</th>
+<th style="text-align: right;">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Armed events</td>
+<td style="text-align: left;">High-high</td>
+<td style="text-align: right;">35</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Armed events</td>
+<td style="text-align: left;">Low-high</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Armed events</td>
+<td style="text-align: left;">Low-low</td>
+<td style="text-align: right;">49</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Armed events</td>
+<td style="text-align: left;">Not significant</td>
+<td style="text-align: right;">245</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Violence against civilians</td>
+<td style="text-align: left;">High-high</td>
+<td style="text-align: right;">34</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Violence against civilians</td>
+<td style="text-align: left;">Low-high</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Violence against civilians</td>
+<td style="text-align: left;">Low-low</td>
+<td style="text-align: right;">39</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Violence against civilians</td>
+<td style="text-align: left;">Not significant</td>
+<td style="text-align: right;">255</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>Interpretation.</strong> The armed-event analysis identifies <strong>35 high–high townships</strong> and <strong>1 spatial outliers</strong> at nominal p &lt; 0.05. High–high signals neighbouring concentrations rather than a township acting alone. High–low and low–high indicate contrasts across township borders, which can motivate boundary and reporting-quality checks before substantive explanation. The civilian-event result is a separate outcome, not independent confirmation, because those records also contribute to armed-event totals. Grey townships fail the nominal test; their counts may still matter operationally.</p>
+</section>
+<section id="local-gi-and-multiple-comparisons" class="level3">
+<h3 class="anchored" data-anchor-id="local-gi-and-multiple-comparisons">5.2 Local Gi* and multiple comparisons</h3>
+<p><img src="figures/05-local-gi.png" class="img-fluid" alt="Significant local Gi star hot and cold spots for both event outcomes."></p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">variable</th>
+<th style="text-align: right;">Hot_p05</th>
+<th style="text-align: right;">Cold_p05</th>
+<th style="text-align: right;">Hot_q05</th>
+<th style="text-align: right;">Moran_q05</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Armed events</td>
+<td style="text-align: right;">37</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: right;">47</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Violence against civilians</td>
+<td style="text-align: right;">35</td>
+<td style="text-align: right;">39</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">46</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>Interpretation.</strong> There are <strong>37 armed-event hotspots</strong> and <strong>35 civilian-event hotspots</strong> at the nominal threshold. The two maps distinguish broad armed-event burden from the narrower civilian-event concentration. A local Gi* result reflects the whole specified neighbourhood, including the focal township. It must not be read as a precise incident forecast or an estimate of the township’s population risk.</p>
+<p><img src="figures/06-gi-fdr.png" class="img-fluid" alt="Gi star hotspots retained after Benjamini Hochberg false discovery rate adjustment."></p>
+<p><strong>Interpretation.</strong> After BH adjustment within each outcome, <strong>24 armed-event hotspots</strong> and <strong>23 civilian-event hotspots</strong> remain. Features that disappear are weaker evidence under the multiple-testing perspective; this does not establish that their original signal was false. Dependence between neighbouring tests and finite permutation resolution also affect adjustment. Priorities supported by both nominal and adjusted results are more defensible starting points for contextual review.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>run_lmsa <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">listw=</span>lw, <span class="at">star_listw=</span>lw_star, <span class="at">seed=</span><span class="dv">20261023</span>L) {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  lm <span class="ot">&lt;-</span> <span class="fu">localmoran_perm</span>(x,listw,<span class="at">nsim=</span><span class="dv">999</span>,<span class="at">alternative=</span><span class="st">"two.sided"</span>,<span class="at">iseed=</span>seed,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">no_repeat_in_row=</span><span class="cn">TRUE</span>,<span class="at">zero.policy=</span><span class="cn">TRUE</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  gp <span class="ot">&lt;-</span> <span class="fu">localG_perm</span>(x,star_listw,<span class="at">nsim=</span><span class="dv">999</span>,<span class="at">alternative=</span><span class="st">"two.sided"</span>,<span class="at">iseed=</span>seed,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">no_repeat_in_row=</span><span class="cn">TRUE</span>,<span class="at">zero.policy=</span><span class="cn">TRUE</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  internals <span class="ot">&lt;-</span> <span class="fu">attr</span>(gp,<span class="st">"internals"</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  z <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">scale</span>(x)); lag_z <span class="ot">&lt;-</span> <span class="fu">lag.listw</span>(listw,z,<span class="at">zero.policy=</span><span class="cn">TRUE</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> lm[,<span class="st">"Pr(z != E(Ii)) Sim"</span>]</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  group <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(z<span class="sc">&gt;</span><span class="dv">0</span> <span class="sc">&amp;</span> lag_z<span class="sc">&gt;</span><span class="dv">0</span>,<span class="st">"High-high"</span>,<span class="fu">ifelse</span>(z<span class="sc">&lt;</span><span class="dv">0</span> <span class="sc">&amp;</span> lag_z<span class="sc">&lt;</span><span class="dv">0</span>,<span class="st">"Low-low"</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ifelse</span>(z<span class="sc">&gt;</span><span class="dv">0</span> <span class="sc">&amp;</span> lag_z<span class="sc">&lt;</span><span class="dv">0</span>,<span class="st">"High-low"</span>,<span class="st">"Low-high"</span>)))</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">TS_PCODE=</span>townships<span class="sc">$</span>TS_PCODE,<span class="at">local_i=</span>lm[,<span class="st">"Ii"</span>],<span class="at">local_i_p=</span>p,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">local_i_q=</span><span class="fu">p.adjust</span>(p,<span class="st">"BH"</span>),<span class="at">quadrant=</span>group,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">moran_class=</span><span class="fu">ifelse</span>(p<span class="sc">&lt;</span>.<span class="dv">05</span>,group,<span class="st">"Not significant"</span>),</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">gi_z=</span><span class="fu">as.numeric</span>(gp),<span class="at">gi_analytic=</span><span class="fu">as.numeric</span>(<span class="fu">localG</span>(x,star_listw)),</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">gi_p=</span>internals[,<span class="st">"Pr(z != E(Gi)) Sim"</span>],</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">gi_q=</span><span class="fu">p.adjust</span>(internals[,<span class="st">"Pr(z != E(Gi)) Sim"</span>],<span class="st">"BH"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">gi_class=</span><span class="fu">ifelse</span>(gi_p<span class="sc">&gt;=</span>.<span class="dv">05</span>,<span class="st">"Not significant"</span>,<span class="fu">ifelse</span>(gi_z<span class="sc">&gt;</span><span class="dv">0</span>,<span class="st">"Hot spot"</span>,<span class="st">"Cold spot"</span>)))</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>lmsa <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(<span class="fu">lapply</span>(variables,<span class="cf">function</span>(v) <span class="fu">run_lmsa</span>(townships[[v]]) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">variable=</span>v)))</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(lmsa <span class="sc">|&gt;</span> <span class="fu">left_join</span>(<span class="fu">st_drop_geometry</span>(townships) <span class="sc">|&gt;</span> <span class="fu">select</span>(TS_PCODE,TS,ST),<span class="at">by=</span><span class="st">"TS_PCODE"</span>),</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>          <span class="fu">file.path</span>(base_dir,<span class="st">"results/lmsa.csv"</span>))</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>global <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(<span class="fu">lapply</span>(variables,<span class="cf">function</span>(v) {</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">20261023</span>)</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  g <span class="ot">&lt;-</span> <span class="fu">moran.mc</span>(townships[[v]],lw,<span class="at">nsim=</span><span class="dv">999</span>,<span class="at">alternative=</span><span class="st">"greater"</span>,<span class="at">zero.policy=</span><span class="cn">TRUE</span>)</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">variable=</span>v,<span class="at">moran_i=</span><span class="fu">as.numeric</span>(g<span class="sc">$</span>statistic),<span class="at">permutation_p=</span>g<span class="sc">$</span>p.value)</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>}))</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(global,<span class="fu">file.path</span>(base_dir,<span class="st">"results/global-moran.csv"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+</section>
+<section id="emerging-hotspot-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="emerging-hotspot-analysis">6. Emerging hotspot analysis</h2>
+<section id="a-genuinely-spatiotemporal-gi-neighbourhood" class="level3">
+<h3 class="anchored" data-anchor-id="a-genuinely-spatiotemporal-gi-neighbourhood">6.1 A genuinely spatiotemporal Gi* neighbourhood</h3>
+<p>For each township-month, the neighbourhood contains <strong>the township and its queen neighbours in the current month and the previous month</strong>. January 2021 has no fabricated preceding data, so its neighbourhood uses the current month only. The resulting directed time graph contains no future observations. Values are ordered month-first and PCode-second, with assertions on the cube dimensions and totals.</p>
+<p>Gi* is evaluated over the complete space-time population. Conditional permutations fix the focal cell and draw neighbour values from the other space-time cells. This global space-time exchangeability null is strong: national temporal changes, seasonal patterns and reporting differences can affect the result. Thus the statistic measures concentration relative to the pooled observation period, <strong>not only relative to other townships in the same month</strong>. The equal-season conditional scan provides a complementary check on recent geographic redistribution.</p>
+<p>For reference, binary analytical Gi* standardises the neighbourhood sum as</p>
+<p><span class="math display">\[G_i^* = \frac{\sum_j w_{ij}x_j-\bar{x}\sum_j w_{ij}}{S\sqrt{\{N\sum_j w_{ij}^2-(\sum_j w_{ij})^2\}/(N-1)}}.\]</span></p>
+<p>Here <span class="math inline">\(N\)</span> is the number of township-month cells and <span class="math inline">\(S\)</span> is their population standard deviation. <strong>The Gi* series supplied to MK uses this analytical z-score</strong>, also returned by <code>localG_perm()</code>. Conditional permutations supply the bin-level p-values while holding the focal cell fixed. For spatial tests, <code>gi_z</code> and the separately calculated <code>gi_analytic</code> match; the helper verification independently checks the formula against <code>spdep::localG()</code>.</p>
+</section>
+<section id="mannkendall-dependence-and-classification" class="level3">
+<h3 class="anchored" data-anchor-id="mannkendall-dependence-and-classification">6.2 Mann–Kendall, dependence and classification</h3>
+<p>The two-sided Mann–Kendall test is applied to each township’s 57 ordered Gi* scores. Positive Kendall tau indicates an increasing rank trend in relative concentration; negative tau indicates a decrease. It does not estimate an event-count growth rate. Conventional p-values assume temporal independence, which is unlikely because neighbouring months overlap.</p>
+<p>We therefore also report <strong>three-month and six-month block permutation p-values</strong>, using 499 reordered block sequences per township. Within-block order is retained. These are approximate sensitivity checks, not an exact serial-correlation correction; stationarity of blocks, short series and the shorter final six-month block remain limitations. BH q-values are computed for MK within each outcome, and bin-level Gi* q-values are computed over the complete cube within each outcome.</p>
+<p>Classification follows the history of significant <strong>same-sign</strong> Gi* bins at p &lt; 0.05: new (first hot/cold bin at the end), consecutive (a first uninterrupted terminal run), persistent/intensifying/diminishing (at least 90% same-sign significant bins, with trend distinguishing the latter two), historical (at least 90% but not significant in the final bin), sporadic (intermittent with no opposite-sign significant history) and oscillating (significant final bin with an opposite-sign history). Other combinations are labelled no pattern. Exact rules are in <a href="R/methods.R">methods.R</a>, based on <a href="https://pro.arcgis.com/en/pro-app/2.6/tool-reference/space-time-pattern-mining/learnmoreemerging.htm">Esri’s published 2.6 history definitions</a>; that version does not require a significant final bin for the sporadic class. This is a transparent R implementation with the stated weights and thresholds, not a claim to reproduce current ArcGIS defaults.</p>
+<p>The <strong>primary EHSA map additionally requires MK p &lt; 0.05</strong>, as requested by the assignment. Thus a persistent class with no significant trend is retained in the download table but left grey on that map. Classification p-values and MK p-values answer different questions; neither is silently substituted for the other.</p>
+<p><img src="figures/07-ehsa.png" class="img-fluid" alt="Emerging hotspot classifications shown only for townships with significant Mann Kendall trends."></p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">variable</th>
+<th style="text-align: right;">MK_p05</th>
+<th style="text-align: right;">MK_q05</th>
+<th style="text-align: right;">Block3_p05</th>
+<th style="text-align: right;">Block6_p05</th>
+<th style="text-align: right;">Displayed_patterns</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Armed events</td>
+<td style="text-align: right;">221</td>
+<td style="text-align: right;">210</td>
+<td style="text-align: right;">156</td>
+<td style="text-align: right;">125</td>
+<td style="text-align: right;">142</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Violence against civilians</td>
+<td style="text-align: right;">199</td>
+<td style="text-align: right;">179</td>
+<td style="text-align: right;">137</td>
+<td style="text-align: right;">92</td>
+<td style="text-align: right;">105</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<section id="armed-events" class="level4">
+<h4 class="anchored" data-anchor-id="armed-events">Armed events</h4>
+<p><strong>Intensifying cold spot — 3 township(s).</strong> Examples are Matman, Mongping, Mongyawng. Median Kendall tau is -0.271; 0 of these townships retain p &lt; 0.05 under three-month block reordering and 1 under six-month blocks. The classification describes the timing and direction of relative event concentration. Local validation is needed before interpreting it as a change in humanitarian conditions.</p>
+<p><strong>New cold spot — 1 township(s).</strong> Examples are Kutkai. Median Kendall tau is -0.375; 1 of these townships retain p &lt; 0.05 under three-month block reordering and 1 under six-month blocks. The classification describes the timing and direction of relative event concentration. Local validation is needed before interpreting it as a change in humanitarian conditions.</p>
+<p><strong>New hot spot — 1 township(s).</strong> Examples are Hkamti. Median Kendall tau is 0.181; 0 of these townships retain p &lt; 0.05 under three-month block reordering and 0 under six-month blocks. The classification describes the timing and direction of relative event concentration. Local validation is needed before interpreting it as a change in humanitarian conditions.</p>
+<p><strong>Oscillating cold spot — 1 township(s).</strong> Examples are Laukkaing. Median Kendall tau is -0.239; 0 of these townships retain p &lt; 0.05 under three-month block reordering and 0 under six-month blocks. The classification describes the timing and direction of relative event concentration. Local validation is needed before interpreting it as a change in humanitarian conditions.</p>
+<p><strong>Oscillating hot spot — 15 township(s).</strong> Examples are Seikphyu, Ramree, Singu, Kawkareik, Palaw. Median Kendall tau is 0.342; 9 of these townships retain p &lt; 0.05 under three-month block reordering and 7 under six-month blocks. The classification describes the timing and direction of relative event concentration. Local validation is needed before interpreting it as a change in humanitarian conditions.</p>
+<p><strong>Sporadic cold spot — 103 township(s).</strong> Examples are Minhla, Monyo, Letpadan, Mahlaing, Kyaukpadaung. Median Kendall tau is -0.277; 78 of these townships retain p &lt; 0.05 under three-month block reordering and 65 under six-month blocks. The classification describes the timing and direction of relative event concentration. Local validation is needed before interpreting it as a change in humanitarian conditions.</p>
+<p><strong>Sporadic hot spot — 18 township(s).</strong> Examples are Nawnghkio, Kyaukkyi, Shwegyin, Hpapun, Kyaikmaraw. Median Kendall tau is 0.379; 16 of these townships retain p &lt; 0.05 under three-month block reordering and 10 under six-month blocks. The classification describes the timing and direction of relative event concentration. Local validation is needed before interpreting it as a change in humanitarian conditions.</p>
+</section>
+<section id="violence-against-civilians" class="level4">
+<h4 class="anchored" data-anchor-id="violence-against-civilians">Violence against civilians</h4>
+<p><strong>New hot spot — 5 township(s).</strong> Examples are Salin, Sidoktaya, Pwintbyu, Mogoke, Thazi. Median Kendall tau is 0.303; 3 of these townships retain p &lt; 0.05 under three-month block reordering and 1 under six-month blocks. The classification describes the timing and direction of relative event concentration. Local validation is needed before interpreting it as a change in humanitarian conditions.</p>
+<p><strong>Oscillating hot spot — 9 township(s).</strong> Examples are Kyaukpadaung, Chauk, Ngape, Myittha, Meiktila. Median Kendall tau is 0.328; 7 of these townships retain p &lt; 0.05 under three-month block reordering and 5 under six-month blocks. The classification describes the timing and direction of relative event concentration. Local validation is needed before interpreting it as a change in humanitarian conditions.</p>
+<p><strong>Sporadic cold spot — 58 township(s).</strong> Examples are Thanlyin, Hlegu, Ann, Dagon, Kyethi. Median Kendall tau is -0.242; 39 of these townships retain p &lt; 0.05 under three-month block reordering and 25 under six-month blocks. The classification describes the timing and direction of relative event concentration. Local validation is needed before interpreting it as a change in humanitarian conditions.</p>
+<p><strong>Sporadic hot spot — 33 township(s).</strong> Examples are Minhla, Chanmyathazi, Mahaaungmyay, Pyigyitagon, Paungde. Median Kendall tau is -0.246; 19 of these townships retain p &lt; 0.05 under three-month block reordering and 15 under six-month blocks. The classification describes the timing and direction of relative event concentration. Local validation is needed before interpreting it as a change in humanitarian conditions.</p>
+<p><img src="figures/08-mk-trend.png" class="img-fluid" alt="Kendall tau maps for significant trends in space-time Gi star values."></p>
+<p><strong>Interpretation.</strong> This map separates the direction and strength of the rank trend from the EHSA history label. Positive and negative tau can appear among townships with similar cumulative totals because their event timing differs. A falling relative-clustering score can coexist with an increase in absolute counts if other areas increase more rapidly. Grey cells include non-significant tests and are not classified as stable or safe. Compare the nominal trends with the q-values and block-reordering results before treating them as robust temporal evidence.</p>
+<p><img src="figures/09-gi-trajectories.png" class="img-fluid" alt="Time series of Gi star scores for four townships with the strongest absolute armed-event Kendall trends."></p>
+<p><strong>Interpretation.</strong> The four series are selected by absolute Kendall tau, so they illustrate strong trends rather than represent typical townships. Monthly variability remains visible even when the overall rank trend is significant. Shared current/previous-month neighbourhoods induce temporal dependence; the sensitivity checks therefore matter. The y-axis is a standardised concentration score, not a monthly count, probability or rate. Changes should be read alongside the complete count cube and the spatial redistribution analysis.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Space-time order is month-major, PCode-minor, identical to the complete cube.</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>st_list <span class="ot">&lt;-</span> <span class="fu">space_time_nb</span>(self_nb,nt,<span class="dv">1</span>L)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>as_nb <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">class</span>(x) <span class="ot">&lt;-</span> <span class="st">"nb"</span>; <span class="fu">attr</span>(x,<span class="st">"region.id"</span>) <span class="ot">&lt;-</span> <span class="fu">as.character</span>(<span class="fu">seq_along</span>(x))</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">attr</span>(x,<span class="st">"sym"</span>) <span class="ot">&lt;-</span> <span class="cn">FALSE</span>; <span class="fu">attr</span>(x,<span class="st">"type"</span>) <span class="ot">&lt;-</span> <span class="st">"user"</span>; <span class="fu">attr</span>(x,<span class="st">"self.included"</span>) <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  x</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>st_listw <span class="ot">&lt;-</span> <span class="fu">nb2listw</span>(<span class="fu">as_nb</span>(st_list),<span class="at">style=</span><span class="st">"B"</span>,<span class="at">zero.policy=</span><span class="cn">TRUE</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>stgi <span class="ot">&lt;-</span> <span class="fu">list</span>(); ehsa <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (v <span class="cf">in</span> variables) {</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">"Space-time Gi* permutations: "</span>,v)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  gp <span class="ot">&lt;-</span> <span class="fu">localG_perm</span>(cube[[v]],st_listw,<span class="at">nsim=</span><span class="dv">999</span>,<span class="at">alternative=</span><span class="st">"two.sided"</span>,</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">iseed=</span><span class="dv">20261023</span>L,<span class="at">no_repeat_in_row=</span><span class="cn">TRUE</span>,<span class="at">zero.policy=</span><span class="cn">TRUE</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  bin <span class="ot">&lt;-</span> cube <span class="sc">|&gt;</span> <span class="fu">select</span>(TS_PCODE,month) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">variable=</span>v,</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">gi_z=</span><span class="fu">as.numeric</span>(gp),<span class="at">gi_p=</span><span class="fu">attr</span>(gp,<span class="st">"internals"</span>)[,<span class="st">"Pr(z != E(Gi)) Sim"</span>])</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  bin<span class="sc">$</span>gi_q <span class="ot">&lt;-</span> <span class="fu">p.adjust</span>(bin<span class="sc">$</span>gi_p,<span class="st">"BH"</span>)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  stgi[[v]] <span class="ot">&lt;-</span> bin</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  eh <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(<span class="fu">lapply</span>(<span class="fu">seq_len</span>(n),<span class="cf">function</span>(i) {</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    z <span class="ot">&lt;-</span> bin<span class="sc">$</span>gi_z[<span class="fu">seq</span>(i,<span class="fu">nrow</span>(bin),<span class="at">by=</span>n)]; p <span class="ot">&lt;-</span> bin<span class="sc">$</span>gi_p[<span class="fu">seq</span>(i,<span class="fu">nrow</span>(bin),<span class="at">by=</span>n)]</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    mk <span class="ot">&lt;-</span> <span class="fu">mk_test</span>(z)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tibble</span>(<span class="at">TS_PCODE=</span>townships<span class="sc">$</span>TS_PCODE[i],<span class="at">variable=</span>v,<span class="at">tau=</span>mk<span class="sc">$</span>tau,<span class="at">mk_p=</span>mk<span class="sc">$</span>p,</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">block3_p=</span><span class="fu">block_mk_p</span>(z,<span class="dv">3</span>L,<span class="dv">499</span>L,<span class="dv">20261023</span>L<span class="sc">+</span>i),</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">block6_p=</span><span class="fu">block_mk_p</span>(z,<span class="dv">6</span>L,<span class="dv">499</span>L,<span class="dv">20261023</span>L<span class="sc">+</span>i),</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>      <span class="at">hot_months=</span><span class="fu">sum</span>(z<span class="sc">&gt;</span><span class="dv">0</span> <span class="sc">&amp;</span> p<span class="sc">&lt;</span>.<span class="dv">05</span>),<span class="at">cold_months=</span><span class="fu">sum</span>(z<span class="sc">&lt;</span><span class="dv">0</span> <span class="sc">&amp;</span> p<span class="sc">&lt;</span>.<span class="dv">05</span>),</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">last_z=</span><span class="fu">tail</span>(z,<span class="dv">1</span>),<span class="at">last_p=</span><span class="fu">tail</span>(p,<span class="dv">1</span>),<span class="at">classification=</span><span class="fu">ehsa_class</span>(z,p,mk<span class="sc">$</span>tau,mk<span class="sc">$</span>p))</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  }))</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>  eh<span class="sc">$</span>mk_q <span class="ot">&lt;-</span> <span class="fu">p.adjust</span>(eh<span class="sc">$</span>mk_p,<span class="st">"BH"</span>)</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>  eh<span class="sc">$</span>map_class <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(eh<span class="sc">$</span>mk_p<span class="sc">&lt;</span>.<span class="dv">05</span> <span class="sc">&amp;</span> eh<span class="sc">$</span>classification<span class="sc">!=</span><span class="st">"No pattern detected"</span>,eh<span class="sc">$</span>classification,<span class="st">"Not displayed"</span>)</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>  ehsa[[v]] <span class="ot">&lt;-</span> eh</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>stgi <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(stgi); ehsa <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(ehsa)</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(stgi,<span class="fu">file.path</span>(base_dir,<span class="st">"results/space-time-gi.csv"</span>))</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(ehsa <span class="sc">|&gt;</span> <span class="fu">left_join</span>(<span class="fu">st_drop_geometry</span>(townships) <span class="sc">|&gt;</span> <span class="fu">select</span>(TS_PCODE,TS,ST),<span class="at">by=</span><span class="st">"TS_PCODE"</span>),</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>          <span class="fu">file.path</span>(base_dir,<span class="st">"results/ehsa.csv"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+</section>
+</section>
+<section id="robustness-and-scale" class="level2">
+<h2 class="anchored" data-anchor-id="robustness-and-scale">7. Robustness and scale</h2>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 14%">
+<col style="width: 15%">
+<col style="width: 7%">
+<col style="width: 23%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">variable</th>
+<th style="text-align: left;">scenario</th>
+<th style="text-align: right;">significant_moran</th>
+<th style="text-align: right;">hotspots</th>
+<th style="text-align: right;">retained_baseline_hotspots</th>
+<th style="text-align: right;">hotspot_jaccard</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Armed events</td>
+<td style="text-align: left;">six_nearest</td>
+<td style="text-align: right;">118</td>
+<td style="text-align: right;">43</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">0.600</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Armed events</td>
+<td style="text-align: left;">log1p_counts</td>
+<td style="text-align: right;">82</td>
+<td style="text-align: right;">52</td>
+<td style="text-align: right;">37</td>
+<td style="text-align: right;">0.712</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Armed events</td>
+<td style="text-align: left;">precision1_only</td>
+<td style="text-align: right;">87</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">35</td>
+<td style="text-align: right;">0.875</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Violence against civilians</td>
+<td style="text-align: left;">six_nearest</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">39</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">0.682</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Violence against civilians</td>
+<td style="text-align: left;">log1p_counts</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">43</td>
+<td style="text-align: right;">34</td>
+<td style="text-align: right;">0.773</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Violence against civilians</td>
+<td style="text-align: left;">precision1_only</td>
+<td style="text-align: right;">77</td>
+<td style="text-align: right;">36</td>
+<td style="text-align: right;">34</td>
+<td style="text-align: right;">0.919</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Three sensitivity checks vary a meaningful assumption: <strong>six nearest neighbours</strong> replaces polygon adjacency; <strong>log1p counts</strong> reduces domination by extreme totals; <strong>precision-1-only events</strong> reduces uncertainty in recorded location. Jaccard similarity is the intersection divided by the union of the baseline and alternative hotspot sets. Low agreement would mean that priorities depend strongly on the modelling choice; it is not hidden by showing only a preferred specification.</p>
+<p>The six-neighbour graph imposes interaction over longer distances in sparse regions and can differ from travel or conflict pathways. The log transformation changes the estimand from absolute burden toward broad relative variation. Precision-1-only data discard many events and may select places with better reporting, so lower counts do not imply better measurement overall. Results supported across these views deserve more attention, but none removes the modifiable areal unit problem or underreporting.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>knn_nb <span class="ot">&lt;-</span> <span class="fu">knn2nb</span>(<span class="fu">knearneigh</span>(centres,<span class="at">k=</span><span class="dv">6</span>),<span class="at">sym=</span><span class="cn">TRUE</span>,<span class="at">row.names=</span>townships<span class="sc">$</span>TS_PCODE)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>knn_lw <span class="ot">&lt;-</span> <span class="fu">nb2listw</span>(knn_nb,<span class="at">style=</span><span class="st">"W"</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>knn_star <span class="ot">&lt;-</span> <span class="fu">nb2listw</span>(<span class="fu">include.self</span>(knn_nb),<span class="at">style=</span><span class="st">"B"</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>sensitivity <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(<span class="fu">lapply</span>(variables,<span class="cf">function</span>(v) {</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  baseline <span class="ot">&lt;-</span> lmsa <span class="sc">|&gt;</span> <span class="fu">filter</span>(variable<span class="sc">==</span>v)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  alt <span class="ot">&lt;-</span> <span class="fu">run_lmsa</span>(townships[[v]],knn_lw,knn_star)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  log_counts <span class="ot">&lt;-</span> <span class="fu">run_lmsa</span>(<span class="fu">log1p</span>(townships[[v]]))</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  precise_count <span class="ot">&lt;-</span> <span class="cf">if</span>(v<span class="sc">==</span><span class="st">"armed_events"</span>) townships<span class="sc">$</span>precise_events <span class="cf">else</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.numeric</span>(<span class="fu">table</span>(<span class="fu">factor</span>(events<span class="sc">$</span>TS_PCODE[events<span class="sc">$</span>civilian<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> events<span class="sc">$</span>geo_precision<span class="sc">==</span><span class="dv">1</span>],<span class="at">levels=</span>townships<span class="sc">$</span>TS_PCODE)))</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  precise_lmsa <span class="ot">&lt;-</span> <span class="fu">run_lmsa</span>(precise_count)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(<span class="fu">lapply</span>(<span class="fu">c</span>(<span class="st">"six_nearest"</span>,<span class="st">"log1p_counts"</span>,<span class="st">"precision1_only"</span>),<span class="cf">function</span>(s) {</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    a <span class="ot">&lt;-</span> <span class="cf">switch</span>(s,<span class="at">six_nearest=</span>alt,<span class="at">log1p_counts=</span>log_counts,<span class="at">precision1_only=</span>precise_lmsa)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    main_hot <span class="ot">&lt;-</span> baseline<span class="sc">$</span>gi_class<span class="sc">==</span><span class="st">"Hot spot"</span>; alt_hot <span class="ot">&lt;-</span> a<span class="sc">$</span>gi_class<span class="sc">==</span><span class="st">"Hot spot"</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tibble</span>(<span class="at">variable=</span>v,<span class="at">scenario=</span>s,<span class="at">significant_moran=</span><span class="fu">sum</span>(a<span class="sc">$</span>local_i_p<span class="sc">&lt;</span>.<span class="dv">05</span>),<span class="at">hotspots=</span><span class="fu">sum</span>(alt_hot),</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">retained_baseline_hotspots=</span><span class="fu">sum</span>(main_hot <span class="sc">&amp;</span> alt_hot),</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">hotspot_jaccard=</span><span class="fu">ifelse</span>(<span class="fu">sum</span>(main_hot<span class="sc">|</span>alt_hot)<span class="sc">&gt;</span><span class="dv">0</span>,<span class="fu">sum</span>(main_hot <span class="sc">&amp;</span> alt_hot)<span class="sc">/</span><span class="fu">sum</span>(main_hot<span class="sc">|</span>alt_hot),<span class="cn">NA_real_</span>))</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  }))</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>}))</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(sensitivity,<span class="fu">file.path</span>(base_dir,<span class="st">"results/sensitivity.csv"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="value-added-a-conditional-spatial-scan-of-redistribution" class="level2">
+<h2 class="anchored" data-anchor-id="value-added-a-conditional-spatial-scan-of-redistribution">8. Value added: a conditional spatial scan of redistribution</h2>
+<section id="the-extra-analytical-question" class="level3">
+<h3 class="anchored" data-anchor-id="the-extra-analytical-question">8.1 The extra analytical question</h3>
+<p>Cumulative hotspots can remain high even when their share of national conflict falls. To distinguish burden from <strong>recent geographic redistribution</strong>, a one-sided conditional Bernoulli spatial scan compares <strong>January–September 2024</strong> with <strong>January–September 2025</strong>. These equal-season windows have the same length.</p>
+<p>Each recorded event receives an early/late label. The scan tests whether a spatial window has an unusually high <strong>late-event proportion</strong> relative to its complement. It conditions on the total number of events in each township and the national total of late events. Under the null, early/late labels are exchangeable within those fixed margins; simulations use a multivariate hypergeometric allocation. This directly controls the overall period totals without requiring an unavailable population denominator.</p>
+<p>Candidate windows contain each centre township and its nearest representative-point neighbours, with <strong>5, 9 or 17 townships</strong> in total; windows containing over 20% of all events are excluded. They are nearest-centre windows, not necessarily contiguous circles. A Bernoulli log-likelihood ratio scores late-proportion elevation. <strong>The maximum statistic across all 990 windows</strong> is recalculated in each of 999 simulations, yielding familywise Monte Carlo p-values. The strongest nonoverlapping significant windows are displayed; selection is performed only after the full-window correction.</p>
+<p>This is a conditional Bernoulli spatial scan, not the population-based Poisson scan and not an exact reproduction of a named software package. Its assumptions include comparable period-specific ascertainment and event-label exchangeability. Changes in reporting could mimic spatial redistribution. Radius choices and circular-neighbour approximations constrain detected shapes; event dependence is not explicitly modelled.</p>
+<p><img src="figures/10-spatial-scan.png" class="img-fluid" alt="Top nonoverlapping spatial scan clusters with a higher share of late-period events after familywise Monte Carlo correction."></p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">centre</th>
+<th style="text-align: right;">townships</th>
+<th style="text-align: right;">early</th>
+<th style="text-align: right;">late</th>
+<th style="text-align: right;">rr</th>
+<th style="text-align: right;">llr</th>
+<th style="text-align: right;">familywise_p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Kangyidaunt</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">31</td>
+<td style="text-align: right;">291</td>
+<td style="text-align: right;">1.968</td>
+<td style="text-align: right;">141.240</td>
+<td style="text-align: right;">0.001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pwintbyu</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">111</td>
+<td style="text-align: right;">412</td>
+<td style="text-align: right;">1.721</td>
+<td style="text-align: right;">116.337</td>
+<td style="text-align: right;">0.001</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Hlaingbwe</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">460</td>
+<td style="text-align: right;">742</td>
+<td style="text-align: right;">1.352</td>
+<td style="text-align: right;">58.419</td>
+<td style="text-align: right;">0.001</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>Cluster 1 (centre: Kangyidaunt).</strong> Its 17 townships record 31 early-period and 291 late-period events. The late-event proportion is 1.97 times that outside the window; familywise Monte Carlo p = 0.001. This ratio concerns the timing composition of recorded events, not residents’ risk. A significant result adds evidence of relative redistribution beyond a high cumulative count; it does not explain the cause.</p>
+<p><strong>Cluster 2 (centre: Pwintbyu).</strong> Its 9 townships record 111 early-period and 412 late-period events. The late-event proportion is 1.72 times that outside the window; familywise Monte Carlo p = 0.001. This ratio concerns the timing composition of recorded events, not residents’ risk. A significant result adds evidence of relative redistribution beyond a high cumulative count; it does not explain the cause.</p>
+<p><strong>Cluster 3 (centre: Hlaingbwe).</strong> Its 9 townships record 460 early-period and 742 late-period events. The late-event proportion is 1.35 times that outside the window; familywise Monte Carlo p = 0.001. This ratio concerns the timing composition of recorded events, not residents’ risk. A significant result adds evidence of relative redistribution beyond a high cumulative count; it does not explain the cause.</p>
+<p>The contribution is a controlled comparison of <strong>where the recent share changed</strong>, complementing the pooled Gi* trends and cumulative LMSA. Neither a scan cluster nor an EHSA label independently establishes territorial control or current civilian exposure.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Equal-season windows avoid a misleading comparison with the incomplete year 2025.</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>pair <span class="ot">&lt;-</span> cube <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">format</span>(month,<span class="st">"%Y"</span>) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"2024"</span>,<span class="st">"2025"</span>),<span class="fu">as.integer</span>(<span class="fu">format</span>(month,<span class="st">"%m"</span>))<span class="sc">&lt;=</span><span class="dv">9</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">period=</span><span class="fu">ifelse</span>(<span class="fu">format</span>(month,<span class="st">"%Y"</span>)<span class="sc">==</span><span class="st">"2025"</span>,<span class="st">"late"</span>,<span class="st">"early"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(TS_PCODE,period) <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="at">events=</span><span class="fu">sum</span>(armed_events),<span class="at">.groups=</span><span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from=</span>period,<span class="at">values_from=</span>events) <span class="sc">|&gt;</span> <span class="fu">arrange</span>(TS_PCODE)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">identical</span>(pair<span class="sc">$</span>TS_PCODE,townships<span class="sc">$</span>TS_PCODE))</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>tot <span class="ot">&lt;-</span> pair<span class="sc">$</span>early<span class="sc">+</span>pair<span class="sc">$</span>late; late <span class="ot">&lt;-</span> pair<span class="sc">$</span>late</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>national_late <span class="ot">&lt;-</span> <span class="fu">sum</span>(late); national_all <span class="ot">&lt;-</span> <span class="fu">sum</span>(tot)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>nearest <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">seq_len</span>(n),<span class="cf">function</span>(i) <span class="fu">c</span>(i,<span class="fu">order</span>(distance_m[i,])))</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>windows <span class="ot">&lt;-</span> <span class="fu">list</span>(); centres_i <span class="ot">&lt;-</span> <span class="fu">integer</span>(); sizes_i <span class="ot">&lt;-</span> <span class="fu">integer</span>()</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_len</span>(n)) <span class="cf">for</span> (k <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">5</span>L,<span class="dv">9</span>L,<span class="dv">17</span>L)) {</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  w <span class="ot">&lt;-</span> nearest[[i]][<span class="fu">seq_len</span>(k)]</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">sum</span>(tot[w])<span class="sc">&gt;</span><span class="dv">0</span> <span class="sc">&amp;&amp;</span> <span class="fu">sum</span>(tot[w])<span class="sc">&lt;=</span>.<span class="dv">2</span><span class="sc">*</span><span class="fu">sum</span>(tot)) {</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    windows[[<span class="fu">length</span>(windows)<span class="sc">+</span><span class="dv">1</span>L]] <span class="ot">&lt;-</span> w</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    centres_i <span class="ot">&lt;-</span> <span class="fu">c</span>(centres_i,i); sizes_i <span class="ot">&lt;-</span> <span class="fu">c</span>(sizes_i,k)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>membership <span class="ot">&lt;-</span> Matrix<span class="sc">::</span><span class="fu">sparseMatrix</span>(<span class="at">i=</span><span class="fu">rep</span>(<span class="fu">seq_along</span>(windows),<span class="fu">lengths</span>(windows)),<span class="at">j=</span><span class="fu">unlist</span>(windows),</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">x=</span><span class="dv">1</span>,<span class="at">dims=</span><span class="fu">c</span>(<span class="fu">length</span>(windows),n))</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>inside_tot <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(membership <span class="sc">%*%</span> tot)</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>inside_late <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(membership <span class="sc">%*%</span> late)</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>ll <span class="ot">&lt;-</span> <span class="fu">scan_llr</span>(inside_late,inside_tot,<span class="fu">sum</span>(late),<span class="fu">sum</span>(tot))</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">20261023</span>)</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>null_max <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">999</span>,{</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>  simulated <span class="ot">&lt;-</span> <span class="fu">conditional_labels</span>(tot,<span class="fu">sum</span>(late))</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">max</span>(<span class="fu">scan_llr</span>(<span class="fu">as.numeric</span>(membership <span class="sc">%*%</span> simulated),inside_tot,<span class="fu">sum</span>(late),<span class="fu">sum</span>(tot)))</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>scan <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">window=</span><span class="fu">seq_along</span>(windows),<span class="at">centre=</span>townships<span class="sc">$</span>TS[centres_i],<span class="at">centre_pcode=</span>townships<span class="sc">$</span>TS_PCODE[centres_i],</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">townships=</span>sizes_i,<span class="at">early=</span>inside_tot<span class="sc">-</span>inside_late,<span class="at">late=</span>inside_late,<span class="at">llr=</span>ll,</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">rr=</span>(inside_late<span class="sc">/</span>inside_tot)<span class="sc">/</span>((national_late<span class="sc">-</span>inside_late)<span class="sc">/</span>(national_all<span class="sc">-</span>inside_tot)),</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">familywise_p=</span><span class="fu">vapply</span>(ll,<span class="cf">function</span>(x)(<span class="dv">1</span><span class="sc">+</span><span class="fu">sum</span>(null_max<span class="sc">&gt;=</span>x<span class="fl">-1e-12</span>))<span class="sc">/</span><span class="dv">1000</span>,<span class="fu">numeric</span>(<span class="dv">1</span>))) <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(llr))</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Report strongest nonoverlapping windows; inference was corrected over ALL windows.</span></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>keep <span class="ot">&lt;-</span> <span class="fu">integer</span>(); used <span class="ot">&lt;-</span> <span class="fu">integer</span>()</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(scan))) {</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>  w <span class="ot">&lt;-</span> windows[[scan<span class="sc">$</span>window[j]]]</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (scan<span class="sc">$</span>familywise_p[j]<span class="sc">&lt;</span>.<span class="dv">05</span> <span class="sc">&amp;&amp;</span> <span class="sc">!</span><span class="fu">any</span>(w <span class="sc">%in%</span> used)) {</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>    keep <span class="ot">&lt;-</span> <span class="fu">c</span>(keep,j); used <span class="ot">&lt;-</span> <span class="fu">union</span>(used,w)</span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">length</span>(keep)<span class="sc">==</span><span class="dv">3</span>L) <span class="cf">break</span></span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>scan_top <span class="ot">&lt;-</span> scan[keep,]</span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>scan_members <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(<span class="fu">lapply</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(scan_top)),<span class="cf">function</span>(j)</span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">TS_PCODE=</span>townships<span class="sc">$</span>TS_PCODE[windows[[scan_top<span class="sc">$</span>window[j]]]],<span class="at">scan_cluster=</span><span class="fu">paste</span>(<span class="st">"Cluster"</span>,j))))</span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(scan,<span class="fu">file.path</span>(base_dir,<span class="st">"results/spatial-scan-windows.csv"</span>))</span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(scan_top,<span class="fu">file.path</span>(base_dir,<span class="st">"results/spatial-scan-top.csv"</span>))</span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(scan_members,<span class="fu">file.path</span>(base_dir,<span class="st">"results/spatial-scan-members.csv"</span>))</span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(<span class="fu">list</span>(<span class="at">lmsa=</span>lmsa,<span class="at">global=</span>global,<span class="at">ehsa=</span>ehsa,<span class="at">stgi=</span>stgi,<span class="at">queen=</span>queen,<span class="at">bridges=</span>bridges,</span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>             <span class="at">sensitivity=</span>sensitivity,<span class="at">scan=</span>scan,<span class="at">scan_top=</span>scan_top,<span class="at">scan_members=</span>scan_members),</span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>        <span class="fu">file.path</span>(base_dir,<span class="st">"data/derived/analysis.rds"</span>))</span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">"LMSA, EHSA, robustness checks and conditional spatial scan complete."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+</section>
+<section id="integrated-findings-and-peace-building-implications" class="level2">
+<h2 class="anchored" data-anchor-id="integrated-findings-and-peace-building-implications">9. Integrated findings and peace-building implications</h2>
+<p>The results distinguish three decisions. <strong>Cumulative burden</strong> identifies where sustained assessment capacity may be needed. <strong>Local association</strong> asks whether surrounding townships reinforce that burden or form contrasts worth checking. <strong>Temporal patterns and the conditional scan</strong> identify places where the historical geography changed. They should be combined with local partner reporting, displaced-population estimates and current access information.</p>
+<p>Potential humanitarian uses are to prioritise contextual verification in repeatedly supported clusters, review civilian protection needs separately from armed clashes, and monitor adjacent townships rather than treating administrative borders as barriers. Spatial outliers can also motivate a data-quality review. Resource allocation should not follow a p-value alone; absolute counts, affected population, vulnerability, operational access and source uncertainty all matter.</p>
+<p>These historical aggregate findings are suitable for a coursework assessment and broad peace-building discussion. They cannot supply real-time route guidance, safe-location advice or forecasts. The maps do not imply endorsement of boundaries or any party’s territorial claims.</p>
+</section>
+<section id="limitations" class="level2">
+<h2 class="anchored" data-anchor-id="limitations">10. Limitations</h2>
+<ul>
+<li><strong>Ascertainment:</strong> the extract represents reported and coded events. Coverage and access vary over space and time, and the supplied historical snapshot may differ from later ACLED revisions.</li>
+<li><strong>Location:</strong> approximate coordinates, the 530 label disagreements and excluded unmatched events can alter township attribution. Filtering does not resolve every discrepancy.</li>
+<li><strong>Spatial scale:</strong> township size varies, counts lack population denominators, and fixed v9.4 geography does not capture changing control. Queen links and island bridges are modelling choices.</li>
+<li><strong>Inference:</strong> conditional permutation nulls assume exchangeability. Many local tests, finite simulation resolution and spatial dependence constrain interpretation even after FDR adjustment.</li>
+<li><strong>Time:</strong> pooled space-time scores can reflect national changes. Overlapping neighbourhoods create serial dependence; block checks are approximate, and no model explicitly adjusts all seasonality or reporting changes.</li>
+<li><strong>Coverage:</strong> September 2025 is the endpoint, not the present. The matched scan covers two nine-month windows and cannot establish trends beyond them.</li>
+</ul>
+</section>
+<section id="reproduce-and-inspect" class="level2">
+<h2 class="anchored" data-anchor-id="reproduce-and-inspect">11. Reproduce and inspect</h2>
+<p>Open <code>ISSS626-GAA.Rproj</code> in the repository root. Place the two authorized archives as described in <a href="data/README.md">data/README.md</a>, then run:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"take-home exercise2/R/verify-methods.R"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"take-home exercise2/R/run.R"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"take-home exercise2/R/verify.R"</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># To force a fresh analysis rather than reuse matching fingerprints:</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="at">TH2_FORCE=</span><span class="st">"1"</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"take-home exercise2/R/run.R"</span>)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.unsetenv</span>(<span class="st">"TH2_FORCE"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Render with <code>quarto render "take-home exercise2/technical-report.qmd"</code> or render the whole website using <code>quarto render</code>. The report invokes the same runner automatically. Cache reuse requires matching input hashes, script hashes, R/package versions and required outputs; missing or changed inputs invalidate it. The executive summary uses the verified derived results rather than recalculating the statistics a second time.</p>
+<p>Download <a href="results/data-audit.csv">data audit</a>, <a href="results/township-totals.csv">township totals</a>, <a href="results/lmsa.csv">LMSA</a>, <a href="results/space-time-gi.csv">space-time Gi*</a>, <a href="results/ehsa.csv">EHSA</a>, <a href="results/sensitivity.csv">sensitivity</a>, <a href="results/spatial-scan-windows.csv">scan windows</a>, <a href="results/analysis-manifest.json">analysis parameters</a> and <a href="results/verification.txt">validation output</a>.</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ol type="1">
+<li>ISSS626. <a href="https://isss626-ay2026-27aug.netlify.app/take-home_ex02.html">Take-home Exercise 2: Geospatial Analytics for Peace</a>, modified 16 October 2026. Assignment requirements and observation window.</li>
+<li>ACLED. <a href="https://acleddata.com/methodology/acled-codebook">Codebook</a>. Event hierarchy, event types, coordinate precision and fatality interpretation. Data: course-provided Myanmar extract.</li>
+<li>MIMU. <a href="https://data.themimu.info/en/dataset/myanmar-administrative-boundary">Myanmar Administrative Boundary</a>, Township Boundaries PCode v9.4; <a href="https://themimu.info/mimu-terms-conditions">terms</a>. Retrieved 23 October 2026.</li>
+<li>Bivand and contributors. <a href="https://r-spatial.github.io/spdep/reference/localmoran.html">spdep reference: Local Moran’s I</a>, <a href="https://r-spatial.github.io/spdep/reference/localG.html">local G statistics</a>. Conditional permutation inference.</li>
+<li>Esri. <a href="https://pro.arcgis.com/en/pro-app/2.6/tool-reference/space-time-pattern-mining/learnmoreemerging.htm">How Emerging Hot Spot Analysis works</a>. Pattern definitions and Gi*–Mann–Kendall workflow.</li>
+<li>McLeod. <a href="https://cran.r-project.org/package=Kendall">Kendall package</a>. Mann–Kendall test implementation.</li>
+<li>Kulldorff. <a href="https://doi.org/10.1080/03610929708831995">A spatial scan statistic</a>, Communications in Statistics—Theory and Methods, 26(6), 1481–1496 (1997). Likelihood-based spatial scanning principle; the exact conditional design implemented here is documented above.</li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

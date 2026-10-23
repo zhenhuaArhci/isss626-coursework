@@ -1,0 +1,18 @@
+:root { --r-background-color: #fbf8f2; --r-main-color: #30251f; --r-heading-color: #71382d; --r-link-color: #8f3f2d; }
+.reveal { font-family: "Segoe UI", Arial, sans-serif; font-size: 27px; }
+.reveal h1 { font-size: 1.8em; }
+.reveal h2 { font-size: 1.28em; font-weight: 650; margin-bottom: .55em; }
+.reveal h3 { font-size: 1em; font-weight: 650; }
+.reveal p, .reveal li { line-height: 1.35; }
+.reveal li { margin-bottom: .36em; }
+.reveal strong { color: #8f3f2d; }
+.reveal table { font-size: .82em; }
+.reveal table th { border-bottom: 2px solid #b6a18d; }
+.reveal table td { padding: .32em .5em; }
+.reveal img { object-fit: contain; margin: .15em auto; max-height: 560px; }
+.reveal p > img { display: block; margin-inline: auto; }
+.reveal .slide-logo { display: none; }
+.reveal .footer { font-size: 15px; color: #756b61; }
+.reveal .slide-number { font-size: 16px; color: #756b61; background: transparent; }
+.reveal .columns { gap: 1.1em; }
+.reveal .title-slide h1 { max-width: 1000px; }

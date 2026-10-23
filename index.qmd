@@ -10,3 +10,9 @@ description: "Zhenhua Liu's ISSS626 coursework website."
 cat("Welcome to **ISSS626 Geospatial Analytics and Applications**. In this website, you will find my coursework prepared for this course.")
 ```
 
+## Latest take-home exercise
+
+[**take-home exercise2 — Geospatial Analytics for Peace in Myanmar**](take-home%20exercise2/index.qmd)
+
+[Technical report](take-home%20exercise2/technical-report.qmd) · [Executive summary](take-home%20exercise2/executive-summary.qmd) · [GitHub](https://github.com/zhenhuaArhci/isss626-coursework/tree/main/take-home%20exercise2)
+

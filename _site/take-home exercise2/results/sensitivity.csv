@@ -1,0 +1,7 @@
+variable,scenario,significant_moran,hotspots,retained_baseline_hotspots,hotspot_jaccard
+armed_events,six_nearest,118,43,30,0.6
+armed_events,log1p_counts,82,52,37,0.7115384615384616
+armed_events,precision1_only,87,38,35,0.875
+civilian_events,six_nearest,100,39,30,0.6818181818181818
+civilian_events,log1p_counts,75,43,34,0.7727272727272727
+civilian_events,precision1_only,77,36,34,0.918918918918919

@@ -1,0 +1,10 @@
+execute:
+  freeze: false
+  warning: true
+  message: false
+toc: true
+toc-depth: 3
+code-fold: true
+code-summary: "Show R code"
+code-copy: true
+fig-align: center
