@@ -98,14 +98,30 @@ website:
             href: in-class7/index.qmd
       - text: "Take-home Exercise"
         menu:
-          - text: "take-home exercise2"
-            href: "take-home exercise2/index.qmd"
-          - text: "Exercise 1 · Thailand road accidents"
+          - text: "take-home exercise1"
+          - text: "Overview · Thailand road accidents"
+            icon: house-door
             href: "take home exercise1/index.qmd"
           - text: "Technical Report"
+            icon: file-earmark-text
             href: "take home exercise1/technical-report.qmd"
           - text: "Executive Summary"
+            icon: easel
             href: "take home exercise1/executive-summary.qmd"
+          - text: "Reproduction Guide"
+            icon: code-slash
+            href: "take home exercise1/learning-guide.qmd"
+          - text: "---"
+          - text: "take-home exercise2"
+          - text: "Overview · Myanmar conflict"
+            icon: house-door
+            href: "take-home exercise2/index.qmd"
+          - text: "Technical Report"
+            icon: file-earmark-text
+            href: "take-home exercise2/technical-report.qmd"
+          - text: "Executive Summary"
+            icon: easel
+            href: "take-home exercise2/executive-summary.qmd"
     right:
       - text: "Home"
         href: index.qmd
