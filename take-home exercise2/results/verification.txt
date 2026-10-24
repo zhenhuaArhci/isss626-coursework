@@ -1,0 +1,7 @@
+PASS: 330 townships x 57 months; all zero cells retained and event totals conserved.
+PASS: 660 LMSA rows, 660 EHSA rows and 37,620 space-time Gi* rows; no missing statistics.
+PASS: all primary statistical maps respect p < 0.05 masks; p and q are valid.
+PASS: matrix/cube PCode order matches; independent Gi* formula matches spdep.
+PASS: conditional scan preserves margins and selected windows do not overlap.
+PASS: ten nonempty figures and all R scripts parse.
+PASS: synthetic Gi*, MK, time-neighbourhood and EHSA classification checks.

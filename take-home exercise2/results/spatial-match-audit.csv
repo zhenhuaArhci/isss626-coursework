@@ -1,0 +1,13 @@
+matched,geo_precision,event_type,records
+FALSE,1,Battles,6
+FALSE,1,Explosions/Remote violence,34
+FALSE,1,Violence against civilians,49
+FALSE,2,Battles,6
+FALSE,2,Explosions/Remote violence,11
+FALSE,2,Violence against civilians,4
+TRUE,1,Battles,8888
+TRUE,1,Explosions/Remote violence,13785
+TRUE,1,Violence against civilians,6829
+TRUE,2,Battles,12169
+TRUE,2,Explosions/Remote violence,9069
+TRUE,2,Violence against civilians,3057

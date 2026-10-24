@@ -1,0 +1,21 @@
+.reveal-viewport { background: #faf7f0; }
+.reveal { font-family: "Segoe UI", Arial, sans-serif; color: #433b35; font-size: 29px; }
+.reveal .slides { text-align: left; }
+.reveal h1, .reveal h2, .reveal h3 { color: #8f3f2d; text-transform: none; }
+.reveal h1 { font-size: 1.8em; }
+.reveal h2 { font-size: 1.3em; margin-bottom: .5em; }
+.reveal h3 { font-size: 1em; }
+.reveal a { color: #9a432e; text-decoration: underline; }
+.reveal .footer { color: #71675e; font-size: 15px; }
+.reveal .slide-number { color: #433b35; }
+.reveal .slide-source { font-size: .62em; line-height: 1.35; color: #71675e; }
+.reveal .controls, .reveal .progress { color: #9a432e; }
+.reveal table { font-size: .85em; margin: .5em 0 1em; width: 100%; }
+.reveal .columns { gap: 1.5em; }
+.reveal p { line-height: 1.35; }
+.reveal img { margin: .15em auto; object-fit: contain; }
+.reveal .quarto-figure { margin: 0; }
+.reveal .slide figure { margin: 0; }
+.reveal .slide figure figcaption { display: none; }
+/* Keep report styles from overriding the declared slide image heights. */
+.reveal .slides section img { height: 420px; width: auto; max-height: 420px; max-width: 100%; object-fit: contain; display: block; margin: .2em auto; }
