@@ -1,0 +1,209 @@
+---
+title: "inclass8"
+subtitle: "Huff model: village-level trade areas in Taichung"
+author: "Zhenhua Liu"
+date: "2026-10-24"
+body-classes: exercise-page
+toc: true
+toc-location: right
+number-sections: true
+code-tools: true
+execute:
+  freeze: auto
+  error: false
+---
+
+```{r}
+#| label: i8-setup
+#| include: false
+knitr::read_chunk("inclass8/R/analysis.R")
+knitr::opts_chunk$set(fig.width = 11, fig.height = 7, dpi = 160)
+options(warn = 2)
+```
+
+This exercise follows [Chapter 18: Market Area Analysis using the Huff model](https://r4gdsa.netlify.app/chap18) and extends it to the **Trade Areas of stores** map shown in class. The final map retains **617 village polygons and all 28 store codes** in its right-hand **TA** legend. Each colour identifies a store; the map preserves boundaries between villages assigned to the same store.
+
+[Jump to the 28-category map](#trade-areas-of-stores) · [Full-resolution map](results/trade-areas.png) · [Analysis script](R/analysis.R) · [Download data script](R/download-data.R) · [Verification script](R/verify.R) · [GitHub](https://github.com/zhenhuaArhci/isss626-coursework/tree/main/inclass8)
+
+::: {.callout-note}
+The two legends answer different questions. The **BT probability map has 10 quantile classes**, following the chapter. The **all-store trade-area map has 28 categorical entries**, one per store, matching the detail requested from the classroom photographs.
+:::
+
+## Data and reproducibility
+
+The inputs are the chapter's `STORES_TC`, `TOWN_TC`, `VILLAGE_TC`, `pop2019.csv` and `Store_sales_data.csv`. The chapter describes **Taichung**, and the code uses the `_TC` layers; the overview's `_TN` names are inconsistent with those imports. All calculations here use **EPSG:3826**, with distances in metres.
+
+The author's source repository excludes the raw data. I obtained the named inputs from a [public teaching-data mirror pinned to a fixed revision](https://github.com/andrewhuangk/Geospatial/tree/78e7216992f8fc46abaff599de4f15224805db57/Hands-on_Ex/Hands-on_Ex08/data). Its counts and distance range are checked against the chapter. The mirror supplies data only; the analysis below is independently implemented. See [data provenance](data/README.md) and [input checksums](data/input-checksums.csv). Raw files are kept locally.
+
+From the project root, run:
+
+```r
+source("inclass8/R/download-data.R")
+source("inclass8/R/analysis.R")
+source("inclass8/R/verify.R")
+```
+
+Render the page with `quarto render inclass8/index.qmd`. Install any missing packages from CRAN before running; the scripts do not silently install packages.
+
+```{r i8-packages}
+```
+
+## Import and prepare the data
+
+### Import and verify coordinate systems
+
+```{r i8-import}
+```
+
+### Join store sales and population
+
+Store sales are aggregated by store code and joined to the 28 mapped stores. As in Chapter 18, every store receives an illustrative **Store_size = 100**. This is an equal-attractiveness assumption, not an observed floor-area measurement.
+
+Population IDs contain a hyphen, whereas the boundary codes do not. After normalising IDs, I retain matched population records and export both sides of the unmatched join for inspection.
+
+```{r i8-prepare}
+```
+
+```{r}
+#| label: i8-input-audit
+knitr::kable(data.frame(
+  Input = c("Store points", "Town polygons", "Village polygons before join",
+    "Population rows", "Villages retained", "Villages without population",
+    "Population rows without geometry"),
+  Records = c(nrow(stores), nrow(town), nrow(village_all), nrow(pop2019),
+    nrow(village), nrow(excluded_villages), nrow(unmatched_population))))
+knitr::kable(excluded_villages, caption = "Five excluded boundary records (special S codes)")
+```
+
+The retained population totals **`r format(sum(village$P_CNT), big.mark = ",")`**. The five unmatched boundary records remain unmodelled. Their missing population is not replaced with zero. Eight population rows without a corresponding polygon also fall outside the retained analysis. Download the [excluded boundaries](results/excluded-villages.csv) and [unmatched population rows](results/unmatched-population.csv).
+
+## Distance and interaction matrices
+
+`st_point_on_surface()` provides a point inside each village. Although the chapter's surrounding text calls these centroids, these are **interior representative points**. I apply the function to geometry alone, then preserve the village IDs explicitly.
+
+```{r i8-distance}
+```
+
+The matrix contains **`r nrow(distmat)` × `r ncol(distmat)` = `r format(nrow(distmat_long), big.mark = ",")`** village–store pairs. Distances range from **`r format(round(min(distmat_long$distance), 1), scientific = FALSE, big.mark = ",")` m** to **`r format(round(max(distmat_long$distance), 1), scientific = FALSE, big.mark = ",")` m**, matching the chapter's reported range. These are planar straight-line distances, not road travel distances or times. Zero or non-finite distances cause execution to stop before the inverse-distance model.
+
+```{r}
+#| label: i8-interaction-preview
+knitr::kable(head(interaction_matrix, 6), digits = 2)
+```
+
+## Huff patronage probabilities
+
+For village $i$ and store $j$, the model is
+
+$$
+P_{ij}=\frac{A_j^{\gamma}d_{ij}^{\lambda}}
+{\sum_{k=1}^{28}A_k^{\gamma}d_{ik}^{\lambda}},
+\qquad A_j=100,\quad\gamma=1,\quad\lambda=-2.
+$$
+
+These are the explicit power-model defaults used by `MCI::huff.shares()`. Attraction is equal across stores; distance therefore determines relative patronage probabilities. All 28 stores compete for each origin, and each origin's probabilities sum to 1.
+
+```{r i8-huff}
+```
+
+```{r}
+#| label: i8-probability-preview
+knitr::kable(head(huff_share %>% select(VILLCODE, Store_CD, distance, p_ij), 6),
+  digits = c(0, 0, 2, 6), row.names = FALSE)
+```
+
+## A single store: BT
+
+The chapter's executable example selects **BT**. This map uses 10 probability quantile classes, a red marker for BT, village outlines, a north arrow, scale and coordinate grid. Quantiles place roughly equal numbers of villages in each class; their probability ranges are unequal.
+
+```{r i8-bt}
+```
+
+```{r}
+#| label: i8-bt-map
+#| fig-width: 14
+#| fig-height: 12
+#| fig-cap: "Store BT: village-level patronage probability in 10 quantile classes."
+#| fig-alt: "Map of Taichung villages shaded in ten blue probability classes; BT is marked in red and the probability legend is on the right."
+bt_map
+```
+
+BT's largest village probability is **`r round(max(market_share$p_ij)*100, 1)`%**. A large class interval at the upper end shows why these deciles should not be interpreted as equal probability steps.
+
+## Population-weighted potential and observed sales
+
+Following `shares.total()`, I compute $E_j=\sum_i P_{ij}\,\mathrm{Population}_i$. Because the local-market input is **people**, $E_j$ is a population-weighted patronage potential measured in **people equivalents**. Converting it into currency would require a separate spending assumption. The source sales field is used only for comparison.
+
+```{r i8-total}
+```
+
+```{r}
+#| label: i8-sales-plot
+#| fig-cap: "Population-weighted patronage potential versus observed sales across the 28 mapped stores; line and shaded band show a descriptive linear fit with a 95% confidence interval."
+#| fig-alt: "Scatterplot of patronage potential and sales for 28 stores, showing a positive association and a fitted regression line."
+sales_plot
+```
+
+The positive Pearson correlation (**r = `r round(unname(sales_test$estimate), 3)`**, **p = `r signif(sales_test$p.value, 3)`**) is descriptive. It does not validate a forecast: these stores are spatially related, the parameters are not calibrated, and the source does not document a matching sales period. The chart uses `ggplot2` with `cor.test()` to show the same comparison without requiring the much larger `ggstatsplot` dependency stack.
+
+## Trade Areas of stores
+
+### Assign the dominant store at village resolution
+
+For each village, I select the store with the largest $P_{ij}$. A deterministic alphabetical tie rule is included. The resulting geometry still contains one polygon feature per retained village. No dissolve or town-level aggregation is applied.
+
+```{r i8-dominant}
+```
+
+There are **`r sum(huff_TA$tied_maximum > 1)`** exact or near-exact ties in this run.
+
+### Full 28-category TA legend and classroom-style map
+
+The figure is **14 × 12 inches**, as in the photograph. `TA` is an explicit factor with **all 28 store codes**; `levels.drop = FALSE` preserves the legend levels and a named palette fixes each code's colour. The legend sits to the right, in one column.
+
+The photograph's `tm_borders(fill_alpha = 0.5)` mixes a fill setting into the border layer. In this runnable tmap 4 version, border colour and width are specified directly in `tm_polygons()`. The map retains the same title, frame, village boundaries, eight-point compass, scale and light grid.
+
+```{r i8-ta-map}
+```
+
+```{r}
+#| label: i8-trade-areas-map
+#| fig-width: 14
+#| fig-height: 12
+#| fig-cap: "Trade Areas of stores: 617 village features, coloured by their dominant store, with all 28 store codes in the TA legend on the right."
+#| fig-alt: "Categorical trade-area map of Taichung retaining village outlines, with a 28-entry store-code legend on the right, coordinate grid, scale and north arrow."
+ta_map
+```
+
+[Open the full-resolution map](results/trade-areas.png) · [Village assignments and probabilities](results/village-trade-areas.csv) · [Store-to-colour lookup](results/legend-colours.csv)
+
+With equal attractiveness, the highest-probability store is also the nearest store for every village representative point. This provides an independent check of the categorical map. A dominant colour expresses a **relative winner**, not exclusive patronage: other stores retain positive probabilities, especially around competitive boundaries.
+
+## Store-level results and checks
+
+```{r i8-results}
+```
+
+```{r}
+#| label: i8-store-table
+knitr::kable(store_summary %>% transmute(Store = Store_CD,
+  `Dominant villages` = dominant_villages,
+  `Potential (people equivalents)` = round(sum_E_j),
+  `Observed sales (source units)` = Total_Sales),
+  format.args = list(big.mark = ","))
+```
+
+BT has the largest population-weighted potential (**`r format(round(store_summary$sum_E_j[store_summary$Store_CD == "BT"]), big.mark = ",")`** people equivalents), while FH has the highest observed sales among the included stores. Village counts measure the number of winning administrative units; they do not measure population or land area.
+
+```{r}
+#| label: i8-verification
+source("inclass8/R/verify.R")
+```
+
+The checks compare MCI output against the explicit formula, test probability sums and total population conservation, check every village assignment against its nearest store, and require 28 distinct legend levels and colours. Results are available as [store summaries](results/store-summary.csv), [run metrics](results/run-summary.csv) and [session information](results/session-info.txt).
+
+## Reflection
+
+The village map is more detailed than a town-level map because it keeps the 617 original units and their internal borders. Increasing a continuous colour scale's bin count alone would not reproduce the classroom TA map: the categories must represent the 28 winning stores.
+
+The dominant-store result is sensitive to how a village is represented and to the equal-attractiveness assumption. Real site decisions would need calibrated attraction, road travel times, store capacity, a wider competitor set and updated population. This exercise reproduces the chapter's technical route and the classroom map granularity using the supplied teaching inputs and explicit assumptions.

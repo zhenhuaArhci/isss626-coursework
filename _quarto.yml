@@ -3,6 +3,12 @@ project:
   output-dir: _site
   execute-dir: project
   resources:
+    - "/inclass8/R/*.R"
+    - "/inclass8/results/**"
+    - "/inclass8/README.md"
+    - "/inclass8/data/README.md"
+    - "/inclass8/data/input-checksums.csv"
+    - "!/inclass8/data/raw/**"
     - "/take-home exercise2/R/*.R"
     - "/take-home exercise2/results/**"
     - "/take-home exercise2/README.md"
@@ -54,6 +60,7 @@ project:
     - inlcass4/index.qmd
     - in-class6/index.qmd
     - in-class7/index.qmd
+    - inclass8/index.qmd
     - "take home exercise1/index.qmd"
     - "take home exercise1/technical-report.qmd"
     - "take home exercise1/executive-summary.qmd"
@@ -96,6 +103,8 @@ website:
             href: in-class6/index.qmd
           - text: "in-class7"
             href: in-class7/index.qmd
+          - text: "inclass8"
+            href: inclass8/index.qmd
       - text: "Take-home Exercise"
         menu:
           - text: "take-home exercise1"

@@ -16,3 +16,9 @@ cat("Welcome to **ISSS626 Geospatial Analytics and Applications**. In this websi
 
 [Technical report](take-home%20exercise2/technical-report.qmd) · [Executive summary](take-home%20exercise2/executive-summary.qmd) · [GitHub](https://github.com/zhenhuaArhci/isss626-coursework/tree/main/take-home%20exercise2)
 
+## Latest in-class exercise
+
+[**inclass8 — Huff model and village-level trade areas**](inclass8/index.qmd)
+
+617 villages, 28 stores, and a complete store-by-store TA legend. Includes R code, maps, model checks and downloadable results.
+

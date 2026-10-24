@@ -35,3 +35,4 @@ Thumbs.db
 # Exercise 2 source archives and event-level/geometric intermediates stay local.
 /take-home exercise2/data/raw/
 /take-home exercise2/data/derived/
+/inclass8/data/raw/

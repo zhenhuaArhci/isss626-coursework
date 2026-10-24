@@ -1,0 +1,14 @@
+metric,value
+input_villages,622
+matched_villages,617
+excluded_villages,5
+unmatched_population_rows,8
+stores,28
+od_pairs,17276
+population,2804359
+min_distance_m,108.49527038589147
+max_distance_m,41395.42718593968
+legend_levels,28
+pearson_r,0.5764643934204079
+pearson_p,0.0013237939180804237
+tied_origins,0
