@@ -1,0 +1,50 @@
+.reveal {
+  color: #162f39;
+  font-size: 31px;
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3 {
+  color: #163f4d;
+  font-weight: 650;
+  text-transform: none;
+  line-height: 1.14;
+}
+
+.reveal h2 {
+  font-size: 1.52em;
+  margin-bottom: 0.55em;
+}
+
+.reveal h3 {
+  font-size: 1.08em;
+}
+
+.reveal a {
+  color: #176681;
+}
+
+.reveal .columns {
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.reveal .column {
+  min-width: 0;
+}
+
+.reveal .column img {
+  max-height: 465px;
+  object-fit: contain;
+}
+
+.reveal .wide-figure {
+  display: block;
+  max-height: 420px;
+  margin: 0.15em auto;
+}
+
+.reveal table {
+  font-size: 0.82em;
+}

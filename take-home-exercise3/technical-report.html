@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Zhenhua Liu">
+<meta name="dcterms.date" content="2026-11-12">
+
+<title>Who gains rail access when Singapore’s network expands? – ISSS626-GAA</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-b4bd764f1da01f45f24bf9152b33ca7a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">ISSS626-GAA</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hands-on-exercise" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Hands-on Exercise</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-hands-on-exercise">    
+        <li>
+    <a class="dropdown-item" href="../hands-on-exercise-1a/index.html">
+ <span class="dropdown-text">Hands-on Exercise 1A</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../hands-on-exercise-1b/index.html">
+ <span class="dropdown-text">Hands-on Exercise 1B</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../handson2A/index.html">
+ <span class="dropdown-text">Hands-on Exercise 2A</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../handson2B/index.html">
+ <span class="dropdown-text">Hands-on Exercise 2B</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../handson3/index.html">
+ <span class="dropdown-text">Hands-on Exercise 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../handson4/index.html">
+ <span class="dropdown-text">Hands-on Exercise 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../handson4A/index.html">
+ <span class="dropdown-text">Hands-on Exercise 5A</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../handson4B/index.html">
+ <span class="dropdown-text">Hands-on Exercise 5B</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../handson7/index.html">
+ <span class="dropdown-text">Hands-on Exercise 7</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-in-class-exercise" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">In-class Exercise</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-in-class-exercise">    
+        <li>
+    <a class="dropdown-item" href="../inlcass4/index.html">
+ <span class="dropdown-text">inlcass4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../in-class6/index.html">
+ <span class="dropdown-text">in-class6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../in-class7/index.html">
+ <span class="dropdown-text">in-class7</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../inclass8/index.html">
+ <span class="dropdown-text">inclass8</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-take-home-exercise" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Take-home Exercise</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-take-home-exercise">    
+        <li class="dropdown-header">take-home exercise1</li>
+        <li>
+    <a class="dropdown-item" href="../take home exercise1/index.html"><i class="bi bi-house-door" role="img">
+</i> 
+ <span class="dropdown-text">Overview · Thailand road accidents</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../take home exercise1/technical-report.html"><i class="bi bi-file-earmark-text" role="img">
+</i> 
+ <span class="dropdown-text">Technical Report</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../take home exercise1/executive-summary.html"><i class="bi bi-easel" role="img">
+</i> 
+ <span class="dropdown-text">Executive Summary</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../take home exercise1/learning-guide.html"><i class="bi bi-code-slash" role="img">
+</i> 
+ <span class="dropdown-text">Reproduction Guide</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">take-home exercise2</li>
+        <li>
+    <a class="dropdown-item" href="../take-home exercise2/index.html"><i class="bi bi-house-door" role="img">
+</i> 
+ <span class="dropdown-text">Overview · Myanmar conflict</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../take-home exercise2/technical-report.html"><i class="bi bi-file-earmark-text" role="img">
+</i> 
+ <span class="dropdown-text">Technical Report</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../take-home exercise2/executive-summary.html"><i class="bi bi-easel" role="img">
+</i> 
+ <span class="dropdown-text">Executive Summary</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">take-home exercise3</li>
+        <li>
+    <a class="dropdown-item" href="../take-home-exercise3/index.html"><i class="bi bi-house-door" role="img">
+</i> 
+ <span class="dropdown-text">Overview · Singapore rail expansion</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../take-home-exercise3/technical-report.html"><i class="bi bi-file-earmark-text" role="img">
+</i> 
+ <span class="dropdown-text">Technical Report</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../take-home-exercise3/executive-summary.html"><i class="bi bi-easel" role="img">
+</i> 
+ <span class="dropdown-text">Executive Summary</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#research-questions" id="toc-research-questions" class="nav-link active" data-scroll-target="#research-questions">Research questions</a></li>
+  <li><a href="#data-and-quality-checks" id="toc-data-and-quality-checks" class="nav-link" data-scroll-target="#data-and-quality-checks">Data and quality checks</a></li>
+  <li><a href="#probabilistic-station-choice" id="toc-probabilistic-station-choice" class="nav-link" data-scroll-target="#probabilistic-station-choice">Probabilistic station choice</a></li>
+  <li><a href="#expansion-and-catchment-effects" id="toc-expansion-and-catchment-effects" class="nav-link" data-scroll-target="#expansion-and-catchment-effects">Expansion and catchment effects</a></li>
+  <li><a href="#planning-interpretation-and-limitations" id="toc-planning-interpretation-and-limitations" class="nav-link" data-scroll-target="#planning-interpretation-and-limitations">Planning interpretation and limitations</a></li>
+  <li><a href="#reproduce-in-rstudio" id="toc-reproduce-in-rstudio" class="nav-link" data-scroll-target="#reproduce-in-rstudio">Reproduce in RStudio</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Who gains rail access when Singapore’s network expands?</h1>
+<p class="subtitle lead">Take-home Exercise 3 · Geospatial Analytics for Urban Sustainability</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Zhenhua Liu </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">November 12, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><a href="../take-home-exercise3/index.html">Exercise overview</a> · <a href="../take-home-exercise3/executive-summary.html">Executive summary</a> · <a href="https://github.com/zhenhuaArhci/isss626-coursework/tree/main/take-home-exercise3">GitHub source</a></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"take-home-exercise3/R/run.R"</span>, <span class="at">local =</span> <span class="cn">TRUE</span>, <span class="at">encoding =</span> <span class="st">"UTF-8"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>fmt <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">digits =</span> <span class="dv">0</span>) <span class="fu">formatC</span>(x, <span class="at">format =</span> <span class="st">"f"</span>, <span class="at">digits =</span> digits, <span class="at">big.mark =</span> <span class="st">","</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>table <span class="ot">&lt;-</span> <span class="cf">function</span>(data, ...) knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">as.data.frame</span>(data), ...)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>october <span class="ot">&lt;-</span> validation[period <span class="sc">==</span> <span class="st">"Holdout (Oct)"</span>]</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>best <span class="ot">&lt;-</span> october[model <span class="sc">==</span> <span class="st">"Attraction Huff"</span>]</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>combined <span class="ot">&lt;-</span> scenario_totals[scenario <span class="sc">==</span> <span class="st">"Both"</span>]</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>top_new <span class="ot">&lt;-</span> destinations[status <span class="sc">==</span> <span class="st">"Proposed"</span>][<span class="fu">order</span>(<span class="sc">-</span>expanded_taps)][<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>largest_loss <span class="ot">&lt;-</span> destinations[status <span class="sc">==</span> <span class="st">"Existing"</span>][<span class="fu">order</span>(delta_taps)][<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>largest_gain <span class="ot">&lt;-</span> destinations[status <span class="sc">==</span> <span class="st">"Existing"</span>][<span class="fu">order</span>(<span class="sc">-</span>delta_taps)][<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>new_access <span class="ot">&lt;-</span> <span class="fu">sum</span>(origins<span class="sc">$</span>market_population[origins<span class="sc">$</span>newly_within_800m])</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>changed <span class="ot">&lt;-</span> <span class="fu">weighted.mean</span>(origins<span class="sc">$</span>baseline_choice <span class="sc">!=</span> origins<span class="sc">$</span>expanded_choice, origins<span class="sc">$</span>market_population)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>central <span class="ot">&lt;-</span> blocks[region <span class="sc">==</span> <span class="st">"CENTRAL REGION"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<section id="research-questions" class="level2">
+<h2 class="anchored" data-anchor-id="research-questions">Research questions</h2>
+<ol type="1">
+<li>How well can a probabilistic spatial interaction model explain daily boardings at existing MRT/LRT station complexes?</li>
+<li>Which proposed complexes could attract the most boardings under today’s residential geography and observed network demand?</li>
+<li>How might the new stations reshape existing station catchments, and which planning areas gain the most proximity to rail?</li>
+</ol>
+<p>Singapore’s land-use and transport planning benefit from examining demand across the entire network. A station can draw users away from several established stations, and an existing interchange can attract more entries after adding a line. Both effects matter for planning station entrances, pedestrian access and feeder services.</p>
+<p><img src="figures/01-network.png" class="img-fluid" alt="Existing MRT/LRT complexes, proposed JRL and CRL stations, and existing interchanges that gain a planned line."></p>
+<p>The baseline covers 184 physical MRT/LRT complexes with positive observations in every study period. The expansion adds 35 new complexes and adds services to 11 existing complexes. The Cross Island Line scenario covers phases 1–2 and the Punggol Extension. CRL phase 3, Changi Terminal 5, and openings on other lines fall outside this scenario.</p>
+</section>
+<section id="data-and-quality-checks" class="level2">
+<h2 class="anchored" data-anchor-id="data-and-quality-checks">Data and quality checks</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Input</th>
+<th style="text-align: left;">Vintage</th>
+<th style="text-align: left;">Role</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">LTA DataMall rail station footprints</td>
+<td style="text-align: left;">September 2026</td>
+<td style="text-align: left;">Baseline facility locations</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">LTA DataMall Passenger Volume by Train Stations, public aggregation by Udit Narayan Mall</td>
+<td style="text-align: left;">August–October 2026</td>
+<td style="text-align: left;">Hourly tap-in averages by station and day type</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Future rail coordinates compiled by Elliot Wutingfeng</td>
+<td style="text-align: left;">Pinned repository revision</td>
+<td style="text-align: left;">Planned facility locations and codes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">WorldPop Global2 R2025A v1 constrained estimate</td>
+<td style="text-align: left;">2025, about 100 m</td>
+<td style="text-align: left;">Residential market potential</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">LTA bus stop locations</td>
+<td style="text-align: left;">September 2026</td>
+<td style="text-align: left;">Feeder connectivity proxy</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HDB Existing Building</td>
+<td style="text-align: left;">Downloaded November 2026</td>
+<td style="text-align: left;">Nearby HDB building count</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">URA Master Plan 2019 planning areas, land only</td>
+<td style="text-align: left;">2019 planning geography</td>
+<td style="text-align: left;">Spatial joins, mapping and geographic holdout</td>
+</tr>
+</tbody>
+</table>
+<p>Links, licensing, checksum provenance and pinned revisions are listed in the <a href="data/README.md">data notes</a> and <a href="data/input-checksums.csv">input manifest</a>.</p>
+<section id="station-and-passenger-records" class="level3">
+<h3 class="anchored" data-anchor-id="station-and-passenger-records">Station and passenger records</h3>
+<p>The calibration target is <strong>average daily tap-ins</strong>, representing paid-area entries. The public aggregate preserves separate weekday and weekend/public-holiday averages for each hour. The R code sums the available hours and weights the two day types by their reported day counts. The input averages are rounded to whole taps per hour before aggregation. August and September are weighted by their number of days for fitting. October is held out for validation. The resulting October total covers the stations and hours in this input. Within-system transfers, alightings and inferred journeys by rail line are outside this measure.</p>
+<p>The mirror lists two rows for Stevens (DT10 and TE11). The workflow sums their counts and treats them as one complex. It expands slash-delimited facility codes in the LTA footprint archive, unions distinct matching footprints, and uses their centroid as the station location. Proposed sites are matched to existing complexes by normalised names. The largest coordinate separation among name-matched interchanges is 171 m. The workflow checks for unmerged proposed points very close to existing stations. The expansion adds a service to an existing interchange without creating a second boarding location. The Pasir Ris CRL mainline and branch codes count as one additional service.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(audit[<span class="sc">!</span>item <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"training_daily_taps"</span>, <span class="st">"october_daily_taps"</span>,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"newly_within_800m"</span>, <span class="st">"distance_only_decay"</span>)],</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">digits =</span> <span class="dv">2</span>, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Audit item"</span>, <span class="st">"Value"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Audit item</th>
+<th style="text-align: right;">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">raw_lta_station_footprints</td>
+<td style="text-align: right;">234.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mirror_fare_rows</td>
+<td style="text-align: right;">185.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">baseline_complexes</td>
+<td style="text-align: right;">184.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">official_geometry_matches</td>
+<td style="text-align: right;">184.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">excluded_inactive_complexes</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">operating_bus_stops</td>
+<td style="text-align: right;">5205.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hdb_features</td>
+<td style="text-align: right;">13509.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">positive_population_pixels</td>
+<td style="text-align: right;">49135.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">origin_cells</td>
+<td style="text-align: right;">2162.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">population_total</td>
+<td style="text-align: right;">5852313.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">baseline_interaction_rows</td>
+<td style="text-align: right;">397808.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">expanded_interaction_rows</td>
+<td style="text-align: right;">473478.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">proposed_complexes</td>
+<td style="text-align: right;">35.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">interchange_upgrades</td>
+<td style="text-align: right;">11.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">max_interchange_coordinate_difference_m</td>
+<td style="text-align: right;">170.92</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="residential-market-and-attraction" class="level3">
+<h3 class="anchored" data-anchor-id="residential-market-and-attraction">Residential market and attraction</h3>
+<p>All spatial operations use <strong>SVY21 / Singapore TM (EPSG:3414)</strong>. Each positive WorldPop raster cell is transformed by its centre and assigned to one 500 m square. Population is summed without resampling, and population-weighted centres represent origins. The population total is checked before and after aggregation. URA planning areas are attached by spatial intersection. Points outside the 2019 polygons retain an explicit label.</p>
+<p>Each destination has operating bus stop counts within 500 m, HDB building counts within 800 m, its number of distinct MRT/LRT services, an MRT service indicator and distance to Raffles Place as a proxy for centrality. Buffers measure proximity in metres. Bus stop counts omit service frequency and building counts omit dwelling capacity. These variables represent distinct aspects of station attraction and access. Future stations use observed surrounding land use and bus locations, so large future developments may change their relative attractiveness.</p>
+</section>
+<section id="two-spatial-interaction-tables" class="level3">
+<h3 class="anchored" data-anchor-id="two-spatial-interaction-tables">Two spatial interaction tables</h3>
+<p>The same 2,162 residential origins are paired with every eligible destination. The baseline has 397,808 pairs and the expansion has 473,478. The pair key is <code>origin, destination</code>. Each row carries straight-line distance in metres, market population, the attraction covariates and fitted choice probability. The <a href="results/origins.csv">origin table</a> and <a href="results/destinations.csv">destination table</a> use the same keys. Full tables are generated into <code>data/derived/</code>; the report exposes <a href="results/interactions-existing-sample.csv">baseline</a> and <a href="results/interactions-expanded-sample.csv">expansion</a> samples.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sample_file <span class="ot">&lt;-</span> <span class="fu">file.path</span>(results, <span class="st">"interactions-expanded-sample.csv"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>sample <span class="ot">&lt;-</span> <span class="fu">fread</span>(sample_file)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(sample[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, .(origin, destination, distance_m, probability, bus_500m, hdb_800m)],</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">digits =</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">origin</th>
+<th style="text-align: left;">destination</th>
+<th style="text-align: right;">distance_m</th>
+<th style="text-align: right;">probability</th>
+<th style="text-align: right;">bus_500m</th>
+<th style="text-align: right;">hdb_800m</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">SG_052_096</td>
+<td style="text-align: left;">NS11</td>
+<td style="text-align: right;">456.95</td>
+<td style="text-align: right;">0.3948</td>
+<td style="text-align: right;">28</td>
+<td style="text-align: right;">233</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SG_052_096</td>
+<td style="text-align: left;">NS12</td>
+<td style="text-align: right;">1687.08</td>
+<td style="text-align: right;">0.0360</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">102</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SG_052_096</td>
+<td style="text-align: left;">NS10</td>
+<td style="text-align: right;">2251.67</td>
+<td style="text-align: right;">0.0290</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">289</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SG_052_096</td>
+<td style="text-align: left;">NS9/TE2</td>
+<td style="text-align: right;">3803.61</td>
+<td style="text-align: right;">0.0233</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">209</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</section>
+<section id="probabilistic-station-choice" class="level2">
+<h2 class="anchored" data-anchor-id="probabilistic-station-choice">Probabilistic station choice</h2>
+<p>For residential cell <span class="math inline">\(i\)</span> and station complex <span class="math inline">\(j\)</span>, the Huff probability is</p>
+<p><span class="math display">\[
+P_{ij} =
+\frac{\exp(\mathbf{x}_j^\mathsf{T}\boldsymbol\gamma)\,\tilde d_{ij}^{-\beta}}
+{\sum_{k\in S}\exp(\mathbf{x}_k^\mathsf{T}\boldsymbol\gamma)\,\tilde d_{ik}^{-\beta}},
+\qquad
+\tilde d_{ij}=\max(d_{ij},150\text{ m})/1000 .
+\]</span></p>
+<p>The 150 m floor prevents almost-coincident centres from dominating the distance term. Log-transformed bus, HDB and CBD variables and the two service measures are standardised on existing stations and use the same scaling in all scenarios. Attraction is learned from station marginals. There are no observed home-to-station assignments in the calibration data.</p>
+<p>The predicted share of a station is the population-weighted average of its choice probabilities. Fitting minimises cross-entropy against the observed station share, with a ridge penalty of <span class="math inline">\(0.001\lVert\gamma\rVert^2/2\)</span> on attraction coefficients to limit the effect of collinear covariates. L-BFGS-B fits distance decay and the attraction coefficients jointly. A nearest-station assignment of the residential market and a fitted distance-only Huff model provide two reference models. All models allocate the same total for each comparison. The code checks row sums and system totals.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">data.table</span>(<span class="at">term =</span> <span class="fu">names</span>(theta), <span class="at">estimate =</span> <span class="fu">unname</span>(theta)), <span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">distance_decay</td>
+<td style="text-align: right;">1.574</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">log_bus</td>
+<td style="text-align: right;">0.147</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">log_hdb</td>
+<td style="text-align: right;">-0.083</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">extra_services</td>
+<td style="text-align: right;">0.300</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mrt</td>
+<td style="text-align: right;">0.868</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">log_cbd</td>
+<td style="text-align: right;">-0.322</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The estimated distance decay is 1.57. The fitted attraction is higher for better-connected stations, MRT service and more nearby bus stops, after adjustment for the other measured factors. The small negative HDB coefficient and the centrality coefficient may reflect differences between suburban residential areas and major employment destinations. They are associations in a model fit to aggregate boardings.</p>
+<section id="temporal-and-geographic-validation" class="level3">
+<h3 class="anchored" data-anchor-id="temporal-and-geographic-validation">Temporal and geographic validation</h3>
+<p>The October holdout keeps both fitted parameters and the system total from August–September fixed. WAPE divides total absolute error by observed total tap-ins. MAE and RMSE are in tap-ins per day, and Spearman measures rank agreement.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(validation, <span class="at">digits =</span> <span class="dv">2</span>, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Model"</span>, <span class="st">"Period"</span>, <span class="st">"MAE"</span>, <span class="st">"RMSE"</span>, <span class="st">"WAPE (%)"</span>, <span class="st">"Spearman"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 28%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Model</th>
+<th style="text-align: left;">Period</th>
+<th style="text-align: right;">MAE</th>
+<th style="text-align: right;">RMSE</th>
+<th style="text-align: right;">WAPE (%)</th>
+<th style="text-align: right;">Spearman</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Nearest station</td>
+<td style="text-align: left;">Calibration (Aug-Sep)</td>
+<td style="text-align: right;">13778.76</td>
+<td style="text-align: right;">19775.06</td>
+<td style="text-align: right;">86.71</td>
+<td style="text-align: right;">0.26</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Nearest station</td>
+<td style="text-align: left;">Holdout (Oct)</td>
+<td style="text-align: right;">13832.96</td>
+<td style="text-align: right;">19867.11</td>
+<td style="text-align: right;">86.32</td>
+<td style="text-align: right;">0.26</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Distance-only Huff</td>
+<td style="text-align: left;">Calibration (Aug-Sep)</td>
+<td style="text-align: right;">12118.76</td>
+<td style="text-align: right;">15446.03</td>
+<td style="text-align: right;">76.27</td>
+<td style="text-align: right;">0.01</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Distance-only Huff</td>
+<td style="text-align: left;">Holdout (Oct)</td>
+<td style="text-align: right;">12096.47</td>
+<td style="text-align: right;">15451.72</td>
+<td style="text-align: right;">75.49</td>
+<td style="text-align: right;">0.02</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Attraction Huff</td>
+<td style="text-align: left;">Calibration (Aug-Sep)</td>
+<td style="text-align: right;">7178.52</td>
+<td style="text-align: right;">10361.98</td>
+<td style="text-align: right;">45.18</td>
+<td style="text-align: right;">0.79</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Attraction Huff</td>
+<td style="text-align: left;">Holdout (Oct)</td>
+<td style="text-align: right;">7144.88</td>
+<td style="text-align: right;">10370.65</td>
+<td style="text-align: right;">44.59</td>
+<td style="text-align: right;">0.79</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figures/02-holdout.png" class="img-fluid" alt="Scatter plot of observed against predicted daily station tap-ins for October 2026, with a one-to-one reference line."></p>
+<p>Attraction Huff achieves <strong>44.6% WAPE</strong>, a mean absolute error of <strong>7,145 daily tap-ins</strong> and a rank correlation of <strong>0.79</strong>. The largest discrepancies show why the model is more suitable for comparing broad catchment patterns than setting station-level capacity.</p>
+<p>A second check leaves out each URA region in turn, fits on the remaining station labels and evaluates the <strong>within-region</strong> distribution of October taps, conditional on that region’s observed total. All facilities remain available as alternatives. The check tests spatial transfer of shares, not whether the model predicts a region’s overall passenger volume.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(blocks, <span class="at">digits =</span> <span class="dv">1</span>, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Held-out region"</span>, <span class="st">"Stations"</span>, <span class="st">"Attraction WAPE (%)"</span>, <span class="st">"Distance WAPE (%)"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Held-out region</th>
+<th style="text-align: right;">Stations</th>
+<th style="text-align: right;">Attraction WAPE (%)</th>
+<th style="text-align: right;">Distance WAPE (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">CENTRAL REGION</td>
+<td style="text-align: right;">88</td>
+<td style="text-align: right;">94.7</td>
+<td style="text-align: right;">78.6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">EAST REGION</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">46.1</td>
+<td style="text-align: right;">53.9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">NORTH-EAST REGION</td>
+<td style="text-align: right;">39</td>
+<td style="text-align: right;">33.8</td>
+<td style="text-align: right;">95.1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NORTH REGION</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">22.8</td>
+<td style="text-align: right;">46.8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">WEST REGION</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">42.8</td>
+<td style="text-align: right;">93.4</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Central Region transfer is particularly weak (94.7% WAPE). Central employment, tourism and special destinations are represented only indirectly by a CBD-distance term. This spatial error limits confidence in future locations with atypical land use.</p>
+</section>
+</section>
+<section id="expansion-and-catchment-effects" class="level2">
+<h2 class="anchored" data-anchor-id="expansion-and-catchment-effects">Expansion and catchment effects</h2>
+<p>The scenario reuses the calibrated parameters and scales all four networks to the 2,948,483 daily boardings observed in the October input. The change is a reallocation of observed demand under a new station choice set. It assumes fixed residential population, fixed regional trip production and unchanged attraction at facilities except for new service counts or MRT service.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>shown <span class="ot">&lt;-</span> scenario_totals[, .(scenario, complexes, new_complexes, new_taps, existing_taps, network_taps)]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(shown, <span class="at">digits =</span> <span class="dv">0</span>, <span class="at">format.args =</span> <span class="fu">list</span>(<span class="at">big.mark =</span> <span class="st">","</span>),</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Network"</span>, <span class="st">"Complexes"</span>, <span class="st">"New complexes"</span>, <span class="st">"New taps/day"</span>, <span class="st">"Existing taps/day"</span>, <span class="st">"Network taps/day"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 12%">
+<col style="width: 17%">
+<col style="width: 16%">
+<col style="width: 22%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Network</th>
+<th style="text-align: right;">Complexes</th>
+<th style="text-align: right;">New complexes</th>
+<th style="text-align: right;">New taps/day</th>
+<th style="text-align: right;">Existing taps/day</th>
+<th style="text-align: right;">Network taps/day</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Existing</td>
+<td style="text-align: right;">184</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2,948,483</td>
+<td style="text-align: right;">2,948,483</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">JRL</td>
+<td style="text-align: right;">206</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: right;">208,677</td>
+<td style="text-align: right;">2,739,806</td>
+<td style="text-align: right;">2,948,483</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CRL</td>
+<td style="text-align: right;">197</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">151,940</td>
+<td style="text-align: right;">2,796,543</td>
+<td style="text-align: right;">2,948,483</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Both</td>
+<td style="text-align: right;">219</td>
+<td style="text-align: right;">35</td>
+<td style="text-align: right;">338,661</td>
+<td style="text-align: right;">2,609,822</td>
+<td style="text-align: right;">2,948,483</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>In the joint scenario the new stations receive <strong>338,661 daily boardings</strong> or <strong>11.5%</strong> of the modelled total. The separate-line allocations cannot be added directly because the same origin cells can choose from both corridors when both are available.</p>
+<p><img src="figures/03-proposed-rank.png" class="img-fluid" alt="Ranked new stations and scenario ranges from a 25 percent change in the distance decay coefficient."></p>
+<p>The highest modelled demand is at <strong>Pasir Ris East</strong> (22,263 daily boardings), followed by Choa Chu Kang West and Serangoon North. The horizontal ranges vary the fitted distance-decay coefficient by ±25% while holding attraction terms fixed. They show sensitivity to access behaviour under this model. Sampling error, land-use changes and service-level changes are additional uncertainties.</p>
+<p><img src="figures/04-existing-impact.png" class="img-fluid" alt="Map of daily boarding gains and losses at existing stations, with new stations marked as crosses."></p>
+<p>The largest modelled loss is at <strong>Pioneer</strong> (14,427 daily boardings). <strong>Riviera</strong> has the largest gain (25,792), reflecting the extra service and the local choice set. Both values compare the fitted expansion against the fitted baseline at the same network total. The <a href="results/destinations.csv">station results</a> include the signed change and its percentage.</p>
+<p><img src="figures/05-catchment-shift.png" class="img-fluid" alt="Population-grid map of combined probability of boarding at any proposed station after expansion."></p>
+<p>The most likely station changes for cells representing <strong>17.1%</strong> of the mapped population. The map sums all new-station choice probabilities within each populated square. It shows shared catchments even where a new station is a secondary choice, and the highest concentrations are local to the new corridors.</p>
+<section id="added-analysis-who-gets-physically-closer-to-rail" class="level3">
+<h3 class="anchored" data-anchor-id="added-analysis-who-gets-physically-closer-to-rail">Added analysis: who gets physically closer to rail?</h3>
+<p>The choice model can shift predicted boardings without bringing the nearest station closer. A separate access calculation compares nearest-station distance at each population-weighted cell centre before and after expansion. The threshold is <strong>800 m straight-line</strong>, a screening measure rather than an observed walking time. All origins are weighted by their WorldPop estimates.</p>
+<p><img src="figures/06-access-gains.png" class="img-fluid" alt="Bar chart of estimated residents gaining an 800-metre station in the leading planning areas."></p>
+<p>About <strong>474,848 residents</strong> live in cells moving from farther than 800 m to within 800 m of rail. Jurong West and Pasir Ris account for <strong>53.2%</strong> of this gain. This highlights pedestrian connections where new rail is likely to expand proximity as well as redistribute existing demand. A park, expressway or inaccessible crossing can make real walking distance longer. A separate network walk audit would be needed to evaluate these barriers.</p>
+</section>
+</section>
+<section id="planning-interpretation-and-limitations" class="level2">
+<h2 class="anchored" data-anchor-id="planning-interpretation-and-limitations">Planning interpretation and limitations</h2>
+<ul>
+<li><strong>Station and street design.</strong> Compare the higher-demand proposed sites with pedestrian routes, crossing capacity, step-free access and feeder coverage. Check the areas with increased attraction at upgraded interchanges for crowding and vertical circulation.</li>
+<li><strong>Feeder service design.</strong> Stations with large modelled losses offer a starting point for testing alternative bus connections. Tap-ins here measure entries and give limited information about transfer or platform loads.</li>
+<li><strong>Limits of inference.</strong> Residential population does not represent jobs, visitors, airports or institutional demand well. Straight-line distance ignores barriers and network connectivity. The model omits service frequency, fares, rail travel times and trips induced by expansion. It also assumes that station shares are reallocated proportionally through the Huff choice set. The temporal holdout is a nearby month, and the region holdout documents weaker spatial transfer.</li>
+</ul>
+</section>
+<section id="reproduce-in-rstudio" class="level2">
+<h2 class="anchored" data-anchor-id="reproduce-in-rstudio">Reproduce in RStudio</h2>
+<p>Open <a href="https://github.com/zhenhuaArhci/isss626-coursework">the project repository</a> as <code>ISSS626-GAA.Rproj</code>. The <a href="README.md">setup guide</a> covers packages, execution and outputs. This HTML report reruns the workflow through its first R chunk. The same analysis can be started from the RStudio Console.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"take-home-exercise3/R/run.R"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><a href="R/download-data.R">Download and provenance script</a></li>
+<li><a href="R/prepare-data.R">Spatial data preparation script</a></li>
+<li><a href="R/fit-model.R">Huff fitting, validation and scenario script</a></li>
+<li><a href="R/visualise.R">Maps and charts script</a></li>
+<li><a href="results/destinations.csv">Download the station and catchment results</a> · <a href="results/catchment_grid.csv">Grid-level results</a> · <a href="results/access_by_planning_area.csv">Planning area access results</a></li>
+</ul>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ul>
+<li><a href="https://isss626-ay2026-27aug.netlify.app/take-home_ex03">ISSS626 Take-home Exercise 3 brief</a></li>
+<li><a href="https://datamall.lta.gov.sg/content/datamall/en/dynamic-data.html">LTA DataMall dynamic data</a> and <a href="https://datamall.lta.gov.sg/content/datamall/en/static-data.html">static data</a></li>
+<li><a href="https://www.lta.gov.sg/content/ltagov/en/upcoming_projects/rail_expansion/jurong_region_line.html">LTA Jurong Region Line</a> and <a href="https://www.lta.gov.sg/content/ltagov/en/upcoming_projects/rail_expansion/cross_island_line.html">LTA Cross Island Line</a></li>
+<li><a href="https://hub.worldpop.org/project/categories?id=3">WorldPop Global2 population counts</a></li>
+<li><a href="https://doi.org/10.1155/2021/6374724">Zhu et al.&nbsp;(2021), Improved Huff Model for Estimating Urban Rail Transit Station Catchment Areas considering Station Choices</a></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
