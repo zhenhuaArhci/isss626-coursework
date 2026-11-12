@@ -12,13 +12,12 @@ cat("Welcome to **ISSS626 Geospatial Analytics and Applications**. In this websi
 
 ## Latest take-home exercise
 
-[**take-home exercise2 — Geospatial Analytics for Peace in Myanmar**](take-home%20exercise2/index.qmd)
+[**Take-home Exercise 3 — Singapore rail expansion and station catchments**](take-home-exercise3/index.qmd)
 
-[Technical report](take-home%20exercise2/technical-report.qmd) · [Executive summary](take-home%20exercise2/executive-summary.qmd) · [GitHub](https://github.com/zhenhuaArhci/isss626-coursework/tree/main/take-home%20exercise2)
+[Technical report](take-home-exercise3/technical-report.qmd) · [Executive summary](take-home-exercise3/executive-summary.qmd) · [GitHub](https://github.com/zhenhuaArhci/isss626-coursework/tree/main/take-home-exercise3)
 
 ## Latest in-class exercise
 
 [**inclass8 — Huff model and village-level trade areas**](inclass8/index.qmd)
 
 617 villages, 28 stores, and a complete store-by-store TA legend. Includes R code, maps, model checks and downloadable results.
-

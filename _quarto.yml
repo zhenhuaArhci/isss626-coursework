@@ -3,6 +3,13 @@ project:
   output-dir: _site
   execute-dir: project
   resources:
+    - "/take-home-exercise3/R/*.R"
+    - "/take-home-exercise3/results/*.csv"
+    - "/take-home-exercise3/README.md"
+    - "/take-home-exercise3/data/README.md"
+    - "/take-home-exercise3/data/input-checksums.csv"
+    - "!/take-home-exercise3/data/raw/**"
+    - "!/take-home-exercise3/data/derived/**"
     - "/inclass8/R/*.R"
     - "/inclass8/results/**"
     - "/inclass8/README.md"
@@ -68,6 +75,9 @@ project:
     - "take-home exercise2/index.qmd"
     - "take-home exercise2/technical-report.qmd"
     - "take-home exercise2/executive-summary.qmd"
+    - take-home-exercise3/index.qmd
+    - take-home-exercise3/technical-report.qmd
+    - take-home-exercise3/executive-summary.qmd
 
 website:
   title: "ISSS626-GAA"
@@ -131,6 +141,17 @@ website:
           - text: "Executive Summary"
             icon: easel
             href: "take-home exercise2/executive-summary.qmd"
+          - text: "---"
+          - text: "take-home exercise3"
+          - text: "Overview · Singapore rail expansion"
+            icon: house-door
+            href: take-home-exercise3/index.qmd
+          - text: "Technical Report"
+            icon: file-earmark-text
+            href: take-home-exercise3/technical-report.qmd
+          - text: "Executive Summary"
+            icon: easel
+            href: take-home-exercise3/executive-summary.qmd
     right:
       - text: "Home"
         href: index.qmd

@@ -36,3 +36,7 @@ Thumbs.db
 /take-home exercise2/data/raw/
 /take-home exercise2/data/derived/
 /inclass8/data/raw/
+
+# Exercise 3 original downloads and full interaction exports are reproducible locally.
+/take-home-exercise3/data/raw/
+/take-home-exercise3/data/derived/
